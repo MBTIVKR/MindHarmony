@@ -1,0 +1,79 @@
+@import '../../App/Styles/Vars.scss';
+
+.menu {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    transform: translateY(-130%);
+    transition: all 0.2s;
+    z-index: 20;
+    &__content {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        z-index: 20;
+        background-color: rgba(255, 255, 255, 0.933);
+        &-wrapper {
+            padding-top: 100px;
+            padding-left: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            justify-content: center;
+            transition: all 0.4s;
+            gap: 30px;
+        }
+        &-link {
+            a {
+                color: rgba(255, 255, 255, 0.636);
+                text-decoration: none;
+            }
+        }
+    }
+    &__linkWrap {
+        a.active {
+            color: $beige-color;
+        }
+    }
+    &__link {
+        color: $grey-color;
+        text-decoration: none;
+        font-size: 80px;
+        font-weight: 800;
+    }
+    &__burgerbtn {
+        position: absolute;
+        right: 35px;
+        top: 35px;
+        color: $beige-color;
+        width: max-content;
+        height: 60px;
+        cursor: pointer;
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+    }
+}
+
+.menu.active {
+    transform: translateY(0%);
+}
+
+
+.blur {
+    width: 100%;
+    height: 100vh;
+    backdrop-filter: blur(15px);
+    position: absolute;
+    left: 30%;
+}
+
+
+@media screen and (max-width: 992px) { 
+
+
+}

@@ -1,0 +1,32 @@
+.eternalMemory {
+    margin-top: 65px;
+    &__wrapper {
+    }
+
+    &__title {
+        margin: 0 auto;
+        width: max-content;
+    }
+
+    &__subtitle {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    &__list {
+        margin-top: 30px;
+        display: flex;
+        justify-content: space-around;
+    }
+}
+
+
+@media screen and (max-width: 992px) {
+    .eternalMemory {
+        &__list {
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+    }  
+}

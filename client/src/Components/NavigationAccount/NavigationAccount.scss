@@ -1,0 +1,51 @@
+@import "../../App/Styles/Vars.scss";
+
+.navigationAccount {
+    position: sticky;
+    margin-top: 250px;
+    top: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    justify-content: center;
+    width: 700px;
+    &__link {
+        text-decoration: none;
+        color: $grey-color;
+        font-family: Bitter;
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+
+    &__label {
+    }
+}
+
+.activeSection {
+    color: $beige-color;
+    position: relative;
+    transition: all 0.3s;
+    &::before {
+        content: "";
+        position: absolute;
+        top: 45%;
+        left: -40px;
+        width: 20px;
+        height: 3px;
+        // border-radius: 50%;
+        background-color: $beige-color;
+        -webkit-transition: position 1.2s ease;
+    }
+}
+
+
+@media screen and (max-width: 1750px) { 
+    .navigationAccount {
+        width: 100%;
+        &__link {
+            font-size: 35px;
+        }
+    }
+}

@@ -1,0 +1,91 @@
+@import "../../../../App/Styles/Vars.scss";
+@import "../../../../App/Styles/Mixins.scss";
+
+.mainSection {
+    padding-top: 50px;
+    &__wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__wrapper-content {
+    }
+
+    &__wrapper-title {
+        color: $grey-color;
+        font-size: 90px;
+        font-weight: 700;
+        span {
+            color: $beige-color;
+        }
+    }
+
+    &__wrapper-subtitle {
+        margin-top: 10px;
+    }
+
+    &__wrapper-btn {
+        margin-top: 20px;
+        @include button(20px, 40px, $white-color, $grey-color);
+        @include customAnimatedButton($grey-color, $grey-color-hover, $white-color);
+        padding: 20px 40px;
+        background-color: transparent;
+        cursor: pointer;
+    }
+
+    &__wrapper-img {
+    }
+}
+
+@media screen and (max-width: 1450px) {
+    .mainSection {
+      &__wrapper-title {
+        color: $grey-color;
+        font-size: 50px;
+      }
+      
+      &__wrapper-content {
+        width: 600px;
+      }
+
+      &__wrapper-img {
+          width: 500px;
+          // height: 500px;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+      }
+      &__wrapper-btn  {
+        padding: 10px 20px;
+        margin-top: 20px;
+      }
+    }
+}
+  
+
+@media screen and (max-width: 992px) {
+  .mainSection {
+    &__wrapper-content {
+      text-align: center;
+      width: 100%;
+    }
+    &__wrapper-img {
+      display: none;
+    }
+  } 
+}
+
+
+@media screen and (max-width: 576px) {
+  .mainSection {
+    &__wrapper-title {
+      font-size: 30px;
+    }
+    &__wrapper-subtitle {
+      font-size: 16px;
+    }
+  }
+
+}

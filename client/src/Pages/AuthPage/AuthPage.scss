@@ -1,0 +1,33 @@
+@import '../../App/Styles/Vars.scss';
+
+.AuthPage {
+    display: flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: $beige-color;
+    &__link-back {
+        position: absolute;
+        top: 50px;
+        left: 50px;
+        a {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: black;
+            border-radius: 15px;
+            background-color: white;
+            transition: background-color 0.2s;
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.664);
+            }
+        }
+    } 
+}
+

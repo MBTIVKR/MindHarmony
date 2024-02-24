@@ -1,0 +1,62 @@
+@import '../../../App/Styles/Vars.scss';
+
+.compoundFrom {
+    width: 800px;
+    border-radius: 20px;
+}
+
+.TitleRow {
+        padding: 18px 0 18px 0;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+		&__title {
+            color: rgba(85, 85, 85, 0.70);
+            font-size: 20px;
+            font-weight: 400;
+		}
+
+		&__data {
+            color: $grey-color;
+            font-size: 20px;
+            font-weight: 500;
+		}
+
+		&__btn {
+            padding: 6px 12px;
+            color: $beige-color;
+            font-size: 20px;
+            font-weight: 400;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: color 0.2s ease;
+            &:hover {
+                color: $beige-color-bg;
+            }
+		}
+}
+
+
+.row {
+    display: flex;
+    align-items: center;
+    padding: 18px 0 18px 0;
+    gap: 50px;
+    border-top: 2px solid $beige-color;
+    &__title {
+        color: $grey-color;
+        font-size: 20px;
+        font-weight: 400;
+        flex: 40%;
+        margin-left: 40px;
+    }
+        
+    &__data {
+        color: $grey-color;
+        font-size: 20px;
+        font-weight: 500;
+        flex: 40%;
+    }
+}

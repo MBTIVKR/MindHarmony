@@ -1,0 +1,72 @@
+@import '../../../../App/Styles/Vars.scss';
+@import '../../../../App/Styles/Mixins.scss';
+
+.lineSection {
+    position: relative;
+    margin-top: 120px;
+    min-height: 250px;
+    background-image: url('../../../Assets/img/BgLine.svg');
+    background-repeat: no-repeat;
+    &::after {
+        content: '';
+        top: 0;
+        left: 0;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background-color: $beige-color;
+        z-index: 1;
+    }
+    &__wrapper {
+        position: relative;
+        margin: 0 auto;
+        max-width: 900px;
+        z-index: 2;
+    }
+    &__title {
+        padding-top: 35px;
+        text-align: center;
+        color: #FFF;
+        text-align: center;
+        font-size: 30px;
+        font-weight: 500;
+        z-index: 10;
+    }
+    &__link {
+        text-decoration: none;
+    }
+    &__btn {   
+        @include customAnimatedButton($beige-color, $beige-color-bg, $white-color); 
+        @include button(20px, 40px, $white-color, $beige-color);
+        display: block;
+        margin: 0 auto;
+        margin-top: 10px;
+        padding: 20px 40px;
+        font-size: 30px;
+        border: none;
+        transition: all 0.3s;
+        z-index: 10;
+        &:active {
+            scale: 0.95;
+        }
+    }
+}
+
+
+@media screen and (max-width: 768px) { 
+    .lineSection {
+        &__title {
+            font-size: 25px;
+        }
+        &__btn {
+            font-size: 20px;
+        }
+    }
+}
+
+
+@media screen and (max-width: 576px) {
+    .lineSection {
+        padding-bottom: 20px;
+    }
+}

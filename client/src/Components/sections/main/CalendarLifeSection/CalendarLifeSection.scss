@@ -1,0 +1,146 @@
+@import '../../../../App/Styles/Vars.scss';
+@import '../../../../App/Styles/Mixins.scss';
+
+.calendarLife {
+    margin-top: 90px;
+    margin-bottom: 90px;
+    &__wrapper {
+        padding-top: 30px;
+    }
+
+    &__title {
+        width: max-content;
+        margin: 0 auto;
+    }
+
+    &__subtitle {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    &__block {
+        margin-top: 50px;
+        background-color: $beige-color;
+        border-radius: 30px;
+        padding-bottom: 30px;
+
+    }
+
+    &__block-title {
+        color: $beige-color;
+        width: max-content;
+        padding: 10px;
+        background-color: $white-color;
+        border-bottom-right-radius: 15px;
+        font-size: 40px;
+        font-weight: 700;
+    }
+
+    &__flex {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-top: 60px;
+    }
+
+
+    &__flex-content {
+        max-width: 1000px;
+    }
+
+    &__content-text {
+        color: $white-color;
+        font-size: 30px;
+        font-weight: 500;
+    }
+
+    &__content-btn {
+        @include button(30px, 90px, $white-color, $beige-color);
+        @include customAnimatedButton($beige-color, $white-color-hover, $white-color);
+        display: block;
+        margin: 40px auto 0px auto;
+    }
+}
+
+
+
+@media screen and (max-width: 1750px) {
+    .calendarLife {
+        &__flex-content {
+            max-width: 800px;
+        }
+    }
+}
+
+@media screen and (max-width: 1450px) {
+    .calendarLife {
+        &__flex-content {
+            max-width: 600px;
+        }
+    }
+}
+
+
+@media screen and (max-width: 1200px) { 
+    .calendarLife {
+        &__block {
+            margin: 50px auto 0px auto;
+            width: max-content;
+        }
+        &__flex {
+            text-align: center;
+            flex-direction: column;
+            align-items: center;
+        }
+        &__block {
+            width: 100%;
+        }
+        &__content-text {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+    }
+}
+
+@media screen and (max-width: 992px) { 
+    .calendarLife {
+        &__content-btn {
+            padding: 15px 45px;
+            font-size: 30px;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) { 
+    .calendarLife {
+        &__block-title {
+            font-size: 25px;
+        }
+        &__flex-content {
+            max-width: 100%;
+        }
+        &__content-text {
+            font-size: 16px;
+        }
+    }
+}
+
+@media screen and (max-width: 576px) { 
+    .calendarLife {
+        &__img {
+            padding: 0px 20px;
+            width: 100%;
+            img {
+                width: 100%;
+            }
+        }
+    
+        &__flex {
+            gap: 30px;
+        }  
+        &__content-btn {
+            padding: 10px 30px;
+            font-size: 25px;
+        }
+    }
+}

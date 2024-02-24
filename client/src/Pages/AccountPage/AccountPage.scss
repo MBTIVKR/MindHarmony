@@ -1,0 +1,26 @@
+
+.accountPage {
+
+    &__wrapper {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__wrapper-nav {
+
+    }
+
+    &__wrapper-content {
+        // width: 800px;
+    }
+}
+
+
+
+@media screen and (max-width: 1750px) { 
+    .accountPage {
+        &__wrapper-nav {
+            width: 500px;
+        }
+    }
+}

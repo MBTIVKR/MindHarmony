@@ -1,0 +1,924 @@
+basePath: /
+definitions:
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  models.Content:
+    properties:
+      category:
+        $ref: '#/definitions/models.ContentCategory'
+      createdAt:
+        type: string
+      date:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: integer
+      status:
+        $ref: '#/definitions/models.ContentStatus'
+      title:
+        type: string
+      updatedAt:
+        type: string
+      userId:
+        type: integer
+    required:
+    - category
+    - title
+    type: object
+  models.ContentCategory:
+    enum:
+    - MemoryPage
+    - FamilyTree
+    - Other
+    - TimeCapsule
+    - Letter
+    - VideoMessage
+    type: string
+    x-enum-varnames:
+    - MemoryPage
+    - FamilyTree
+    - Other
+    - TimeCapsuleCategory
+    - Letter
+    - VideoMessage
+  models.ContentRequest:
+    properties:
+      category:
+        type: string
+      description:
+        type: string
+      title:
+        type: string
+    required:
+    - category
+    - title
+    type: object
+  models.ContentStatus:
+    enum:
+    - Pending
+    - Approved
+    - Rejected
+    type: string
+    x-enum-varnames:
+    - StatusPending
+    - StatusApproved
+    - StatusRejected
+  models.CreateTimeCapsuleRequest:
+    properties:
+      category:
+        type: string
+      content:
+        type: string
+      openAt:
+        type: string
+      signature:
+        type: string
+    required:
+    - category
+    - content
+    - openAt
+    - signature
+    type: object
+  models.ForgotPasswordRequest:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
+  models.ResetPasswordRequest:
+    properties:
+      newPassword:
+        minLength: 3
+        type: string
+      token:
+        type: string
+    required:
+    - newPassword
+    - token
+    type: object
+  models.TimeCapsule:
+    properties:
+      attachedFiles:
+        items:
+          type: string
+        type: array
+      category:
+        $ref: '#/definitions/models.ContentCategory'
+      content:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      openAt:
+        type: string
+      signature:
+        type: string
+      updatedAt:
+        type: string
+      userId:
+        type: integer
+    type: object
+  models.UpdateContentStatusRequest:
+    properties:
+      status:
+        $ref: '#/definitions/models.ContentStatus'
+    required:
+    - status
+    type: object
+  models.UpdateUserRequest:
+    properties:
+      birthDate:
+        type: string
+      city:
+        type: string
+      country:
+        type: string
+      name:
+        type: string
+      phoneNumber:
+        type: string
+    type: object
+  models.UpdateUserRoleRequest:
+    properties:
+      newRole:
+        enum:
+        - user
+        - support
+        - moderator
+        - admin
+        type: string
+    required:
+    - newRole
+    type: object
+  models.User:
+    properties:
+      birthday:
+        type: string
+      city:
+        type: string
+      content:
+        items:
+          $ref: '#/definitions/models.Content'
+        type: array
+      country:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+      timeCapsules:
+        items:
+          $ref: '#/definitions/models.TimeCapsule'
+        type: array
+      updatedAt:
+        type: string
+      username:
+        type: string
+    type: object
+  swagger.AuthRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  swagger.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  swagger.SuccessResponse:
+    properties:
+      message:
+        type: string
+      token:
+        type: string
+    type: object
+host: localhost:4000
+info:
+  contact:
+    email: support@cemetery.com
+    name: API Support
+    url: mailto:support@cemetery.com
+  description: Documentation for Cemetery API server
+  termsOfService: http://swagger.io/terms/
+  title: Cemetery API Documentation
+  version: "0.2"
+paths:
+  /api/forgot-password:
+    post:
+      consumes:
+      - application/json
+      description: Инициирует процесс восстановления пароля пользователя. Отправляет
+        письмо с инструкциями и ссылкой на сброс пароля.
+      parameters:
+      - description: Email пользователя
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.ForgotPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Запрос на восстановление пароля отправлен успешно
+          schema:
+            $ref: '#/definitions/swagger.SuccessResponse'
+        "400":
+          description: Ошибка валидации запроса
+          schema:
+            type: string
+        "404":
+          description: Пользователь не найден
+          schema:
+            type: string
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            type: string
+      summary: Запрос на восстановление пароля
+      tags:
+      - auth
+  /api/reset-password:
+    post:
+      consumes:
+      - application/json
+      description: Обновляет пароль пользователя после сброса. Требуется валидный
+        токен сброса пароля.
+      parameters:
+      - description: Данные для сброса пароля
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.ResetPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Пароль успешно сброшен
+          schema:
+            $ref: '#/definitions/swagger.SuccessResponse'
+        "400":
+          description: Ошибка валидации запроса
+          schema:
+            type: string
+        "404":
+          description: Токен сброса пароля не найден или устарел
+          schema:
+            type: string
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            type: string
+      summary: Сброс пароля
+      tags:
+      - auth
+  /auth/content/approved:
+    get:
+      consumes:
+      - application/json
+      description: Получение  утвержденного контента
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Контент со статцсом Approved успешно получен
+          schema:
+            $ref: '#/definitions/swagger.SuccessResponse'
+        "400":
+          description: Ошибка валидации запроса
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "401":
+          description: Ошибка авторизации
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "403":
+          description: Доступ запрещен
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "404":
+          description: Контент не найден
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Получение утвержденного контента
+      tags:
+      - content
+  /auth/content/create:
+    post:
+      consumes:
+      - application/json
+      description: Создает контент с указанными параметрами и устанавливает статус
+        "На рассмотрении".
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Данные для создания контента
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.ContentRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Контент создан успешно
+          schema:
+            $ref: '#/definitions/swagger.SuccessResponse'
+        "400":
+          description: Ошибка валидации запроса
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "401":
+          description: Ошибка авторизации
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "403":
+          description: Доступ запрещен
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "409":
+          description: Контент с таким заголовком уже существует
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Создание контента
+      tags:
+      - content
+  /auth/content/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет контент по указанному идентификатору.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: ID контента
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Контент успешно удален
+          schema:
+            $ref: '#/definitions/swagger.SuccessResponse'
+        "400":
+          description: Ошибка валидации запроса
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "401":
+          description: Ошибка авторизации
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "403":
+          description: Доступ запрещен
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "404":
+          description: Контент не найден
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Удаление контента
+      tags:
+      - content
+  /auth/content/pending:
+    get:
+      consumes:
+      - application/json
+      description: Получение контента на рассмотрении
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Контент на проверке успешно получен
+          schema:
+            $ref: '#/definitions/swagger.SuccessResponse'
+        "400":
+          description: Ошибка валидации запроса
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "401":
+          description: Ошибка авторизации
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "403":
+          description: Доступ запрещен
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "404":
+          description: Контент не найден
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Получение контента на рассмотрении
+      tags:
+      - content
+  /auth/content/rejected:
+    get:
+      consumes:
+      - application/json
+      description: Получение  утвержденного контента
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Контент со статцсом Rejected успешно получен
+          schema:
+            $ref: '#/definitions/swagger.SuccessResponse'
+        "400":
+          description: Ошибка валидации запроса
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "401":
+          description: Ошибка авторизации
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "403":
+          description: Доступ запрещен
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "404":
+          description: Контент не найден
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Получение утвержденного контента
+      tags:
+      - content
+  /auth/content/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Обновляет статус контента по указанному идентификатору.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: ID контента
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Данные для обновления статуса контента
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateContentStatusRequest'
+      - description: Статус контента
+        in: body
+        name: status
+        required: true
+        schema:
+          enum:
+          - Pending
+          - Approved
+          - Rejected
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Статус контента обновлен успешно
+          schema:
+            $ref: '#/definitions/swagger.SuccessResponse'
+        "400":
+          description: Ошибка валидации запроса
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "401":
+          description: Ошибка авторизации
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "403":
+          description: Доступ запрещен
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "404":
+          description: Контент не найден
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/swagger.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Обновление статуса контента
+      tags:
+      - content
+  /auth/dashboard:
+    get:
+      description: |-
+        Возвращает сообщение "Dashboard page"
+        Проверка работоспособности middleware AuthMiddleware
+      responses:
+        "200":
+          description: Dashboard page
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Access denied
+          schema:
+            type: string
+      security:
+      - BasicAuth: []
+      - RolesAuth: []
+      summary: Защищенная страница, требующая авторизации и роли "admin"
+      tags:
+      - users
+  /auth/time-capsule/create:
+    post:
+      description: Создает капсулу времени для пользователя
+      parameters:
+      - description: Данные для создания капсулы времени
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateTimeCapsuleRequest'
+      responses:
+        "200":
+          description: Time capsule created successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request data
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "500":
+          description: Failed to create time capsule
+          schema:
+            type: string
+      security:
+      - CookieAuth: []
+      summary: Создание капсулы времени
+      tags:
+      - time-capsule
+  /auth/time-capsules:
+    get:
+      description: Возвращает список капсул времени для пользователя
+      responses:
+        "200":
+          description: Get user's time capsules successfully
+          schema:
+            items:
+              $ref: '#/definitions/models.TimeCapsule'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "500":
+          description: Failed to get user's time capsules
+          schema:
+            type: string
+      security:
+      - CookieAuth: []
+      summary: Получение списка капсул времени пользователя
+      tags:
+      - time-capsule
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Авторизация пользователя и выдача JWT токена с использованием Cookie
+      parameters:
+      - description: Данные для входа
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/swagger.AuthRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешная авторизация
+          schema:
+            $ref: '#/definitions/swagger.SuccessResponse'
+        "400":
+          description: Ошибка авторизации пользователя
+          schema:
+            type: string
+      summary: Авторизация пользователя
+      tags:
+      - auth
+  /logout:
+    get:
+      description: Завершение сеанса пользователя и удаление JWT токена из Cookie
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешный выход
+          schema:
+            type: string
+      summary: Выход пользователя (Logout)
+      tags:
+      - auth
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Регистрирует пользователя с ролью по-умолчанию (user)
+      parameters:
+      - description: Данные для входа
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/swagger.AuthRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Пользователь успешно зарегистрирован
+          schema:
+            type: string
+        "400":
+          description: Ошибка при регистрации пользователя
+          schema:
+            type: string
+      summary: Регистрация пользователя
+      tags:
+      - auth
+  /time-capsule/{id}:
+    get:
+      description: Возвращает страницу капсулы времени для пользователя
+      parameters:
+      - description: ID капсулы времени
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Get time capsule page successfully
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "500":
+          description: Failed to get time capsule page
+          schema:
+            type: string
+      security:
+      - CookieAuth: []
+      summary: Получение страницы капсулы времени
+      tags:
+      - time-capsule
+  /users:
+    get:
+      description: Возвращает список всех пользователей.
+      responses:
+        "200":
+          description: Get all users successfully
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+        "500":
+          description: Failed to get users
+          schema:
+            type: string
+      security:
+      - BasicAuth: []
+      summary: Получение всех пользователей
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      description: Удаляет пользователя по указанному идентификатору.
+      parameters:
+      - description: ID пользователя
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: User deleted successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid user ID
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Access denied
+          schema:
+            type: string
+        "404":
+          description: User not found
+          schema:
+            type: string
+        "500":
+          description: Failed to delete user
+          schema:
+            type: string
+      security:
+      - CookieAuth: []
+      summary: Удаление пользователя по ID
+      tags:
+      - users
+    put:
+      description: Обновляет данные пользователя по указанному идентификатору.
+      parameters:
+      - description: ID пользователя
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Данные для обновления пользователя
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateUserRequest'
+      responses:
+        "200":
+          description: User updated successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid user ID or request data
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Access denied
+          schema:
+            type: string
+        "404":
+          description: User not found
+          schema:
+            type: string
+        "500":
+          description: Failed to update user
+          schema:
+            type: string
+      security:
+      - CookieAuth: []
+      summary: Обновление данных пользователя
+      tags:
+      - users
+  /users/update-role/{id}:
+    put:
+      description: |-
+        Обновляет роль пользователя по указанному идентификатору
+        Роли: user, support, moderator, admin
+      parameters:
+      - description: ID пользователя
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Данные для обновления роли пользователя
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateUserRoleRequest'
+      responses:
+        "200":
+          description: User role updated successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid user ID or request data
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Access denied
+          schema:
+            type: string
+        "404":
+          description: User not found
+          schema:
+            type: string
+        "500":
+          description: Failed to update user role
+          schema:
+            type: string
+      security:
+      - CookieAuth: []
+      summary: Обновление роли пользователя
+      tags:
+      - users
+securityDefinitions:
+  BasicAuth:
+    type: basic
+  CookieAuth:
+    in: cookie
+    name: token
+    type: apiKey
+swagger: "2.0"
