@@ -28,9 +28,9 @@ type User struct {
 	Personal `json:"personal"`
 	Location `json:"location"`
 	Position string `json:"position"`
-	MBTI
+	MBTI     `json:"mbti"`
 
-	// omitempty
+	//? Think about omitempty
 }
 
 type (
@@ -84,17 +84,27 @@ type Claims struct {
 }
 
 type UpdateUserRequest struct {
-	Username    string `json:"username"`
-	Email       string `gorm:"unique_index;not null" json:"email"`
-	Password    string `json:"password"`
-	Role        string `gorm:"default:'user'" json:"role"`
-	Name        string `json:"name"`
-	Surname     string `json:"surname"`
-	Patronymic  string `json:"patronymic"`
-	BirthDate   string `json:"birthday"`
-	PhoneNumber string `json:"phone"`
-	Country     string `json:"country"`
-	City        string `json:"city"`
+	Auth struct {
+		Username string `json:"username"`
+		Email    string `gorm:"unique_index;not null" json:"email"`
+		Password string `json:"password"`
+		Role     string `gorm:"default:'user'" json:"role"`
+	}
+	Personal struct {
+		Name        string `json:"name"`
+		Surname     string `json:"surname"`
+		Patronymic  string `json:"patronymic"`
+		BirthDate   string `json:"birthday"`
+		PhoneNumber string `json:"phone"`
+	}
+	Location struct {
+		Country string `json:"country"`
+		City    string `json:"city"`
+	}
+	Position string `json:"position"`
+	MBTI     struct {
+		Type string `json:"type"`
+	}
 }
 
 // ? User UPD role request stuct

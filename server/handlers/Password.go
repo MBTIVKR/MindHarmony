@@ -140,7 +140,36 @@ func (u *UserHandler) ResetPassword(c *gin.Context) {
 // @ Письмо с ссылкой на сброс пароля для пользователя...
 func sendPasswordResetEmail(to, resetURL string) error {
 	subject := "Восстановление пароля"
-	body := fmt.Sprintf("Перейдите по <a href='%s'>ссылке</a> чтобы установить новый пароль.", resetURL)
+	body := fmt.Sprintf(`
+        <html>
+            <head>
+                <style>
+                    body {
+                        font-family: Roboto, sans-serif;
+                        background-color: #f4f4f4;
+                        color: #333;
+                    }
+                    .container {
+                        max-width: 600px;
+                        margin: 0 auto;
+                        padding: 20px;
+                        background-color: #fff;
+                        border-radius: 5px;
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    }
+                    .link {
+                        color: #007BFF;
+                        text-decoration: none;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <p>Для восстановления пароля перейдите по 
+                        <a href='%s' class="link">ссылке</a>.</p>
+                </div>
+            </body>
+        </html>`, resetURL)
 
 	return email.SendEmail(to, subject, body)
 }

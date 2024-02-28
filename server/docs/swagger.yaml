@@ -22,6 +22,11 @@ definitions:
       country:
         type: string
     type: object
+  models.MBTI:
+    properties:
+      type:
+        type: string
+    type: object
   models.Personal:
     properties:
       birthday:
@@ -48,27 +53,43 @@ definitions:
     type: object
   models.UpdateUserRequest:
     properties:
-      birthday:
-        type: string
-      city:
-        type: string
-      country:
-        type: string
-      email:
-        type: string
-      name:
-        type: string
-      password:
-        type: string
-      patronymic:
-        type: string
-      phone:
-        type: string
-      role:
-        type: string
-      surname:
-        type: string
-      username:
+      auth:
+        properties:
+          email:
+            type: string
+          password:
+            type: string
+          role:
+            type: string
+          username:
+            type: string
+        type: object
+      location:
+        properties:
+          city:
+            type: string
+          country:
+            type: string
+        type: object
+      mbti:
+        properties:
+          type:
+            type: string
+        type: object
+      personal:
+        properties:
+          birthday:
+            type: string
+          name:
+            type: string
+          patronymic:
+            type: string
+          phone:
+            type: string
+          surname:
+            type: string
+        type: object
+      position:
         type: string
     type: object
   models.UpdateUserRoleRequest:
@@ -95,6 +116,8 @@ definitions:
         type: integer
       location:
         $ref: '#/definitions/models.Location'
+      mbti:
+        $ref: '#/definitions/models.MBTI'
       password:
         type: string
       personal:
@@ -102,8 +125,6 @@ definitions:
       position:
         type: string
       role:
-        type: string
-      type:
         type: string
       updatedAt:
         type: string
@@ -212,32 +233,6 @@ paths:
       summary: Выход пользователя (Logout)
       tags:
       - auth
-  /api/register:
-    post:
-      consumes:
-      - application/json
-      description: Регистрирует пользователя с ролью по-умолчанию (user)
-      parameters:
-      - description: Данные для входа
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/swagger.AuthRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Пользователь успешно зарегистрирован
-          schema:
-            type: string
-        "400":
-          description: Ошибка при регистрации пользователя
-          schema:
-            type: string
-      summary: Регистрация пользователя
-      tags:
-      - auth
   /api/reset-password:
     post:
       consumes:
@@ -271,6 +266,32 @@ paths:
           schema:
             type: string
       summary: Сброс пароля
+      tags:
+      - auth
+  /api/signup:
+    post:
+      consumes:
+      - application/json
+      description: Регистрирует пользователя с ролью по-умолчанию (user)
+      parameters:
+      - description: Данные для входа
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/swagger.AuthRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Пользователь успешно зарегистрирован
+          schema:
+            type: string
+        "400":
+          description: Ошибка при регистрации пользователя
+          schema:
+            type: string
+      summary: Регистрация пользователя
       tags:
       - auth
   /api/users:
@@ -331,27 +352,21 @@ paths:
       summary: Удаление пользователя по ID
       tags:
       - users
-    put:
-      description: Обновляет данные пользователя по указанному идентификатору.
+    get:
+      description: Получает данные конкретного пользователя
       parameters:
       - description: ID пользователя
         in: path
         name: id
         required: true
         type: integer
-      - description: Данные для обновления пользователя
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/models.UpdateUserRequest'
       responses:
         "200":
-          description: User updated successfully
+          description: Данные пользователя успешно получены
           schema:
-            type: string
+            $ref: '#/definitions/models.User'
         "400":
-          description: Invalid user ID or request data
+          description: Invalid user ID
           schema:
             type: string
         "401":
@@ -367,12 +382,12 @@ paths:
           schema:
             type: string
         "500":
-          description: Failed to update user
+          description: Failed to get user
           schema:
             type: string
       security:
       - CookieAuth: []
-      summary: Обновление данных пользователя
+      summary: Получение данных пользователя
       tags:
       - users
   /api/users/update-role/{id}:
@@ -420,6 +435,51 @@ paths:
       security:
       - CookieAuth: []
       summary: Обновление роли пользователя
+      tags:
+      - users
+  /api/users/update/{id}:
+    put:
+      description: Обновляет данные пользователя по указанному идентификатору.
+      parameters:
+      - description: ID пользователя
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Данные для обновления пользователя
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateUserRequest'
+      responses:
+        "200":
+          description: User updated successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid user ID or request data
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Access denied
+          schema:
+            type: string
+        "404":
+          description: User not found
+          schema:
+            type: string
+        "500":
+          description: Failed to update user
+          schema:
+            type: string
+      security:
+      - CookieAuth: []
+      summary: Обновление данных пользователя
       tags:
       - users
   /auth/dashboard:

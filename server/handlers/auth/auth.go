@@ -29,7 +29,7 @@ type AuthHandler struct {
 // @Param request body swagger.AuthRequest true "Данные для входа"
 // @Success 200 {string} string "Пользователь успешно зарегистрирован"
 // @Failure 400 {string} string "Ошибка при регистрации пользователя"
-// @Router /api/register [POST]
+// @Router /api/signup [POST]
 func (u *AuthHandler) Register(c *gin.Context) {
 	var user models.User
 	if err := c.ShouldBindJSON(&user); err != nil {

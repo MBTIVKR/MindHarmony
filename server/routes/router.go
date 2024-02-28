@@ -24,13 +24,14 @@ func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 	{
 		//? Users
 		api.GET("/users", u.GetAllUsers)
+		api.GET("/users/:id", middlewares.AuthMiddleware(), u.GetUser)
 		api.DELETE("/users/:id", middlewares.AuthMiddleware(), middlewares.IsAdmin(), u.DeleteUser)
 		api.PUT("/users/update/:id", middlewares.AuthMiddleware(), middlewares.IsAdmin(), u.UpdateUser)
 		api.PUT("/users/update-role/:id", middlewares.AuthMiddleware(), middlewares.IsAdmin(), u.UpdateUserRole)
 		//? Auth
 		api.POST("/forgot-password", u.ForgotPassword)
 		api.POST("/reset-password", u.ResetPassword)
-		api.POST("/register", a.Register)
+		api.POST("/signup", a.Register)
 		api.POST("/login", a.Login)
 		api.GET("/logout", a.Logout)
 	}

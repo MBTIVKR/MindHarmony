@@ -29,7 +29,7 @@ var _ gorm.Model
 // @Failure 403 {string} string "Access denied"
 // @Failure 404 {string} string "User not found"
 // @Failure 500 {string} string "Failed to update user"
-// @Router /api/users/{id} [put]
+// @Router /api/users/update/{id} [put]
 func (u *UserHandler) UpdateUser(c *gin.Context) {
 	// Get the user ID from the URL
 	userIDStr := c.Param("id")
@@ -54,17 +54,19 @@ func (u *UserHandler) UpdateUser(c *gin.Context) {
 	}
 
 	// Update the user data
-	userToUpdate.Auth.Username = updateRequest.Username
-	userToUpdate.Auth.Email = updateRequest.Email
-	userToUpdate.Auth.Password = updateRequest.Password
-	userToUpdate.Auth.Role = updateRequest.Role
-	userToUpdate.Personal.Name = updateRequest.Name
-	userToUpdate.Personal.Surname = updateRequest.Surname
-	userToUpdate.Personal.Patronymic = updateRequest.Patronymic
-	userToUpdate.Personal.BirthDate = updateRequest.BirthDate
-	userToUpdate.Personal.PhoneNumber = updateRequest.PhoneNumber
-	userToUpdate.Location.Country = updateRequest.Country
-	userToUpdate.Location.City = updateRequest.City
+	userToUpdate.Auth.Username = updateRequest.Auth.Username
+	userToUpdate.Auth.Email = updateRequest.Auth.Email
+	userToUpdate.Auth.Password = updateRequest.Auth.Password
+	userToUpdate.Auth.Role = updateRequest.Auth.Role
+	userToUpdate.Personal.Name = updateRequest.Personal.Name
+	userToUpdate.Personal.Surname = updateRequest.Personal.Surname
+	userToUpdate.Personal.Patronymic = updateRequest.Personal.Patronymic
+	userToUpdate.Personal.BirthDate = updateRequest.Personal.BirthDate
+	userToUpdate.Personal.PhoneNumber = updateRequest.Personal.PhoneNumber
+	userToUpdate.Location.Country = updateRequest.Location.Country
+	userToUpdate.Location.City = updateRequest.Location.City
+	userToUpdate.Position = updateRequest.Position
+	userToUpdate.MBTI.Type = updateRequest.MBTI.Type
 
 	// Save the updated user data
 	if err := u.DB.Save(&userToUpdate).Error; err != nil {
@@ -196,6 +198,35 @@ func (u *UserHandler) GetAllUsers(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, users)
+}
+
+// @Summary Получение данных пользователя
+// @Description Получает данные конкретного пользователя
+// @Tags users
+// @Security CookieAuth
+// @Param id path int true "ID пользователя"
+// @Success 200 {object} models.User "Данные пользователя успешно получены"
+// @Failure 400 {string} string "Invalid user ID"
+// @Failure 401 {string} string "Unauthorized"
+// @Failure 403 {string} string "Access denied"
+// @Failure 404 {string} string "User not found"
+// @Failure 500 {string} string "Failed to get user"
+// @Router /api/users/{id} [get]
+func (u *UserHandler) GetUser(c *gin.Context) {
+	userIDStr := c.Param("id")
+	userID, err := strconv.ParseUint(userIDStr, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+		return
+	}
+
+	var user models.User
+	if err := u.DB.First(&user, userID).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
 }
 
 // @Summary Защищенная страница, требующая авторизации и роли "admin"
