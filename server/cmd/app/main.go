@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"lps/cemetery/cmd/app/version"
 	"lps/cemetery/cmd/server"
 	"lps/cemetery/pkg/database"
 	"lps/cemetery/pkg/vars"
@@ -56,6 +57,8 @@ func init() {
 	if vars.DAILY_LOGGING == "true" {
 		logger.Log.CreateDailyLogFile()
 	}
+	//@ Start print for buty (so... why not?😅)
+	version.Version()
 	// @ Инициализация БД
 	database.InitDB()
 	// @ Миграция моделей

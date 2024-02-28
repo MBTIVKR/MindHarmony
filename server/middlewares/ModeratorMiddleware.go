@@ -25,10 +25,10 @@ func IsModeratorOrAdmin() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		fmt.Printf("User ID: %d, Username: %s, Role: %s\n", userClaims.ID, userClaims.Username, userClaims.Role)
+		fmt.Printf("User ID: %d, Username: %s, Role: %s\n", userClaims.ID, userClaims.Auth.Username, userClaims.Auth.Role)
 
 		// Check if the role is admin or moderator
-		if userClaims.Role != string(models.Admin) && userClaims.Role != string(models.Moderator) {
+		if userClaims.Auth.Role != string(models.Admin) && userClaims.Auth.Role != string(models.Moderator) {
 			c.JSON(http.StatusForbidden, gin.H{"error": "Access denied"})
 			c.Abort()
 			return

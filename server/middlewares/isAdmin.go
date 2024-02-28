@@ -30,7 +30,7 @@ func IsAdmin() gin.HandlerFunc {
 		// fmt.Printf("User ID: %d, Username: %s, Role: %s\n", userClaims.ID, userClaims.Username, userClaims.Role)
 
 		// Check if the role is admin
-		if userClaims.Role != string(models.Admin) {
+		if userClaims.Auth.Role != string(models.Admin) {
 			fmt.Println("Access denied")
 			c.JSON(http.StatusForbidden, gin.H{"error": "Access denied"})
 			c.Abort()

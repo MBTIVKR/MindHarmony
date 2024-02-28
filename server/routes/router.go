@@ -22,23 +22,18 @@ func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 
 	api := r.Group("/api")
 	{
+		//? Users
 		api.GET("/users", u.GetAllUsers)
+		api.DELETE("/users/:id", middlewares.AuthMiddleware(), middlewares.IsAdmin(), u.DeleteUser)
+		api.PUT("/users/update/:id", middlewares.AuthMiddleware(), middlewares.IsAdmin(), u.UpdateUser)
+		api.PUT("/users/update-role/:id", middlewares.AuthMiddleware(), middlewares.IsAdmin(), u.UpdateUserRole)
+		//? Auth
 		api.POST("/forgot-password", u.ForgotPassword)
 		api.POST("/reset-password", u.ResetPassword)
+		api.POST("/register", a.Register)
+		api.POST("/login", a.Login)
+		api.GET("/logout", a.Logout)
 	}
-
-	// Маршруты
-	r.POST("/register", a.Register)
-	r.POST("/login", a.Login)
-	r.GET("/logout", a.Logout)
-
-	r.DELETE("/users/:id", middlewares.AuthMiddleware(), middlewares.IsAdmin(), u.DeleteUser)
-	r.PUT("/users/update/:id", middlewares.AuthMiddleware(), middlewares.IsAdmin(), u.UpdateUser)
-
-	// Admin routes
-	r.PUT("/users/update-role/:id", middlewares.AuthMiddleware(), middlewares.IsAdmin(), u.UpdateUserRole)
-
-	r.GET("/users", u.GetAllUsers)
 
 	//@ Группа маршрутов, требующих авторизации и определенной роли
 	authGroup := r.Group("/auth")
@@ -46,20 +41,6 @@ func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 		authGroup.Use(middlewares.AuthMiddleware())
 		// authGroup.Use(isAdmin())
 		authGroup.GET("/dashboard", u.Dashboard)
-
-		// Маршрут для создания контента (требует авторизации)
-		authGroup.POST("/content/create", middlewares.AuthMiddleware(), u.CreateContentHandler)
-		authGroup.PUT("/content/update/:id", middlewares.AuthMiddleware(), middlewares.IsAdmin(), u.UpdateContentStatus)
-		authGroup.DELETE("/content/delete/:id", middlewares.AuthMiddleware(), middlewares.IsModeratorOrAdmin(), u.DeleteContent)
-		authGroup.GET("/content/pending", middlewares.AuthMiddleware(), u.GetPendingContent)
-		authGroup.GET("/content/approved", middlewares.AuthMiddleware(), u.GetApprovedContent)
-		authGroup.GET("/content/rejected", middlewares.AuthMiddleware(), u.GetRejectedContent)
-
-		// Маршрут для создания капсулы времени (требует авторизации)
-		authGroup.POST("/time-capsule/create", middlewares.AuthMiddleware(), u.CreateTimeCapsuleHandler)
-		// Маршрут для получения списка капсул времени пользователя (требует авторизации)
-		authGroup.GET("/time-capsules", middlewares.AuthMiddleware(), u.GetTimeCapsules)
-		authGroup.GET("/time-capsule/:id", middlewares.AuthMiddleware(), u.GetTimeCapsulePage)
 	}
 
 	// @Swagger Docs

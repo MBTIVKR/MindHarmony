@@ -24,7 +24,7 @@ func AccessMiddleware(role string) gin.HandlerFunc {
 
 		// fmt.Printf("User Role in Middleware: %s\n", userClaims.Role)
 
-		if userClaims.Role != role {
+		if userClaims.Auth.Role != role {
 			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "Access denied"})
 			return
 		}

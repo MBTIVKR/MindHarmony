@@ -11,7 +11,7 @@ import (
 
 var DB *gorm.DB
 
-// Инициализация базы данных
+// @ Инициализация базы данных
 func InitDB() {
 	var err error
 	dsn := vars.DB + " sslmode=disable TimeZone=Europe/Moscow"
@@ -52,7 +52,7 @@ func InitDB() {
 // @ DataBase auto-migrate tables from structures...
 // @ Таблицы: users, content, password_reset_requests, forgot_password_requests
 func SyncDB() {
-	DB.AutoMigrate(&models.User{}, &models.Content{}, &models.TimeCapsule{})
+	DB.AutoMigrate(&models.User{})
 
 	migrator := DB.Migrator()
 
@@ -70,5 +70,5 @@ func SyncDB() {
 		}
 	}
 
-	logger.Debug("Tables has been migrated...")
+	logger.Info("✅ Tables has been migrated...")
 }

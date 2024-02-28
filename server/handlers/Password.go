@@ -70,7 +70,7 @@ func (u *UserHandler) ForgotPassword(c *gin.Context) {
 	resetURL := fmt.Sprintf("http://localhost:8080/reset-password?token=%s", resetRequest.Token)
 
 	// Отправка письма
-	err = sendPasswordResetEmail(user.Email, resetURL)
+	err = sendPasswordResetEmail(user.Auth.Email, resetURL)
 	if err != nil {
 		fmt.Println("Error sending email:", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to send password reset email"})
@@ -124,7 +124,7 @@ func (u *UserHandler) ResetPassword(c *gin.Context) {
 		return
 	}
 
-	user.Password = string(hashedPassword)
+	user.Auth.Password = string(hashedPassword)
 
 	if err := u.DB.Save(&user).Error; err != nil {
 		fmt.Println("Error updating user password:", err)

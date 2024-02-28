@@ -72,6 +72,106 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/login": {
+            "post": {
+                "description": "Авторизация пользователя и выдача JWT токена с использованием Cookie",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Авторизация пользователя",
+                "parameters": [
+                    {
+                        "description": "Данные для входа",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/swagger.AuthRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешная авторизация",
+                        "schema": {
+                            "$ref": "#/definitions/swagger.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Ошибка авторизации пользователя",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "get": {
+                "description": "Завершение сеанса пользователя и удаление JWT токена из Cookie",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Выход пользователя (Logout)",
+                "responses": {
+                    "200": {
+                        "description": "Успешный выход",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/register": {
+            "post": {
+                "description": "Регистрирует пользователя с ролью по-умолчанию (user)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Регистрация пользователя",
+                "parameters": [
+                    {
+                        "description": "Данные для входа",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/swagger.AuthRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Пользователь успешно зарегистрирован",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Ошибка при регистрации пользователя",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/api/reset-password": {
             "post": {
                 "description": "Обновляет пароль пользователя после сброса. Требуется валидный токен сброса пароля.",
@@ -124,723 +224,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/content/approved": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Получение  утвержденного контента",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "content"
-                ],
-                "summary": "Получение утвержденного контента",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Контент со статцсом Approved успешно получен",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.SuccessResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Ошибка валидации запроса",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Ошибка авторизации",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "403": {
-                        "description": "Доступ запрещен",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Контент не найден",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Внутренняя ошибка сервера",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/content/create": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Создает контент с указанными параметрами и устанавливает статус \"На рассмотрении\".",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "content"
-                ],
-                "summary": "Создание контента",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "Данные для создания контента",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.ContentRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Контент создан успешно",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.SuccessResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Ошибка валидации запроса",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Ошибка авторизации",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "403": {
-                        "description": "Доступ запрещен",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "409": {
-                        "description": "Контент с таким заголовком уже существует",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Внутренняя ошибка сервера",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/content/delete/{id}": {
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Удаляет контент по указанному идентификатору.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "content"
-                ],
-                "summary": "Удаление контента",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "ID контента",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Контент успешно удален",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.SuccessResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Ошибка валидации запроса",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Ошибка авторизации",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "403": {
-                        "description": "Доступ запрещен",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Контент не найден",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Внутренняя ошибка сервера",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/content/pending": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Получение контента на рассмотрении",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "content"
-                ],
-                "summary": "Получение контента на рассмотрении",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Контент на проверке успешно получен",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.SuccessResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Ошибка валидации запроса",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Ошибка авторизации",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "403": {
-                        "description": "Доступ запрещен",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Контент не найден",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Внутренняя ошибка сервера",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/content/rejected": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Получение  утвержденного контента",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "content"
-                ],
-                "summary": "Получение утвержденного контента",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Контент со статцсом Rejected успешно получен",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.SuccessResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Ошибка валидации запроса",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Ошибка авторизации",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "403": {
-                        "description": "Доступ запрещен",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Контент не найден",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Внутренняя ошибка сервера",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/content/update/{id}": {
-            "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Обновляет статус контента по указанному идентификатору.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "content"
-                ],
-                "summary": "Обновление статуса контента",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "ID контента",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Данные для обновления статуса контента",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.UpdateContentStatusRequest"
-                        }
-                    },
-                    {
-                        "description": "Статус контента",
-                        "name": "status",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "Pending",
-                                "Approved",
-                                "Rejected"
-                            ]
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Статус контента обновлен успешно",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.SuccessResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Ошибка валидации запроса",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Ошибка авторизации",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "403": {
-                        "description": "Доступ запрещен",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Контент не найден",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Внутренняя ошибка сервера",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/dashboard": {
-            "get": {
-                "security": [
-                    {
-                        "BasicAuth": []
-                    },
-                    {
-                        "RolesAuth": []
-                    }
-                ],
-                "description": "Возвращает сообщение \"Dashboard page\"\nПроверка работоспособности middleware AuthMiddleware",
-                "tags": [
-                    "users"
-                ],
-                "summary": "Защищенная страница, требующая авторизации и роли \"admin\"",
-                "responses": {
-                    "200": {
-                        "description": "Dashboard page",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "403": {
-                        "description": "Access denied",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/time-capsule/create": {
-            "post": {
-                "security": [
-                    {
-                        "CookieAuth": []
-                    }
-                ],
-                "description": "Создает капсулу времени для пользователя",
-                "tags": [
-                    "time-capsule"
-                ],
-                "summary": "Создание капсулы времени",
-                "parameters": [
-                    {
-                        "description": "Данные для создания капсулы времени",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.CreateTimeCapsuleRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Time capsule created successfully",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request data",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Failed to create time capsule",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/time-capsules": {
-            "get": {
-                "security": [
-                    {
-                        "CookieAuth": []
-                    }
-                ],
-                "description": "Возвращает список капсул времени для пользователя",
-                "tags": [
-                    "time-capsule"
-                ],
-                "summary": "Получение списка капсул времени пользователя",
-                "responses": {
-                    "200": {
-                        "description": "Get user's time capsules successfully",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.TimeCapsule"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Failed to get user's time capsules",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/login": {
-            "post": {
-                "description": "Авторизация пользователя и выдача JWT токена с использованием Cookie",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "auth"
-                ],
-                "summary": "Авторизация пользователя",
-                "parameters": [
-                    {
-                        "description": "Данные для входа",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/swagger.AuthRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Успешная авторизация",
-                        "schema": {
-                            "$ref": "#/definitions/swagger.SuccessResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Ошибка авторизации пользователя",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/logout": {
-            "get": {
-                "description": "Завершение сеанса пользователя и удаление JWT токена из Cookie",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "auth"
-                ],
-                "summary": "Выход пользователя (Logout)",
-                "responses": {
-                    "200": {
-                        "description": "Успешный выход",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/register": {
-            "post": {
-                "description": "Регистрирует пользователя с ролью по-умолчанию (user)",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "auth"
-                ],
-                "summary": "Регистрация пользователя",
-                "parameters": [
-                    {
-                        "description": "Данные для входа",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/swagger.AuthRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Пользователь успешно зарегистрирован",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Ошибка при регистрации пользователя",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/time-capsule/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "CookieAuth": []
-                    }
-                ],
-                "description": "Возвращает страницу капсулы времени для пользователя",
-                "tags": [
-                    "time-capsule"
-                ],
-                "summary": "Получение страницы капсулы времени",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID капсулы времени",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Get time capsule page successfully",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Failed to get time capsule page",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/users": {
+        "/api/users": {
             "get": {
                 "security": [
                     {
@@ -871,7 +255,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/update-role/{id}": {
+        "/api/users/update-role/{id}": {
             "put": {
                 "security": [
                     {
@@ -941,7 +325,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/{id}": {
+        "/api/users/{id}": {
             "put": {
                 "security": [
                     {
@@ -1069,6 +453,43 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/auth/dashboard": {
+            "get": {
+                "security": [
+                    {
+                        "BasicAuth": []
+                    },
+                    {
+                        "RolesAuth": []
+                    }
+                ],
+                "description": "Возвращает сообщение \"Dashboard page\"\nПроверка работоспособности middleware AuthMiddleware",
+                "tags": [
+                    "users"
+                ],
+                "summary": "Защищенная страница, требующая авторизации и роли \"admin\"",
+                "responses": {
+                    "200": {
+                        "description": "Dashboard page",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -1084,118 +505,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.Content": {
-            "type": "object",
-            "required": [
-                "category",
-                "title"
-            ],
-            "properties": {
-                "category": {
-                    "$ref": "#/definitions/models.ContentCategory"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "date": {
-                    "type": "string"
-                },
-                "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "status": {
-                    "$ref": "#/definitions/models.ContentStatus"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "userId": {
-                    "type": "integer"
-                }
-            }
-        },
-        "models.ContentCategory": {
-            "type": "string",
-            "enum": [
-                "MemoryPage",
-                "FamilyTree",
-                "Other",
-                "TimeCapsule",
-                "Letter",
-                "VideoMessage"
-            ],
-            "x-enum-varnames": [
-                "MemoryPage",
-                "FamilyTree",
-                "Other",
-                "TimeCapsuleCategory",
-                "Letter",
-                "VideoMessage"
-            ]
-        },
-        "models.ContentRequest": {
-            "type": "object",
-            "required": [
-                "category",
-                "title"
-            ],
-            "properties": {
-                "category": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.ContentStatus": {
-            "type": "string",
-            "enum": [
-                "Pending",
-                "Approved",
-                "Rejected"
-            ],
-            "x-enum-varnames": [
-                "StatusPending",
-                "StatusApproved",
-                "StatusRejected"
-            ]
-        },
-        "models.CreateTimeCapsuleRequest": {
-            "type": "object",
-            "required": [
-                "category",
-                "content",
-                "openAt",
-                "signature"
-            ],
-            "properties": {
-                "category": {
-                    "type": "string"
-                },
-                "content": {
-                    "type": "string"
-                },
-                "openAt": {
-                    "type": "string"
-                },
-                "signature": {
-                    "type": "string"
-                }
-            }
-        },
         "models.ForgotPasswordRequest": {
             "type": "object",
             "required": [
@@ -1203,6 +512,37 @@ const docTemplate = `{
             ],
             "properties": {
                 "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Location": {
+            "type": "object",
+            "properties": {
+                "city": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Personal": {
+            "type": "object",
+            "properties": {
+                "birthday": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "patronymic": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "surname": {
                     "type": "string"
                 }
             }
@@ -1223,59 +563,10 @@ const docTemplate = `{
                 }
             }
         },
-        "models.TimeCapsule": {
-            "type": "object",
-            "properties": {
-                "attachedFiles": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "category": {
-                    "$ref": "#/definitions/models.ContentCategory"
-                },
-                "content": {
-                    "type": "string"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "openAt": {
-                    "type": "string"
-                },
-                "signature": {
-                    "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "userId": {
-                    "type": "integer"
-                }
-            }
-        },
-        "models.UpdateContentStatusRequest": {
-            "type": "object",
-            "required": [
-                "status"
-            ],
-            "properties": {
-                "status": {
-                    "$ref": "#/definitions/models.ContentStatus"
-                }
-            }
-        },
         "models.UpdateUserRequest": {
             "type": "object",
             "properties": {
-                "birthDate": {
+                "birthday": {
                     "type": "string"
                 },
                 "city": {
@@ -1284,10 +575,28 @@ const docTemplate = `{
                 "country": {
                     "type": "string"
                 },
+                "email": {
+                    "type": "string"
+                },
                 "name": {
                     "type": "string"
                 },
-                "phoneNumber": {
+                "password": {
+                    "type": "string"
+                },
+                "patronymic": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "surname": {
+                    "type": "string"
+                },
+                "username": {
                     "type": "string"
                 }
             }
@@ -1312,21 +621,6 @@ const docTemplate = `{
         "models.User": {
             "type": "object",
             "properties": {
-                "birthday": {
-                    "type": "string"
-                },
-                "city": {
-                    "type": "string"
-                },
-                "content": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.Content"
-                    }
-                },
-                "country": {
-                    "type": "string"
-                },
                 "createdAt": {
                     "type": "string"
                 },
@@ -1339,23 +633,23 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
-                "name": {
-                    "type": "string"
+                "location": {
+                    "$ref": "#/definitions/models.Location"
                 },
                 "password": {
                     "type": "string"
                 },
-                "phone": {
+                "personal": {
+                    "$ref": "#/definitions/models.Personal"
+                },
+                "position": {
                     "type": "string"
                 },
                 "role": {
                     "type": "string"
                 },
-                "timeCapsules": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.TimeCapsule"
-                    }
+                "type": {
+                    "type": "string"
                 },
                 "updatedAt": {
                     "type": "string"
@@ -1376,14 +670,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "password": {
-                    "type": "string"
-                }
-            }
-        },
-        "swagger.ErrorResponse": {
-            "type": "object",
-            "properties": {
-                "error": {
                     "type": "string"
                 }
             }

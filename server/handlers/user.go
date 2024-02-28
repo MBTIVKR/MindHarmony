@@ -29,7 +29,7 @@ var _ gorm.Model
 // @Failure 403 {string} string "Access denied"
 // @Failure 404 {string} string "User not found"
 // @Failure 500 {string} string "Failed to update user"
-// @Router /users/{id} [put]
+// @Router /api/users/{id} [put]
 func (u *UserHandler) UpdateUser(c *gin.Context) {
 	// Get the user ID from the URL
 	userIDStr := c.Param("id")
@@ -54,11 +54,17 @@ func (u *UserHandler) UpdateUser(c *gin.Context) {
 	}
 
 	// Update the user data
-	userToUpdate.Name = updateRequest.Name
-	userToUpdate.BirthDate = updateRequest.BirthDate
-	userToUpdate.Country = updateRequest.Country
-	userToUpdate.City = updateRequest.City
-	userToUpdate.PhoneNumber = updateRequest.PhoneNumber
+	userToUpdate.Auth.Username = updateRequest.Username
+	userToUpdate.Auth.Email = updateRequest.Email
+	userToUpdate.Auth.Password = updateRequest.Password
+	userToUpdate.Auth.Role = updateRequest.Role
+	userToUpdate.Personal.Name = updateRequest.Name
+	userToUpdate.Personal.Surname = updateRequest.Surname
+	userToUpdate.Personal.Patronymic = updateRequest.Patronymic
+	userToUpdate.Personal.BirthDate = updateRequest.BirthDate
+	userToUpdate.Personal.PhoneNumber = updateRequest.PhoneNumber
+	userToUpdate.Location.Country = updateRequest.Country
+	userToUpdate.Location.City = updateRequest.City
 
 	// Save the updated user data
 	if err := u.DB.Save(&userToUpdate).Error; err != nil {
@@ -82,7 +88,7 @@ func (u *UserHandler) UpdateUser(c *gin.Context) {
 // @Failure 403 {string} string "Access denied"
 // @Failure 404 {string} string "User not found"
 // @Failure 500 {string} string "Failed to update user role"
-// @Router /users/update-role/{id} [put]
+// @Router /api/users/update-role/{id} [put]
 func (u *UserHandler) UpdateUserRole(c *gin.Context) {
 	// Get the user ID from the URL
 	userIDStr := c.Param("id")
@@ -113,7 +119,7 @@ func (u *UserHandler) UpdateUserRole(c *gin.Context) {
 	}
 
 	// Update the user role
-	userToUpdate.Role = updateRequest.NewRole
+	userToUpdate.Auth.Role = updateRequest.NewRole
 
 	/// Save the updated user data
 	if err := u.DB.Save(&userToUpdate).Error; err != nil {
@@ -146,7 +152,7 @@ func isValidRole(role string) bool {
 // @Failure 403 {string} string "Access denied"
 // @Failure 404 {string} string "User not found"
 // @Failure 500 {string} string "Failed to delete user"
-// @Router /users/{id} [delete]
+// @Router /api/users/{id} [delete]
 func (u *UserHandler) DeleteUser(c *gin.Context) {
 	// Get the user ID from the URL
 	userIDStr := c.Param("id")
@@ -166,19 +172,6 @@ func (u *UserHandler) DeleteUser(c *gin.Context) {
 		return
 	}
 
-	// Fetch associated content records
-	var contents []models.Content
-	if err := u.DB.Where("user_id = ?", userID).Find(&contents).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch associated content", "details": err.Error()})
-		return
-	}
-
-	// Delete associated content records
-	if err := u.DB.Unscoped().Delete(&contents).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete associated content", "details": err.Error()})
-		return
-	}
-
 	// Delete the user
 	if err := u.DB.Unscoped().Delete(&userToDelete).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete user", "details": err.Error()})
@@ -194,7 +187,7 @@ func (u *UserHandler) DeleteUser(c *gin.Context) {
 // @Security BasicAuth
 // @Success 200 {array} models.User "Get all users successfully"
 // @Failure 500 {string} string "Failed to get users"
-// @Router /users [get]
+// @Router /api/users [get]
 func (u *UserHandler) GetAllUsers(c *gin.Context) {
 	var users []models.User
 	if err := u.DB.Find(&users).Error; err != nil {

@@ -29,7 +29,7 @@ type AuthHandler struct {
 // @Param request body swagger.AuthRequest true "Данные для входа"
 // @Success 200 {string} string "Пользователь успешно зарегистрирован"
 // @Failure 400 {string} string "Ошибка при регистрации пользователя"
-// @Router /register [POST]
+// @Router /api/register [POST]
 func (u *AuthHandler) Register(c *gin.Context) {
 	var user models.User
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -39,24 +39,24 @@ func (u *AuthHandler) Register(c *gin.Context) {
 
 	// Проверка наличия пользователя с таким же email
 	var existingUser models.User
-	if err := u.DB.Where("email = ?", user.Email).First(&existingUser).Error; err == nil {
+	if err := u.DB.Where("email = ?", user.Auth.Email).First(&existingUser).Error; err == nil {
 		c.JSON(http.StatusConflict, gin.H{"error": "Email already exists"})
 		return
 	}
 
 	// Хеширование пароля
-	hashedPassword, err := password.HashPassword(user.Password)
+	hashedPassword, err := password.HashPassword(user.Auth.Password)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
 		return
 	}
 
-	user.Password = hashedPassword
-	user.Role = string(models.SimpleUser)
+	user.Auth.Password = hashedPassword
+	user.Auth.Role = string(models.SimpleUser)
 
 	// Присвоение роли по умолчанию, если не указана
-	if user.Role == "" {
-		user.Role = string(models.SimpleUser)
+	if user.Auth.Role == "" {
+		user.Auth.Role = string(models.SimpleUser)
 	}
 
 	// Создание пользователя
@@ -77,7 +77,7 @@ func (u *AuthHandler) Register(c *gin.Context) {
 // @Param request body swagger.AuthRequest true "Данные для входа"
 // @Success 200 {object} swagger.SuccessResponse "Успешная авторизация"
 // @Failure 400 {string} string "Ошибка авторизации пользователя"
-// @Router /login [POST]
+// @Router /api/login [POST]
 func (u *AuthHandler) Login(c *gin.Context) {
 	var user models.User
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -87,7 +87,7 @@ func (u *AuthHandler) Login(c *gin.Context) {
 
 	// Поиск пользователя по email
 	var dbUser models.User
-	if err := u.DB.Where("email = ?", user.Email).First(&dbUser).Error; err != nil {
+	if err := u.DB.Where("email = ?", user.Auth.Email).First(&dbUser).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "User not found"})
 			return
@@ -97,7 +97,7 @@ func (u *AuthHandler) Login(c *gin.Context) {
 	}
 
 	// Проверка пароля
-	if err := bcrypt.CompareHashAndPassword([]byte(dbUser.Password), []byte(user.Password)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(dbUser.Auth.Password), []byte(user.Auth.Password)); err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
 		return
 	}
@@ -126,7 +126,7 @@ func (u *AuthHandler) Login(c *gin.Context) {
 // @Tags auth
 // @Produce json
 // @Success 200 {string} string "Успешный выход"
-// @Router /logout [GET]
+// @Router /api/logout [GET]
 func (u *AuthHandler) Logout(c *gin.Context) {
 	c.SetCookie("token", "", -1, "/", "", false, false)
 	c.JSON(http.StatusOK, gin.H{"message": "Logout successful"})
@@ -137,20 +137,30 @@ func CreateAdmin(db *gorm.DB) {
 	var adminUser models.User
 	result := db.Where("role = ?", string(models.Admin)).First(&adminUser)
 	if result.Error == nil {
-		logger.Info("Admin user already exists.")
+		logger.Info("🕵️  Admin user already exists.")
 		return
 	}
 
+	//@ Хешируем пароль
+	hashedPassword, err := password.HashPassword(vars.ADMIN_PASS)
+	if err != nil {
+		logger.Error("Failed to hash admin password:", err)
+		return
+	}
+
+	//@ Создаём администратора
 	newAdmin := models.User{
-		Email:    vars.ADMIN_EMAIL,
-		Password: vars.ADMIN_PASS,
-		Role:     string(models.Admin),
+		Auth: models.Auth{
+			Email:    vars.ADMIN_EMAIL,
+			Role:     string(models.Admin),
+			Password: hashedPassword,
+		},
 	}
 
 	if err := db.Create(&newAdmin).Error; err != nil {
-		logger.Error("Failed to create admin user:", err)
+		logger.Error("🔪🕵️  Failed to create admin user:", err)
 		return
 	}
 
-	logger.Debug("Admin user created successfully...")
+	logger.Debug("🕵️  Admin user created successfully...")
 }
