@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import { List, NavLinkComponent } from '..';
-import { Link } from 'react-router-dom';
-import { links, TLink } from './links';
+import { links } from './links';
 import { X } from 'lucide-react';
 import './Menu.scss';
 

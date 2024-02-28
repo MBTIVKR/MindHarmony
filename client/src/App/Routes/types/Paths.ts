@@ -8,7 +8,6 @@ export enum Paths {
   Signup = "/Signup",
 }
 
-
 export enum PathsEternalMemory {
   EternalMemory = '/EternalMemory/main',
   Question = '/EternalMemory/question',

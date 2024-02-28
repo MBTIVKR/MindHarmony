@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { FieldError, Path, UseFormRegister } from 'react-hook-form';
 import { FormValues } from '../Form/AuthForm/AuthForm';
 

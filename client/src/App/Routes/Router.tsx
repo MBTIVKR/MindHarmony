@@ -3,9 +3,9 @@ import { Paths, PathsEternalMemory } from './types/Paths';
 import { AccountPage, AuthPage, EternalMemoryPage, MainPage, WhatIsItPage } from './Lazy';
 import { LayoutMain, LayoutEternalMemory } from '@/Layouts';
 import { AuthGuard } from '../Providers/AuthGuard';
-import { useAppDispatch, useTypedSelector } from '@/Stores';
-import { useEffect } from 'react';
-import { authActions } from '@/Stores/Reducers/authSlice';
+// import { useAppDispatch, useTypedSelector } from '@/Stores';
+// import { useEffect } from 'react';
+// import { authActions } from '@/Stores/Reducers/authSlice';
 import { useAuth } from '@/Utils/Hooks';
 
 

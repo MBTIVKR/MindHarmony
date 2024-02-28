@@ -1,5 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { ChangeEvent, useState } from 'react'
 import { List, NavLinkComponent } from '@/Components'
 import { links, TLinkEternalMemory } from './links'
 
