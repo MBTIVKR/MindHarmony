@@ -5,7 +5,7 @@ import App from './Components/App/App.tsx';
 
 const theme = createTheme({
   fontFamily: 'Open Sans, sans-serif',
-  primaryColor: 'blue',
+  primaryColor: 'cyan',
   breakpoints: {
     xs: '30em',
     sm: '48em',
