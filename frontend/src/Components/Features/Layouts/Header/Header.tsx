@@ -1,7 +1,7 @@
-import { Theme } from '@/Components/Features';
+
 import { Burger, NavLink } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconHome2 } from '@tabler/icons-react';
+import { ThemeToggler } from '../..';
 
 export const Header = () => {
   const [opened, { toggle }] = useDisclosure();
@@ -36,7 +36,7 @@ export const Header = () => {
         // leftSection={<IconHome2 size="1rem" stroke={1.5} />}
       />
       </nav>
-      <Theme />
+      <ThemeToggler />
     </header>
   );
 };

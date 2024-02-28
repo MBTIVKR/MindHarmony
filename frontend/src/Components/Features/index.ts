@@ -1,1 +1,2 @@
-export * from './Theme/themes';
+export * from './Theme/ThemeToggler/ThemeToggler';
+export * from './Theme/ThemeSwitcher/ThemeSwithcer';

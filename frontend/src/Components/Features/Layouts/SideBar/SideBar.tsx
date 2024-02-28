@@ -11,13 +11,14 @@ import {
   IconLogout,
 } from '@tabler/icons-react';
 import { MantineLogo } from '@mantinex/mantine-logo';
-import classes from './SideBar.module.css';
+import classes from './SideBar.module.scss';
 import { Paths } from '@/Components/App/Routing';
+import { Link } from 'react-router-dom';
 
 interface NavbarLinkProps {
   icon: typeof IconHome2;
   label: string;
-  href?: string;
+  href: string;
   active?: boolean;
   onClick?(): void;
 }
@@ -36,9 +37,9 @@ export function NavbarLink({
         className={classes.link}
         data-active={active || undefined}
       >
-        <a href={href} style={{ textDecoration: 'none', color: 'inherit' }}>
+        <Link to={href} style={{ textDecoration: 'none', color: 'inherit' }}>
           <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
-        </a>
+        </Link>
       </UnstyledButton>
     </Tooltip>
   );
@@ -54,7 +55,7 @@ const BarItems = [
   { icon: IconSettings, label: 'Settings', href: Paths.Settings },
 ];
 
-export function NavbarMinimal() {
+export const NavbarMinimal = () => {
   const [active, setActive] = useState(0);
 
   const links = BarItems.map((link, index) => (
@@ -69,11 +70,9 @@ export function NavbarMinimal() {
   return (
     <nav className={classes.navbar}>
       <Center>
-        <a
-          href={Paths.Root}
-        >
+        <Link to={Paths.Root}>
           <MantineLogo type='mark' size={30} />
-        </a>
+        </Link>
       </Center>
 
       <div className={classes.navbarMain}>
@@ -83,8 +82,8 @@ export function NavbarMinimal() {
       </div>
 
       <Stack justify='center' gap={0}>
-        <NavbarLink icon={IconLogout} label='Logout' />
+        <NavbarLink icon={IconLogout} label='Logout' href={Paths.Logout} />
       </Stack>
     </nav>
   );
-}
+};

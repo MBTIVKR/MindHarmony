@@ -1,11 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { MantineProvider } from '@mantine/core'
+import { MantineProvider, createTheme } from '@mantine/core';
 import App from './Components/App/App.tsx';
+
+const theme = createTheme({
+  fontFamily: 'Open Sans, sans-serif',
+  primaryColor: 'blue',
+  breakpoints: {
+    xs: '30em',
+    sm: '48em',
+    md: '64em',
+    lg: '74em',
+    xl: '90em',
+  },
+});
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <MantineProvider defaultColorScheme='dark'>
+    <MantineProvider theme={theme} defaultColorScheme='dark'>
       <App />
     </MantineProvider>
   </React.StrictMode>

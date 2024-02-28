@@ -1,11 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom';
-// import { Loading, Notification } from '@/Components';
 import { Paths } from '.';
-import { Layout } from '@/Components/Features/Layouts/Layout';
+import { Layout } from '@Components/Features/Layouts/Layout';
 import {
   NotFoundPage,
   Settings,
   AuthPage,
+  Example,
 } from './Lazy';
 
 const Routing = () =>
@@ -14,6 +14,10 @@ const Routing = () =>
       element: <Layout />,
       errorElement: <NotFoundPage />,
       children: [
+        {
+          path: Paths.Root,
+          // element: <CalendarPage />,
+        },
         {
           path: Paths.Home,
           // element: <CalendarPage />,
@@ -33,6 +37,10 @@ const Routing = () =>
         {
           path: Paths.Settings,
           element: <Settings />,
+        },
+        {
+          path: Paths.Example,
+          element: <Example />,
         },
       ],
     },
