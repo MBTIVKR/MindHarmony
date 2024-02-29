@@ -5,9 +5,9 @@ export enum Paths {
     Test = '/test',
     Example = '/example',
     //@ `/API` Authentication
-    Signup = '/api/signup',
-    Login = '/api/login',
-    Logout = '/api/logout',
+    Signup = '/signup',
+    Login = '/login',
+    Logout = '/logout',
     //@ Profile
     Account = '/api/users/:id',
     Users = '/api/users',

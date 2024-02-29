@@ -24,7 +24,7 @@ const (
 // @ User table...
 type User struct {
 	gorm.Model
-	Auth     `json:"auth`
+	Auth     `json:"auth"`
 	Personal `json:"personal"`
 	Location `json:"location"`
 	Position string `json:"position"`

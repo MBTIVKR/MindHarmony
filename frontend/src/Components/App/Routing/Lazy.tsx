@@ -11,6 +11,9 @@ export const NotFoundPage = Loadable(
 export const AuthPage = Loadable(
   lazy(() => import('@Pages/AuthPage/AuthPage'))
 );
+export const SignUp = Loadable(
+  lazy(() => import('@Pages/AuthPage/SignUp/SignUp'))
+);
 export const Example = Loadable(
   lazy(() => import('@Pages/Example/Example'))
 );

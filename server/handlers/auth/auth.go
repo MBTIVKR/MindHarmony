@@ -2,6 +2,7 @@ package auth
 
 import (
 	"errors"
+	"fmt"
 	"lps/cemetery/models"
 	password "lps/cemetery/pkg/Password"
 	"lps/cemetery/pkg/jwt"
@@ -27,7 +28,7 @@ type AuthHandler struct {
 // @Produce json
 // @Request json
 // @Param request body swagger.AuthRequest true "Данные для входа"
-// @Success 200 {string} string "Пользователь успешно зарегистрирован"
+// @Success 201 {string} string "Пользователь успешно зарегистрирован"
 // @Failure 400 {string} string "Ошибка при регистрации пользователя"
 // @Router /api/signup [POST]
 func (u *AuthHandler) Register(c *gin.Context) {
@@ -36,17 +37,24 @@ func (u *AuthHandler) Register(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Ошибка при регистрации пользователя"})
 		return
 	}
+	// fmt.Printf("Received user data: %+v\n", user)
 
-	// Проверка наличия пользователя с таким же email
 	var existingUser models.User
 	if err := u.DB.Where("email = ?", user.Auth.Email).First(&existingUser).Error; err == nil {
+		logger.Warning("User with email %s already exists\n", user.Auth.Email)
 		c.JSON(http.StatusConflict, gin.H{"error": "Email already exists"})
+		return
+	} else if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		logger.Error("Failed to check email existence: %v\n", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to check email existence"})
 		return
 	}
 
 	// Хеширование пароля
 	hashedPassword, err := password.HashPassword(user.Auth.Password)
 	if err != nil {
+		// Log password hashing error
+		fmt.Printf("Failed to hash password: %v\n", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
 		return
 	}
@@ -62,9 +70,8 @@ func (u *AuthHandler) Register(c *gin.Context) {
 	// Создание пользователя
 	u.DB.Create(&user)
 
-	// Загрузка связанных объектов (например, Content и TimeCapsules)
-	u.DB.Preload("Content").Preload("TimeCapsules").Find(&user)
-
+	// Log successful registration
+	fmt.Printf("User successfully registered: %+v\n", user)
 	c.JSON(http.StatusCreated, gin.H{"message": "Пользователь успешно зарегистрирован"})
 }
 

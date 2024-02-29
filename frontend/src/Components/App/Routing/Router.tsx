@@ -5,6 +5,7 @@ import {
   NotFoundPage,
   Settings,
   AuthPage,
+  SignUp,
   Example,
 } from './Lazy';
 
@@ -28,7 +29,7 @@ const Routing = () =>
         },
         {
           path: Paths.Signup,
-          element: <AuthPage />,
+          element: <SignUp />,
         },
         {
           path: Paths.Login,

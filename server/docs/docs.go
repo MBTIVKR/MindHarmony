@@ -209,7 +209,7 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Пользователь успешно зарегистрирован",
                         "schema": {
                             "type": "string"
