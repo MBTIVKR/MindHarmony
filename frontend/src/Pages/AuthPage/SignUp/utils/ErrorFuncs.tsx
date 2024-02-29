@@ -11,7 +11,7 @@ export const EmailExist = () => {
   </Notification>;
 };
 export const FailToSendForm = () => {
-    <Notification
+  <Notification
     icon={<IconX style={{ width: rem(20), height: rem(20) }} />}
     color='red'
     title='Ошибка!'

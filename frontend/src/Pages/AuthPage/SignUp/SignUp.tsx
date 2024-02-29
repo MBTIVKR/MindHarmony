@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { FC } from 'react';
 import {
   Stepper,
   Button,
@@ -9,148 +9,26 @@ import {
   Alert,
   Box,
   Anchor,
-	rem,
+  Select,
+  Input,
+  Text,
 } from '@mantine/core';
-import { useForm } from '@mantine/form';
 import { DateInput } from '@mantine/dates';
-import { IconCheck, IconInfoCircle, IconX } from '@tabler/icons-react';
+import { IconInfoCircle } from '@tabler/icons-react';
 import { APP, APP_MODE } from '@/Share/Variables';
-import { notifications } from '@mantine/notifications';
-import { Paths } from '@Components/App/Routing/types/Paths';
+import { optionsFilter } from './utils/select';
+import { countryOptions } from './utils/countryOptions';
+import { IMaskInput } from 'react-imask';
+import { useSignupForm } from './Form/useSignupForm';
 
-const Signup = () => {
-  const [active, setActive] = useState(0);
-  const [birthval, setBirthval] = useState<Date | null>(null);
-	const [registrationSuccess, setRegistrationSuccess] = useState(false);
-
-  const form = useForm({
-    initialValues: {
-      Auth: {
-        username: '',
-        email: '',
-        password: '',
-      },
-      Personal: {
-        name: '',
-        surname: '',
-        patronymic: '',
-        birthday: '',
-        phone: '',
-      },
-      Location: {
-        country: '',
-        city: '',
-      },
-      position: '',
-    },
-
-    validate: (values) => {
-      if (active === 0) {
-        return {
-          username:
-            values.Auth.username.trim().length < 6
-              ? 'Username must include at least 6 characters'
-              : null,
-          password:
-            values.Auth.password.length < 6
-              ? 'Password must include at least 6 characters'
-              : null,
-        };
-      }
-
-      if (active === 1) {
-        return {
-          name:
-            values.Personal.name.trim().length < 2
-              ? 'Name must include at least 2 characters'
-              : null,
-          email: /^\S+@\S+$/.test(values.Auth.email) ? null : 'Invalid email',
-        };
-      }
-
-      return {};
-    },
-  });
-
-  const nextStep = () =>
-    setActive((current) => {
-      if (form.validate().hasErrors) {
-        return current;
-      }
-      return current < 3 ? current + 1 : current;
-    });
-
-  const prevStep = () =>
-    setActive((current) => (current > 0 ? current - 1 : current));
-
-  const submitForm = () => {
-    fetch('http://localhost:4000/api/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(form.values),
-    })
-      .then((response) => {
-        if (response.status === 409) {
-          return response.json().then((data) => {
-            notifications.show({
-              title: 'Ошибка',
-              message: 'Такой Email уже существует! 🤥',
-              color: 'red',
-            });
-          });
-        } else if (!response.ok) {
-          notifications.show({
-            title: 'Ошибка',
-            message:
-              'Не удалось отправить форму. Пожалуйста, попробуйте ещё раз...',
-            color: 'red',
-          });
-        } else {
-          // notifications.show({
-          //   title: 'Успешная регистрация',
-          //   message: 'Ваша учётная запись была зарегистрирована! Вы',
-          //   color: 'green',
-          // });
-					notifications.show({
-						loading: true,
-						title: 'Успешная регистрация',
-						message: 'Вы будете перенаправлены на страницу авторизации через 5 секунд',
-						autoClose: false,
-						withCloseButton: false,
-					});
-					setTimeout(() => {
-						notifications.update({
-							id,
-							color: 'teal',
-							title: 'Data was loaded',
-							message: 'Notification will close in 2 seconds, you can close this notification now',
-							icon: <IconCheck style={{ width: rem(18), height: rem(18) }} />,
-							loading: false,
-							autoClose: 2000,
-						});
-					}, 3000);
-					setRegistrationSuccess(true);
-        }
-        {
-          APP_MODE == 'dev' && response.json();
-        }
-      })
-      .then((data) => {
-        // Handle the response from the server
-        console.log('Server response:', data);
-      })
-      .catch((error) => {
-        // Handle network errors
-        console.error('Error submitting form:', error);
-      });
-  };
+const Signup: FC = () => {
+  const { active, birthval, form, nextStep, prevStep, submitForm } =
+    useSignupForm();
 
   //@ Dev success callback
   const DevSuccesSugnUP = () => (
     <>
-      Completed! Form values:
+      <Text>Completed! Form values:</Text>
       <Code block mt='xl'>
         {JSON.stringify(form.values, null, 2)}
       </Code>
@@ -174,16 +52,6 @@ const Signup = () => {
       </Alert>
     </Box>
   );
-
-	useEffect(() => {
-    if (registrationSuccess) {
-      const redirectTimer = setTimeout(() => {
-        window.location.href = `${Paths.Login}`;
-      }, 5000);
-
-      return () => clearTimeout(redirectTimer);
-    }
-  }, [registrationSuccess]);
 
   return (
     <>
@@ -232,7 +100,7 @@ const Signup = () => {
             mt='md'
             value={birthval}
             //@ts-ignore
-            onChange={setBirthval}
+            onChange={(value) => setBirthval(value)}
             label='Дата рождения'
             placeholder='Дата рождения'
             {...form.getInputProps('Personal.birthday')}
@@ -249,16 +117,22 @@ const Signup = () => {
             placeholder='Должность'
             {...form.getInputProps('position')}
           />
-          <TextInput
+          <Input
             mt='md'
             label='Телефон'
             placeholder='Телефон'
+            component={IMaskInput}
+            mask='+7 (000) 000-00-00'
+            error='Номер телефона введи'
             {...form.getInputProps('Personal.phone')}
           />
-          <TextInput
+          <Select
             mt='md'
             label='Страна'
             placeholder='Страна'
+            data={countryOptions}
+            filter={optionsFilter}
+            searchable
             {...form.getInputProps('Location.country')}
           />
           <TextInput
