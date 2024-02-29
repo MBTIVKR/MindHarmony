@@ -1,13 +1,13 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Documentation for Cemetery API server",
-        "title": "Cemetery API Documentation",
+        "description": "Documentation for MindHarmony API server",
+        "title": "MindHarmony API Documentation",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
             "name": "API Support",
-            "url": "mailto:support@cemetery.com",
-            "email": "support@cemetery.com"
+            "url": "mailto:support@mindharmony.ru",
+            "email": "support@mindharmony.ru"
         },
         "version": "0.2"
     },
@@ -560,6 +560,23 @@
                 }
             }
         },
+        "models.Auth": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
         "models.ForgotPasswordRequest": {
             "type": "object",
             "required": [
@@ -710,14 +727,14 @@
         "models.User": {
             "type": "object",
             "properties": {
+                "auth": {
+                    "$ref": "#/definitions/models.Auth"
+                },
                 "createdAt": {
                     "type": "string"
                 },
                 "deletedAt": {
                     "$ref": "#/definitions/gorm.DeletedAt"
-                },
-                "email": {
-                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -728,22 +745,13 @@
                 "mbti": {
                     "$ref": "#/definitions/models.MBTI"
                 },
-                "password": {
-                    "type": "string"
-                },
                 "personal": {
                     "$ref": "#/definitions/models.Personal"
                 },
                 "position": {
                     "type": "string"
                 },
-                "role": {
-                    "type": "string"
-                },
                 "updatedAt": {
-                    "type": "string"
-                },
-                "username": {
                     "type": "string"
                 }
             }

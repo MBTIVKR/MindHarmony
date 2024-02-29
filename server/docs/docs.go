@@ -12,8 +12,8 @@ const docTemplate = `{
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
             "name": "API Support",
-            "url": "mailto:support@cemetery.com",
-            "email": "support@cemetery.com"
+            "url": "mailto:support@mindharmony.ru",
+            "email": "support@mindharmony.ru"
         },
         "version": "{{.Version}}"
     },
@@ -566,6 +566,23 @@ const docTemplate = `{
                 }
             }
         },
+        "models.Auth": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
         "models.ForgotPasswordRequest": {
             "type": "object",
             "required": [
@@ -716,14 +733,14 @@ const docTemplate = `{
         "models.User": {
             "type": "object",
             "properties": {
+                "auth": {
+                    "$ref": "#/definitions/models.Auth"
+                },
                 "createdAt": {
                     "type": "string"
                 },
                 "deletedAt": {
                     "$ref": "#/definitions/gorm.DeletedAt"
-                },
-                "email": {
-                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -734,22 +751,13 @@ const docTemplate = `{
                 "mbti": {
                     "$ref": "#/definitions/models.MBTI"
                 },
-                "password": {
-                    "type": "string"
-                },
                 "personal": {
                     "$ref": "#/definitions/models.Personal"
                 },
                 "position": {
                     "type": "string"
                 },
-                "role": {
-                    "type": "string"
-                },
                 "updatedAt": {
-                    "type": "string"
-                },
-                "username": {
                     "type": "string"
                 }
             }
@@ -799,8 +807,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:4000",
 	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "Cemetery API Documentation",
-	Description:      "Documentation for Cemetery API server",
+	Title:            "MindHarmony API Documentation",
+	Description:      "Documentation for MindHarmony API server",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

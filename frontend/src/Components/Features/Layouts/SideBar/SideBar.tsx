@@ -13,7 +13,7 @@ import {
 import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './SideBar.module.scss';
 import { Paths } from '@/Components/App/Routing';
-import { Link } from 'react-router-dom';
+import { Link } from '@Components/Shared/Link/Link';
 
 interface NavbarLinkProps {
   icon: typeof IconHome2;

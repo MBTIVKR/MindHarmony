@@ -8,6 +8,7 @@ import {
   SignUp,
   Example,
 } from './Lazy';
+import Login from '@Pages/AuthPage/Login/Login';
 
 const Routing = () =>
   createBrowserRouter([
@@ -33,7 +34,7 @@ const Routing = () =>
         },
         {
           path: Paths.Login,
-          element: <AuthPage />,
+          element: <Login />,
         },
         {
           path: Paths.Settings,

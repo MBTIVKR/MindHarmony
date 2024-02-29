@@ -7,6 +7,26 @@ import { rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { API } from '@/Components/App/Routing/types/API';
 
+export interface SignupFormValues {
+  Auth: {
+    username: string;
+    email: string;
+    password: string;
+  };
+  Personal: {
+    name: string;
+    surname: string;
+    patronymic: string;
+    birthday: string;
+    phone: string;
+  };
+  Location: {
+    country: string;
+    city: string;
+  };
+  position: string;
+}
+
 export const useSignupForm = () => {
   const [active, setActive] = useState(0);
   const [birthval, setBirthval] = useState<Date | null>(null);
@@ -22,7 +42,7 @@ export const useSignupForm = () => {
     }
   }, [registrationSuccess]);
 
-  const form = useForm({
+  const form = useForm<SignupFormValues>({
     initialValues: {
       Auth: {
         username: '',

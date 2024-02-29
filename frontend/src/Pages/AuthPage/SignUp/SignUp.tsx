@@ -12,6 +12,8 @@ import {
   Select,
   Input,
   Text,
+  Title,
+  Stack,
 } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
 import { IconInfoCircle } from '@tabler/icons-react';
@@ -20,6 +22,8 @@ import { optionsFilter } from './utils/select';
 import { countryOptions } from './utils/countryOptions';
 import { IMaskInput } from 'react-imask';
 import { useSignupForm } from './Form/useSignupForm';
+import { Link } from 'react-router-dom';
+import { Paths } from '@/Components/App/Routing';
 
 const Signup: FC = () => {
   const { active, birthval, form, nextStep, prevStep, submitForm } =
@@ -55,22 +59,28 @@ const Signup: FC = () => {
 
   return (
     <>
-      <Stepper active={active} pt={70}>
+      <Stack pt={70}>
+        <Title>Регистрация</Title>
+      </Stack>
+      <Stepper active={active} pt={50}>
         <Stepper.Step label='Регистрация' description='Данные для входа'>
           <TextInput
             label='Имя пользователя'
             placeholder='Имя пользователя'
+            required={true}
             {...form.getInputProps('Auth.username')}
           />
           <TextInput
             label='Email'
             placeholder='Email'
+            required={true}
             {...form.getInputProps('Auth.email')}
           />
           <PasswordInput
             mt='md'
             label='Пароль'
             placeholder='Пароль'
+            required={true}
             {...form.getInputProps('Auth.password')}
           />
         </Stepper.Step>
@@ -82,6 +92,7 @@ const Signup: FC = () => {
           <TextInput
             label='Имя'
             placeholder='Имя'
+            required={true}
             {...form.getInputProps('Personal.name')}
           />
           <TextInput
@@ -154,7 +165,14 @@ const Signup: FC = () => {
           </Button>
         )}
         {active !== 3 ? (
-          <Button onClick={nextStep}>Далее</Button>
+          <>
+            <Text mr={'auto'}>
+              Уже есть аккаунт?
+              {'  '}
+              <Link to={Paths.Login}>Войдите!</Link>
+            </Text>
+            <Button onClick={nextStep}>Далее</Button>
+          </>
         ) : (
           <Button onClick={submitForm}>Зарегистрироваться</Button>
         )}

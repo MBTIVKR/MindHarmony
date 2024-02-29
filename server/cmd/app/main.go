@@ -16,17 +16,17 @@ import (
 // @in header
 // @name Authorization
 
-// @title           Cemetery API Documentation
+// @title           MindHarmony API Documentation
 // @version         0.2
-// @description     Documentation for Cemetery API server
+// @description     Documentation for MindHarmony API server
 // @termsOfService  http://swagger.io/terms/
 
 // ?contact.name   ITDOBRO
 // ?contact.url    https://github.com/Avdushin
 
 // @contact.name   API Support
-// @contact.url    mailto:support@cemetery.com
-// @contact.email  support@cemetery.com
+// @contact.url    mailto:support@mindharmony.ru
+// @contact.email  support@mindharmony.ru
 
 // @host      localhost:4000
 // @BasePath /
