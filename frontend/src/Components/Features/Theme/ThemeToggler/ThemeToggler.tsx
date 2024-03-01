@@ -9,11 +9,11 @@ export function ThemeToggler() {
 
   return (
     <Group align="center">
-      <Title order={3}>Тема: </Title>
+      {/* <Title order={3}>Тема: </Title> */}
       <ActionIcon
       onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
       variant="default"
-      size="sm"
+      size="lg"
       aria-label="Toggle color scheme"
     >
       <IconSun className={cx(classes.icon, classes.light)} stroke={1.5} />

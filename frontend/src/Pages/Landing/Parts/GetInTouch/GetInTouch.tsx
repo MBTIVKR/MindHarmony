@@ -1,4 +1,12 @@
-import { TextInput, Textarea, SimpleGrid, Group, Title, Button } from '@mantine/core';
+import {
+  TextInput,
+  Textarea,
+  SimpleGrid,
+  Group,
+  Title,
+  Button,
+  Paper,
+} from '@mantine/core';
 import { useForm } from '@mantine/form';
 
 export const GetInTouch = () => {
@@ -17,61 +25,68 @@ export const GetInTouch = () => {
   });
 
   return (
-    <form onSubmit={form.onSubmit(() => {})}>
-      <Title
-        order={2}
-        size="h1"
-        style={{ fontFamily: 'Greycliff CF, var(--mantine-font-family)' }}
-        fw={900}
-        ta="center"
-      >
-        Get in touch
-      </Title>
+    <Paper
+      shadow='xs'
+      p='xl'
+      radius='lg'
+      style={{ boxShadow: '0px 0px 25px 1px #3B3B3B' }}
+    >
+      <form onSubmit={form.onSubmit(() => {})}>
+        <Title
+          order={2}
+          size='h1'
+          style={{ fontFamily: 'Greycliff CF, var(--mantine-font-family)' }}
+          fw={900}
+          ta='center'
+        >
+          Get in touch
+        </Title>
 
-      <SimpleGrid cols={{ base: 1, sm: 2 }} mt="xl">
+        <SimpleGrid cols={{ base: 1, sm: 2 }} mt='xl'>
+          <TextInput
+            label='Name'
+            placeholder='Your name'
+            name='name'
+            variant='filled'
+            {...form.getInputProps('name')}
+          />
+          <TextInput
+            label='Email'
+            placeholder='Your email'
+            name='email'
+            variant='filled'
+            {...form.getInputProps('email')}
+          />
+        </SimpleGrid>
+
         <TextInput
-          label="Name"
-          placeholder="Your name"
-          name="name"
-          variant="filled"
-          {...form.getInputProps('name')}
+          label='Subject'
+          placeholder='Subject'
+          mt='md'
+          name='subject'
+          variant='filled'
+          {...form.getInputProps('subject')}
         />
-        <TextInput
-          label="Email"
-          placeholder="Your email"
-          name="email"
-          variant="filled"
-          {...form.getInputProps('email')}
+        <Textarea
+          mt='md'
+          label='Message'
+          placeholder='Your message'
+          maxRows={10}
+          minRows={5}
+          autosize
+          name='message'
+          variant='filled'
+          {...form.getInputProps('message')}
         />
-      </SimpleGrid>
 
-      <TextInput
-        label="Subject"
-        placeholder="Subject"
-        mt="md"
-        name="subject"
-        variant="filled"
-        {...form.getInputProps('subject')}
-      />
-      <Textarea
-        mt="md"
-        label="Message"
-        placeholder="Your message"
-        maxRows={10}
-        minRows={5}
-        autosize
-        name="message"
-        variant="filled"
-        {...form.getInputProps('message')}
-      />
-
-      <Group justify="center" mt="xl">
-        <Button type="submit" size="md">
-          Send message
-        </Button>
-      </Group>
-    </form>
+        <Group justify='center' mt='xl'>
+          <Button type='submit' size='md'>
+            Send message
+          </Button>
+        </Group>
+      </form>
+    </Paper>
   );
-}
+};
 
 export default GetInTouch;

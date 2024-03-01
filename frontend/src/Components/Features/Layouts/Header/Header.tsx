@@ -31,6 +31,7 @@ import { Link } from 'react-router-dom';
 import { Paths } from '@/Components/App/Routing';
 import logo from '@/assets/brain.png';
 import classes from './Header.module.scss';
+import { ThemeToggler } from '../..';
 
 const mockdata = [
   {
@@ -163,6 +164,7 @@ export const Header = () => {
           </Group>
 
           <Group visibleFrom='sm'>
+            <ThemeToggler />
             <Link to={Paths.Login}>
               <Button variant='default'>Вход</Button>
             </Link>
