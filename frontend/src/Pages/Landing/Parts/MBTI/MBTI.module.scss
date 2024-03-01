@@ -1,0 +1,77 @@
+/* Общие стили для элементов */
+.item {
+    display: flex;
+    align-items: center;
+    border-radius: var(--mantine-radius-md);
+    border: rem(1px) solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5));
+    padding: var(--mantine-spacing-sm) var(--mantine-spacing-xl);
+    background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-5));
+    margin-bottom: var(--mantine-spacing-sm);
+}
+
+.itemDragging {
+    box-shadow: var(--mantine-shadow-sm);
+}
+
+.symbol {
+    font-size: rem(30px);
+    font-weight: 700;
+    width: rem(60px);
+}
+
+.fixedHeight {
+    height: 100px; /* Установите желаемую фиксированную высоту */
+}
+
+.mr {
+    padding-left: 20px;
+}
+
+/* Медиа-запрос для мобильных устройств */
+@media (max-width: 767px) {
+    .item {
+        /* Ваши стили для мобильных устройств */
+        padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
+        margin-bottom: var(--mantine-spacing-xs);
+    }
+
+    .symbol {
+        /* Ваши стили для мобильных устройств */
+        font-size: rem(24px);
+        width: rem(40px);
+    }
+
+    .fixedHeight {
+        /* Ваши стили для мобильных устройств */
+        height: 80px;
+    }
+
+    .mr {
+        /* Ваши стили для мобильных устройств */
+        padding-left: 10px;
+    }
+}
+
+@media (max-width: 479px) {
+    .item {
+        /* Ваши стили для очень маленьких экранов */
+        padding: var(--mantine-spacing-xs) var(--mantine-spacing-xs);
+        margin-bottom: var(--mantine-spacing-xs);
+    }
+
+    .symbol {
+        /* Ваши стили для очень маленьких экранов */
+        font-size: rem(20px);
+        width: rem(30px);
+    }
+
+    .fixedHeight {
+        /* Ваши стили для очень маленьких экранов */
+        height: 60px;
+    }
+
+    .mr {
+        /* Ваши стили для очень маленьких экранов */
+        padding-left: 8px;
+    }
+}

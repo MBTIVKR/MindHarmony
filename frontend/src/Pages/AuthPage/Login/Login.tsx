@@ -13,6 +13,7 @@ import { useLoginForm } from './Form/useLoginForm';
 import { Paths } from '@Components/App/Routing/types/Paths';
 import { Link } from '@/Components/Shared';
 import { Header } from '@/Components/Features/Layouts';
+import { APP_MODE } from '@/Share/Variables';
 
 const Login: FC = () => {
   const { form, submitForm } = useLoginForm();
@@ -52,6 +53,7 @@ const Login: FC = () => {
           <Group justify='center' mt='xl'>
             <Button onClick={submitForm}>Войти</Button>
           </Group>
+          {APP_MODE == 'dev' && DevSuccessLogin()}
         </Box>
       </Container>
     </>

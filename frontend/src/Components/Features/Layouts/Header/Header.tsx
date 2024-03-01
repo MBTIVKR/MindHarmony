@@ -96,7 +96,6 @@ export const Header = () => {
     <Box pb={20}>
       <header className={classes.header}>
         <Group justify='space-between' h='100%'>
-          {/* <MantineLogo size={30} /> */}
           <Link to={Paths.Root}>
             <img src={logo} alt="logotype" width={50} />
           </Link>

@@ -7,7 +7,7 @@ import Login from '@Pages/AuthPage/Login/Login';
 const Routing = () =>
   createBrowserRouter([
     {
-      //@ Routes with sIdebar
+      //@ Routes with sIdebar and global Container
       element: <Layout showSidebar={true} />,
       errorElement: <NotFoundPage />,
       children: [
@@ -30,7 +30,7 @@ const Routing = () =>
       ],
     },
     {
-      //@ Routes without Sidebar
+      //@ Routes without Sidebar and global Container
       element: <Layout showSidebar={false} noContainer={true}/>,
       children: [
         {

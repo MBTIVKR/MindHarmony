@@ -1,5 +1,7 @@
 import { Container, Group, Anchor } from '@mantine/core';
-import { MantineLogo } from '@mantinex/mantine-logo';
+import { Link } from 'react-router-dom';
+import { Copyright, Paths } from '@Components/App/Routing';
+import logo from '@/assets/brain.png';
 import classes from './Footer.module.scss';
 
 const links = [
@@ -9,14 +11,14 @@ const links = [
   { link: '#', label: 'Careers' },
 ];
 
-const Footer = () =>{
+const Footer = () => {
   const items = links.map((link) => (
     <Anchor<'a'>
-      c="dimmed"
+      c='dimmed'
       key={link.label}
       href={link.link}
       onClick={(event) => event.preventDefault()}
-      size="sm"
+      size='sm'
     >
       {link.label}
     </Anchor>
@@ -25,11 +27,14 @@ const Footer = () =>{
   return (
     <div className={classes.footer}>
       <Container className={classes.inner}>
-        <MantineLogo size={28} />
+        <Link to={Paths.Root}>
+          <img src={logo} alt='logotype' width={50} />
+        </Link>
+        <Copyright />
         <Group className={classes.links}>{items}</Group>
       </Container>
     </div>
   );
-}
+};
 
 export default Footer;

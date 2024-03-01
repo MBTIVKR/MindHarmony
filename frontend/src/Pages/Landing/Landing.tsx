@@ -1,14 +1,32 @@
 import Footer from '@/Components/Features/Layouts/Footer/Footer';
 import Header from '@/Components/Features/Layouts/Header/Header';
-import { Text } from '@mantine/core';
+import { Container } from '@mantine/core';
 import { FC } from 'react';
-import styles from './Landing.module.scss'
+import {
+  FAQ,
+  Features,
+  GetInTouch,
+  Hero,
+  MBTI,
+  Reviews,
+} from '@Components/App/Routing';
+import styles from './Landing.module.scss';
 
 const Landing: FC = () => {
   return (
     <>
       <Header />
-			<Text className={styles.mb}>Lol</Text>
+      <Hero />
+      <MBTI />
+      {/* <Reviews /> */}
+      <Container size='xl'>
+        {/* <Text className={styles.mb}>Lol</Text> */}
+        <Features />
+        <FAQ />
+      </Container>
+      <Container>
+        <GetInTouch />
+      </Container>
       <Footer />
     </>
   );
