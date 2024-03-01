@@ -11,9 +11,10 @@ import {
   IconLogout,
 } from '@tabler/icons-react';
 import { MantineLogo } from '@mantinex/mantine-logo';
-import classes from './SideBar.module.scss';
 import { Paths } from '@/Components/App/Routing';
-import { Link } from '@Components/Shared/Link/Link';
+import { Link } from '@Components/Shared';
+import logo from '@/assets/brain.png';
+import classes from './SideBar.module.scss';
 
 interface NavbarLinkProps {
   icon: typeof IconHome2;
@@ -71,7 +72,8 @@ export const NavbarMinimal = () => {
     <nav className={classes.navbar}>
       <Center>
         <Link to={Paths.Root}>
-          <MantineLogo type='mark' size={30} />
+          {/* <MantineLogo type='mark' size={30} /> */}
+          <img src={logo} width={50}/>
         </Link>
       </Center>
 

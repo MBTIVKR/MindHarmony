@@ -9,7 +9,6 @@ import {
   Box,
 } from '@mantine/core';
 import { useLoginForm } from './Form/useLoginForm';
-// import { Link } from 'react-router-dom';
 import { Paths } from '@Components/App/Routing/types/Paths';
 import { Link } from '@/Components/Shared';
 

@@ -1,25 +1,27 @@
+// @ Here reexports of the Lazy Components
 import { lazy } from 'react';
 import { Loadable } from './Providers/Loadable';
 
-// //@ Here reexports of the Lazy Components
+//@ Settings Page
 export const Settings = Loadable(
   lazy(() => import('@/Pages/Settings/Settings'))
 );
-export const NotFoundPage = Loadable(
-  lazy(() => import('@Pages/ErrorsPages/NotFound/NotFound'))
-);
-export const AuthPage = Loadable(
-  lazy(() => import('@Pages/AuthPage/AuthPage'))
-);
+//@ Auth Pages
 export const SignUp = Loadable(
   lazy(() => import('@Pages/AuthPage/SignUp/SignUp'))
 );
+export const Login = Loadable(
+  lazy(() => import('@Pages/AuthPage/Login/Login'))
+);
+//@ Error pages
+export const NotFoundPage = Loadable(
+  lazy(() => import('@Pages/ErrorsPages/NotFound/NotFound'))
+);
+//@ Example Pages
 export const Example = Loadable(
   lazy(() => import('@Pages/Example/Example'))
 );
+
 // export const AccauntPage = Loadable(
 //   lazy(() => import('@/Pages/AccountPage/AccountPage'))
-// );
-// export const AuthPage = Loadable(
-//   lazy(() => import('@Pages/AuthPage/AuthPage'))
 // );
