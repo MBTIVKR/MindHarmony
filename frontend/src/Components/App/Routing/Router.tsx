@@ -1,25 +1,16 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { Paths } from '.';
 import { Layout } from '@Components/Features/Layouts/Layout';
-import {
-  NotFoundPage,
-  Settings,
-  AuthPage,
-  SignUp,
-  Example,
-} from './Lazy';
+import { NotFoundPage, Settings, SignUp, Example, Landing } from './Lazy';
 import Login from '@Pages/AuthPage/Login/Login';
 
 const Routing = () =>
   createBrowserRouter([
     {
-      element: <Layout />,
+      //@ Routes with sIdebar
+      element: <Layout showSidebar={true} />,
       errorElement: <NotFoundPage />,
       children: [
-        {
-          path: Paths.Root,
-          // element: <CalendarPage />,
-        },
         {
           path: Paths.Home,
           // element: <CalendarPage />,
@@ -29,20 +20,30 @@ const Routing = () =>
           // element: <AccauntPage />,
         },
         {
-          path: Paths.Signup,
-          element: <SignUp />,
-        },
-        {
-          path: Paths.Login,
-          element: <Login />,
-        },
-        {
           path: Paths.Settings,
           element: <Settings />,
         },
         {
           path: Paths.Example,
           element: <Example />,
+        },
+      ],
+    },
+    {
+      //@ Routes without Sidebar
+      element: <Layout showSidebar={false} noContainer={true}/>,
+      children: [
+        {
+          path: Paths.Root,
+          element: <Landing />,
+        },
+        {
+          path: Paths.Signup,
+          element: <SignUp />,
+        },
+        {
+          path: Paths.Login,
+          element: <Login />,
         },
       ],
     },

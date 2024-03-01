@@ -1,19 +1,41 @@
+import {
+  Image,
+  Container,
+  Title,
+  Text,
+  Button,
+  SimpleGrid,
+} from '@mantine/core';
+import image from '@/assets/Errors/NotFound.svg';
+import classes from './NotFound.module.scss';
 import { Paths } from '@/Components/App/Routing';
-import { Anchor, Center, Container, Flex, Stack, Title } from '@mantine/core';
+import { Link } from 'react-router-dom';
 
-const NotFound = () => {
+export const NotFound = () => {
   return (
-    <Center>
-      <Container>
-        <Flex align='center' direction={'column'} gap={20}>
-          <Stack gap={0} mt={20} align='center'>
-            <Title order={1}>Error 404</Title>
-            <Title order={4}>Page Not Found</Title>
-          </Stack>
-          <Anchor href={Paths.Home}>Вернуться на главную страницу</Anchor>
-        </Flex>
-      </Container>
-    </Center>
+    <Container className={classes.root}>
+      <SimpleGrid spacing={{ base: 40, sm: 80 }} cols={{ base: 1, sm: 2 }}>
+        <Image src={image} className={classes.mobileImage} />
+        <div>
+          <Title className={classes.title}>Ой! Что-то пошло не так</Title>
+          <Text c='dimmed' size='lg'>
+          Страница, которую вы пытаетесь открыть, не существует. Возможно, вы ошиблись в вводе адреса или страница была перемещена на другой URL. Если вы считаете, что это ошибка, обратитесь в службу поддержки.
+          </Text>
+
+          <Link to={Paths.Home}>
+            <Button
+              variant='outline'
+              size='md'
+              mt='xl'
+              className={classes.control}
+            >
+              Вернуться на главную страницу
+            </Button>
+          </Link>
+        </div>
+        <Image src={image} className={classes.desktopImage} />
+      </SimpleGrid>
+    </Container>
   );
 };
 
