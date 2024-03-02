@@ -98,13 +98,13 @@ export const Header = () => {
       <header className={classes.header}>
         <Group justify='space-between' h='100%'>
           <Link to={Paths.Root}>
-            <img src={logo} alt="logotype" width={50} />
+            <img src={logo} alt='logotype' width={50} />
           </Link>
 
           <Group h='100%' gap={0} visibleFrom='sm'>
-            <a href='#' className={classes.link}>
+            <Link to={Paths.Home} className={classes.link}>
               Home
-            </a>
+            </Link>
             <HoverCard
               width={600}
               position='bottom'
@@ -193,9 +193,9 @@ export const Header = () => {
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx='-md'>
           <Divider my='sm' />
 
-          <a href='#' className={classes.link}>
+          <Link to={Paths.Home} className={classes.link}>
             Home
-          </a>
+          </Link>
           <UnstyledButton className={classes.link} onClick={toggleLinks}>
             <Center inline>
               <Box component='span' mr={5}>
