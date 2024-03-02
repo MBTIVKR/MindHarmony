@@ -1,51 +1,42 @@
 import { Image, Accordion, Grid, Container, Title } from '@mantine/core';
+import { faqData } from './data';
 import image from '@/assets/parts/faq/faq.svg';
 import classes from './FAQ.module.scss';
-
-const placeholder =
-  'It can’t help but hear a pin drop from over half a mile away, so it lives deep in the mountains where there aren’t many people or Pokémon.';
 
 const FAQ = () => {
   return (
     <div className={classes.wrapper}>
-      <Container size="lg">
-        <Grid id="faq-grid" gutter={50}>
+      <Container size='lg'>
+        <Grid id='faq-grid' gutter={50}>
           <Grid.Col span={{ base: 12, md: 6 }}>
-            <Image src={image} alt="Frequently Asked Questions" />
+            <Image src={image} alt='Frequently Asked Questions' />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6 }}>
-            <Title order={2} ta="left" className={classes.title}>
-              Frequently Asked Questions
+            <Title order={2} ta='left' className={classes.title}>
+              Часто задаваемые вопросы
             </Title>
 
-            <Accordion chevronPosition="right" defaultValue="reset-password" variant="separated">
-              <Accordion.Item className={classes.item} value="reset-password">
-                <Accordion.Control>How can I reset my password?</Accordion.Control>
-                <Accordion.Panel>{placeholder}</Accordion.Panel>
-              </Accordion.Item>
-
-              <Accordion.Item className={classes.item} value="another-account">
-                <Accordion.Control>Can I create more that one account?</Accordion.Control>
-                <Accordion.Panel>{placeholder}</Accordion.Panel>
-              </Accordion.Item>
-
-              <Accordion.Item className={classes.item} value="newsletter">
-                <Accordion.Control>How can I subscribe to monthly newsletter?</Accordion.Control>
-                <Accordion.Panel>{placeholder}</Accordion.Panel>
-              </Accordion.Item>
-
-              <Accordion.Item className={classes.item} value="credit-card">
-                <Accordion.Control>
-                  Do you store credit card information securely?
-                </Accordion.Control>
-                <Accordion.Panel>{placeholder}</Accordion.Panel>
-              </Accordion.Item>
+            <Accordion
+              chevronPosition='right'
+              defaultValue='reset-password'
+              variant='separated'
+            >
+              {faqData.map((item) => (
+                <Accordion.Item
+                  key={item.id}
+                  className={classes.item}
+                  value={item.id}
+                >
+                  <Accordion.Control>{item.question}</Accordion.Control>
+                  <Accordion.Panel>{item.answer}</Accordion.Panel>
+                </Accordion.Item>
+              ))}
             </Accordion>
           </Grid.Col>
         </Grid>
       </Container>
     </div>
   );
-}
+};
 
 export default FAQ;

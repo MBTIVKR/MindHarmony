@@ -9,10 +9,11 @@ export enum Paths {
     Login = '/login',
     Logout = '/logout',
     //@ Profile
-    Account = '/api/users/:id',
+    // Account = '/api/users/:id',
     Users = '/api/users',
     //@ `/APP` Aplication
     App = '/app',
     Home = `/app/home`,
     Settings = '/app/settings',
+    Account = '/app/account/',
 };

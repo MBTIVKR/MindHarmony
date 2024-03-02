@@ -8,10 +8,9 @@ import {
   GetInTouch,
   Hero,
   MBTI,
-  Reviews,
 } from '@Components/App/Routing';
-import styles from './Landing.module.scss';
 import ReviewsCarousel from './Parts/Reviews/ReviewsCarousel';
+// import styles from './Landing.module.scss';
 
 const Landing: FC = () => {
   return (

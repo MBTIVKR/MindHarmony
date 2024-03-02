@@ -20,9 +20,7 @@ export const Features = Loadable(
   lazy(() => import('@Pages/Landing/Parts/Features/Features'))
 );
 //@ FAQ
-export const FAQ = Loadable(
-  lazy(() => import('@Pages/Landing/Parts/FAQ/FAQ'))
-);
+export const FAQ = Loadable(lazy(() => import('@Pages/Landing/Parts/FAQ/FAQ')));
 //@ Hero
 export const Hero = Loadable(
   lazy(() => import('@Pages/Landing/Parts/Hero/Hero'))
@@ -54,6 +52,7 @@ export const SignUp = Loadable(
 export const Login = Loadable(
   lazy(() => import('@Pages/AuthPage/Login/Login'))
 );
+export const Account = Loadable(lazy(() => import('@Pages/Account/Account')));
 //@ Error pages
 export const NotFoundPage = Loadable(
   lazy(() => import('@Pages/ErrorsPages/NotFound/NotFound'))

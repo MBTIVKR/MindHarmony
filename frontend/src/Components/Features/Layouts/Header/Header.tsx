@@ -16,6 +16,7 @@ import {
   ScrollArea,
   rem,
   useMantineTheme,
+  Flex,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
@@ -32,6 +33,7 @@ import { Paths } from '@/Components/App/Routing';
 import logo from '@/assets/brain.png';
 import classes from './Header.module.scss';
 import { ThemeToggler } from '../..';
+import { APP } from '@/Share/Variables';
 
 const mockdata = [
   {
@@ -164,7 +166,7 @@ export const Header = () => {
           </Group>
 
           <Group visibleFrom='sm'>
-            <ThemeToggler />
+            <ThemeToggler size='lg' />
             <Link to={Paths.Login}>
               <Button variant='default'>Вход</Button>
             </Link>
@@ -173,11 +175,14 @@ export const Header = () => {
             </Link>
           </Group>
 
-          <Burger
-            opened={drawerOpened}
-            onClick={toggleDrawer}
-            hiddenFrom='sm'
-          />
+          <Group>
+            <ThemeToggler size='md' />
+            <Burger
+              opened={drawerOpened}
+              onClick={toggleDrawer}
+              hiddenFrom='sm'
+            />
+          </Group>
         </Group>
       </header>
 
@@ -186,7 +191,7 @@ export const Header = () => {
         onClose={closeDrawer}
         size='100%'
         padding='md'
-        title='Navigation'
+        title={APP.FULLNAME}
         hiddenFrom='sm'
         zIndex={1000000}
       >
@@ -214,10 +219,9 @@ export const Header = () => {
           <a href='#' className={classes.link}>
             Academy
           </a>
-
           <Divider my='sm' />
 
-          <Group justify='center' grow pb='xl' px='md'>
+          <Group justify='center' pb='xl' px='md'>
             <Link to={Paths.Login}>
               <Button variant='default'>Вход</Button>
             </Link>

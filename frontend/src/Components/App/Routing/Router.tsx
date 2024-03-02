@@ -1,7 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { Paths } from '.';
 import { Layout } from '@Components/Features/Layouts/Layout';
-import { NotFoundPage, Settings, SignUp, Example, Landing } from './Lazy';
+import {
+  NotFoundPage,
+  Settings,
+  SignUp,
+  Example,
+  Landing,
+  Account,
+} from './Lazy';
 import Login from '@Pages/AuthPage/Login/Login';
 
 const Routing = () =>
@@ -17,7 +24,7 @@ const Routing = () =>
         },
         {
           path: Paths.Account,
-          element: null,
+          element: <Account />,
         },
         {
           path: Paths.Settings,
@@ -31,7 +38,7 @@ const Routing = () =>
     },
     {
       //@ Routes without Sidebar and global Container
-      element: <Layout showSidebar={false} noContainer={true}/>,
+      element: <Layout showSidebar={false} noContainer={true} />,
       children: [
         {
           path: Paths.Root,
