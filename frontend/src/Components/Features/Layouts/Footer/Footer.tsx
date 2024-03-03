@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { Container, Group, Anchor } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { Copyright, Paths } from '@Components/App/Routing';
@@ -11,7 +12,7 @@ const links = [
   { link: '#', label: 'Careers' },
 ];
 
-const Footer = () => {
+const Footer: FC = () => {
   const items = links.map((link) => (
     <Anchor<'a'>
       c='dimmed'

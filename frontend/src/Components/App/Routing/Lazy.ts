@@ -57,6 +57,7 @@ export const Login = Loadable(
   lazy(() => import('@Pages/AuthPage/Login/Login'))
 );
 export const Account = Loadable(lazy(() => import('@Pages/Account/Account')));
+export const EditingProfile = Loadable(lazy(() => import('@Pages/Account/Form/EditingProfile')));
 //@ Error pages
 export const NotFoundPage = Loadable(
   lazy(() => import('@Pages/ErrorsPages/NotFound/NotFound'))

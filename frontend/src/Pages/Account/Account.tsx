@@ -1,17 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import axios from 'axios';
-import {
-  Title,
-  Button,
-  Stack,
-  Text,
-  Flex,
-  Divider,
-} from '@mantine/core';
+import { Title, Button, Stack, Text, Flex, Divider } from '@mantine/core';
 import { API_URL } from '@/Share/Variables';
-import EditingProfile from './Form/EditingProfile';
 import { API } from '@/Components/App/Routing/types/API';
 import { format, parseISO } from 'date-fns';
+import EditingProfile from './Form/EditingProfile';
 
 export interface UserData {
   auth: {
@@ -37,7 +30,7 @@ export interface UserData {
   };
 }
 
-const Account = () => {
+const Account: FC = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [editing, setEditing] = useState(false);
   const [message, setMessage] = useState('');
@@ -95,7 +88,7 @@ const Account = () => {
     <>
       {userData ? (
         editing ? (
-            <EditingProfile
+          <EditingProfile
             userData={userData}
             setUserData={setUserData}
             onSubmit={handleSubmit}
@@ -147,7 +140,9 @@ const Account = () => {
               </Flex>
               <Flex gap={5}>
                 <Text>Дата рождения:</Text>
-                <Text c='dimmed'>{format(parseISO(userData.personal.birthday), 'dd.MM.yyyy')}</Text>
+                <Text c='dimmed'>
+                  {format(parseISO(userData.personal.birthday), 'dd.MM.yyyy')}
+                </Text>
               </Flex>
             </Stack>
 

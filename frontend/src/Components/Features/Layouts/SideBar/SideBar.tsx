@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { Center, Tooltip, UnstyledButton, Stack, rem } from '@mantine/core';
 import {
   IconHome2,
@@ -10,7 +10,6 @@ import {
   IconSettings,
   IconLogout,
 } from '@tabler/icons-react';
-import { MantineLogo } from '@mantinex/mantine-logo';
 import { Paths } from '@/Components/App/Routing';
 import { Link } from '@Components/Shared';
 import logo from '@/assets/brain.png';
@@ -56,7 +55,7 @@ const BarItems = [
   { icon: IconSettings, label: 'Settings', href: Paths.Settings },
 ];
 
-export const NavbarMinimal = () => {
+export const NavbarMinimal: FC = () => {
   const [active, setActive] = useState(0);
 
   const links = BarItems.map((link, index) => (

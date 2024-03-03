@@ -1,8 +1,9 @@
 import { Box, Flex, Space } from '@mantine/core';
 import { APP } from '@/Share/Variables';
 import { NowYear } from '@Components/App/Routing';
+import { FC } from 'react';
 
-const Copyright = () => {
+const Copyright: FC = () => {
   return (
     <Flex align='center' justify='center'>
       <Box>&copy; {APP.FULLNAME}</Box>

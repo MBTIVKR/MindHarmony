@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import {
   Container,
   Title,
@@ -39,7 +39,7 @@ const PasswordsCheck = () => {
   });
 };
 
-const EditingProfile: React.FC<EditingProfileProps> = ({
+const EditingProfile: FC<EditingProfileProps> = ({
   userData,
   setUserData,
   onSubmit,

@@ -1,8 +1,9 @@
 import { IconArrowUp } from '@tabler/icons-react';
 import { useWindowScroll } from '@mantine/hooks';
 import { Affix, Button, Transition, rem } from '@mantine/core';
+import { FC } from 'react';
 
-const TopScroll = () => {
+const TopScroll: FC = () => {
   const [scroll, scrollTo] = useWindowScroll();
 
   return (

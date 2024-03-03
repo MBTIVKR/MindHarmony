@@ -16,7 +16,6 @@ import {
   ScrollArea,
   rem,
   useMantineTheme,
-  Flex,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
@@ -34,8 +33,9 @@ import logo from '@/assets/brain.png';
 import classes from './Header.module.scss';
 import { ThemeToggler } from '../..';
 import { APP } from '@/Share/Variables';
+import { FC } from 'react';
 
-const mockdata = [
+const features = [
   {
     icon: IconCode,
     title: 'Open source',
@@ -68,13 +68,13 @@ const mockdata = [
   },
 ];
 
-export const Header = () => {
+export const Header: FC = () => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const theme = useMantineTheme();
 
-  const links = mockdata.map((item) => (
+  const links = features.map((item) => (
     <UnstyledButton className={classes.subLink} key={item.title}>
       <Group wrap='nowrap' align='flex-start'>
         <ThemeIcon size={34} variant='default' radius='md'>
