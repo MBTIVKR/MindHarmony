@@ -23,6 +23,28 @@ const Login: FC = () => {
     <Text>Completed! Form values: {JSON.stringify(form.values, null, 2)}</Text>
   );
 
+  const handleLogin = async () => {
+    await submitForm();
+
+    // After successful form submission
+    // Check if the cookie 'token' is set
+    const token = document.cookie.replace(
+      /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/,
+      '$1'
+    );
+
+    if (token) {
+      // Parse and decode the token
+      const decodedToken = JSON.parse(atob(token.split('.')[1]));
+
+      // Extract the 'id' from the decoded token
+      const userId = decodedToken.id;
+
+      // Save userId to localStorage, replacing the existing value
+      localStorage.setItem('userId', userId);
+    }
+  };
+
   return (
     <>
       <Header />
@@ -51,7 +73,7 @@ const Login: FC = () => {
             </Link>
           </Text>
           <Group justify='center' mt='xl'>
-            <Button onClick={submitForm}>Войти</Button>
+            <Button onClick={handleLogin}>Войти</Button>
           </Group>
           {APP_MODE == 'dev' && DevSuccessLogin()}
         </Box>

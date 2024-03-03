@@ -30,6 +30,20 @@ export interface UserData {
   };
 }
 
+const GetUserID = async () => {
+  const token = document.cookie.replace(
+    /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/,
+    '$1'
+  );
+
+  if (token) {
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    const userId = decodedToken.id;
+    localStorage.setItem('userId', userId);
+  }
+};
+
+
 const Account: FC = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [editing, setEditing] = useState(false);
@@ -42,6 +56,7 @@ const Account: FC = () => {
         if (response.data) {
           const user = response.data;
           setUserData(user);
+          GetUserID();
         } else {
           console.error("Response does not contain 'data'");
         }
