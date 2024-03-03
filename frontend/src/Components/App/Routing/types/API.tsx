@@ -12,6 +12,6 @@ export enum API {
 	//@ Users
 	Users = '/api/users',
 	UserID = '/api/users/:id',
-	UserUpdate = '/api/users/update/:id',
+	UserUpdate = '/api/users/update',
 	UserUpdateRole = '/users/update-role/:id',
 }

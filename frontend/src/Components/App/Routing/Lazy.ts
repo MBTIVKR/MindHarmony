@@ -37,6 +37,10 @@ export const MBTI = Loadable(
 export const Reviews = Loadable(
   lazy(() => import('@Pages/Landing/Parts/Reviews/Reviews'))
 );
+//@ TopScroll Affix
+export const TopScroll = Loadable(
+  lazy(() => import('@Components/Features/Affix/Affix'))
+);
 
 //! Pages
 //@ Landing Page

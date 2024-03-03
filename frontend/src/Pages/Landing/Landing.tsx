@@ -11,6 +11,7 @@ import {
 } from '@Components/App/Routing';
 import ReviewsCarousel from './Parts/Reviews/ReviewsCarousel';
 // import styles from './Landing.module.scss';
+import TopScroll from '@Components/Features/Affix/Affix';
 
 const Landing: FC = () => {
   return (
@@ -30,6 +31,7 @@ const Landing: FC = () => {
         <GetInTouch />
       </Container>
       <Footer />
+      <TopScroll />
     </>
   );
 };

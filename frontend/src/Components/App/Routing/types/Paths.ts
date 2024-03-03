@@ -15,5 +15,5 @@ export enum Paths {
     App = '/app',
     Home = `/app/home`,
     Settings = '/app/settings',
-    Account = '/app/account/',
+    Account = '/app/account',
 };

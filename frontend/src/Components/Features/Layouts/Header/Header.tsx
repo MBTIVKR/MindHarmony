@@ -175,7 +175,7 @@ export const Header = () => {
             </Link>
           </Group>
 
-          <Group>
+          <Group className={classes.mtoggler} visibleFrom='base'>
             <ThemeToggler size='md' />
             <Burger
               opened={drawerOpened}

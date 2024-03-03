@@ -16,6 +16,7 @@ import (
 // @ Функция для настройки роутинга
 func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 	r := gin.Default()
+
 	middlewares.EnableCORS(r)
 
 	docs.SwaggerInfo.BasePath = "/"
@@ -23,10 +24,16 @@ func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 	api := r.Group("/api")
 	{
 		//? Users
+		//TODO fix AuthMiddleware:
+		/* //! Routes to fix middleware
+		* api.GET("/users/:id", u.GetUser)
+		* api.PUT("/users/update/:id", u.UpdateUser)
+		* api.GET("/users", u.GetAllUsers)
+		 */
 		api.GET("/users", u.GetAllUsers)
-		api.GET("/users/:id", middlewares.AuthMiddleware(), u.GetUser)
+		api.GET("/users/:id", u.GetUser)
 		api.DELETE("/users/:id", middlewares.AuthMiddleware(), middlewares.IsAdmin(), u.DeleteUser)
-		api.PUT("/users/update/:id", middlewares.AuthMiddleware(), middlewares.IsAdmin(), u.UpdateUser)
+		api.PUT("/users/update/:id", u.UpdateUser)
 		api.PUT("/users/update-role/:id", middlewares.AuthMiddleware(), middlewares.IsAdmin(), u.UpdateUserRole)
 		//? Auth
 		api.POST("/forgot-password", u.ForgotPassword)

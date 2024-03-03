@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -56,7 +57,16 @@ func (u *UserHandler) UpdateUser(c *gin.Context) {
 	// Update the user data
 	userToUpdate.Auth.Username = updateRequest.Auth.Username
 	userToUpdate.Auth.Email = updateRequest.Auth.Email
-	userToUpdate.Auth.Password = updateRequest.Auth.Password
+	// Хеширование нового пароля перед сохранением
+	if len(updateRequest.Auth.Password) > 0 {
+		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(updateRequest.Auth.Password), bcrypt.DefaultCost)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash the password", "details": err.Error()})
+			return
+		}
+		userToUpdate.Auth.Password = string(hashedPassword)
+	}
+	// userToUpdate.Auth.Password = updateRequest.Auth.Password
 	userToUpdate.Auth.Role = updateRequest.Auth.Role
 	userToUpdate.Personal.Name = updateRequest.Personal.Name
 	userToUpdate.Personal.Surname = updateRequest.Personal.Surname

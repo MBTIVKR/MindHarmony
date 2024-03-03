@@ -11,9 +11,10 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-// Ваш middleware AuthMiddleware()
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		c.Header("Access-Control-Allow-Headers", "Content-Type, Authorization, token")
+
 		tokenString, err := c.Cookie("token")
 		if err != nil || tokenString == "" {
 			logger.Error("No token found")
