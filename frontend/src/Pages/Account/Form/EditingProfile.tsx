@@ -13,7 +13,7 @@ import {
   Select,
   CheckIcon,
 } from '@mantine/core';
-import { UserData } from '../Account';
+
 import { API_URL } from '@/Share/Variables';
 import { API } from '@/Components/App/Routing/types/API';
 import { countryOptions } from '@/Pages/AuthPage/SignUp/utils/countryOptions';
@@ -21,6 +21,7 @@ import { optionsFilter } from '@/Pages/AuthPage/SignUp/utils/select';
 import { notifications } from '@mantine/notifications';
 import { IconX } from '@tabler/icons-react';
 import { IMaskInput } from 'react-imask';
+import { UserData } from '@/Utils';
 
 interface EditingProfileProps {
   userData: UserData;

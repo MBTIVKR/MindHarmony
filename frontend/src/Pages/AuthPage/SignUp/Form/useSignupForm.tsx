@@ -6,6 +6,7 @@ import { IconCheck } from '@tabler/icons-react';
 import { rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { API } from '@/Components/App/Routing/types/API';
+import { useNavigate } from 'react-router-dom';
 
 export interface SignupFormValues {
   Auth: {
@@ -31,14 +32,11 @@ export const useSignupForm = () => {
   const [active, setActive] = useState(0);
   const [birthval, setBirthval] = useState<Date | null>(null);
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (registrationSuccess) {
-      const redirectTimer = setTimeout(() => {
-        window.location.href = `${Paths.Login}`;
-      }, 5000);
-
-      return () => clearTimeout(redirectTimer);
+      // navigate(Paths.Login);
     }
   }, [registrationSuccess]);
 
@@ -133,12 +131,13 @@ export const useSignupForm = () => {
           });
         } else {
           notifications.show({
-            loading: true,
+            loading: false,
             title: 'Успешная регистрация',
             message:
               'Вы будете перенаправлены на страницу авторизации через 5 секунд',
             autoClose: false,
             withCloseButton: false,
+            icon: <IconCheck color='green' />,
           });
           setTimeout(() => {
             notifications.update({

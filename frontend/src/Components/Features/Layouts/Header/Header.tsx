@@ -28,7 +28,7 @@ import {
   IconChevronDown,
 } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
-import { Paths } from '@/Components/App/Routing';
+import { Paths, PathsDashboard } from '@/Components/App/Routing';
 import logo from '@/assets/brain.png';
 import classes from './Header.module.scss';
 import { ThemeToggler } from '../..';
@@ -104,7 +104,7 @@ export const Header: FC = () => {
           </Link>
 
           <Group h='100%' gap={0} visibleFrom='sm'>
-            <Link to={Paths.Home} className={classes.link}>
+            <Link to={PathsDashboard.Main} className={classes.link}>
               Home
             </Link>
             <HoverCard

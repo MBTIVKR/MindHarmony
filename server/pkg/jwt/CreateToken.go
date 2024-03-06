@@ -13,7 +13,7 @@ func CreateToken(user models.User) (string, error) {
 	claims := models.Claims{
 		ID: user.ID,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * 24 * 30).Unix(),
+			ExpiresAt: time.Now().Add(time.Hour * 24 * 7).Unix(),
 		},
 	}
 

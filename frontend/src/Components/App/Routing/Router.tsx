@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { Paths } from '.';
+import { Paths, PathsDashboard } from '.';
 import { Layout } from '@Components/Features/Layouts/Layout';
 import {
   NotFoundPage,
@@ -8,33 +8,48 @@ import {
   Example,
   Landing,
   Account,
+  Home,
 } from './Lazy';
 import Login from '@Pages/AuthPage/Login/Login';
+import { AuthGuard } from './Providers/AuthGuard';
 
-const Routing = () =>
-  createBrowserRouter([
+
+const Routing = () => {
+  return createBrowserRouter([
+    // {
+    //   element: <Layout showSidebar={true} />,
+    //   errorElement: <NotFoundPage />,
+    //   children: [        
+    //   ],
+    // },
     {
       //@ Routes with sIdebar and global Container
-      element: <Layout showSidebar={true} />,
+      path: Paths.Dashbord,
+      element: <Home/>,
       errorElement: <NotFoundPage />,
       children: [
         {
-          path: Paths.Home,
-          element: null,
+          path: PathsDashboard.Main,
+          element: <AuthGuard>
+                    <Example />
+                  </AuthGuard>
         },
         {
-          path: Paths.Account,
-          element: <Account />,
+          path: PathsDashboard.Account,
+          element: 
+            <AuthGuard>
+              <Account />
+            </AuthGuard>
         },
         {
-          path: Paths.Settings,
-          element: <Settings />,
+          path: PathsDashboard.Settings,
+          element: (
+            <AuthGuard>
+              <Settings />
+            </AuthGuard>
+          ),
         },
-        {
-          path: Paths.Example,
-          element: <Example />,
-        },
-      ],
+      ]
     },
     {
       //@ Routes without Sidebar and global Container
@@ -55,59 +70,6 @@ const Routing = () =>
       ],
     },
   ]);
+};
 
 export default Routing;
-
-//? With Auth Guard
-
-// const Routing = () =>
-//   createBrowserRouter([
-//     {
-//       //@ Routes with sIdebar and global Container
-//       element: <Layout showSidebar={true} />,
-//       errorElement: <NotFoundPage />,
-//       children: [
-//         {
-//           element: <AuthGuard />,
-//           children: [
-//             {
-//               path: Paths.Home,
-//               // element: <CalendarPage />,
-//             },
-//             {
-//               path: Paths.Account,
-//               // element: <AccauntPage />,
-//             },
-//             {
-//               path: Paths.Settings,
-//               element: <Settings />,
-//             },
-//             {
-//               path: Paths.Example,
-//               element: <Example />,
-//             },
-//           ],
-//         },
-//       ],
-//     },
-//     {
-//       //@ Routes without Sidebar and global Container
-//       element: <Layout showSidebar={false} noContainer={true}/>,
-//       children: [
-//         {
-//           path: Paths.Root,
-//           element: <Landing />,
-//         },
-//         {
-//           path: Paths.Signup,
-//           element: <SignUp />,
-//         },
-//         {
-//           path: Paths.Login,
-//           element: <Login />,
-//         },
-//       ],
-//     },
-//   ]);
-
-// export default Routing;

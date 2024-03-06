@@ -10,7 +10,7 @@ import {
   IconSettings,
   IconLogout,
 } from '@tabler/icons-react';
-import { Paths } from '@/Components/App/Routing';
+import { Paths, PathsDashboard } from '@/Components/App/Routing';
 import { Link } from '@Components/Shared';
 import logo from '@/assets/brain.png';
 import classes from './SideBar.module.scss';
@@ -46,13 +46,13 @@ export function NavbarLink({
 }
 
 const BarItems = [
-  { icon: IconHome2, label: 'Home', href: Paths.Home },
+  { icon: IconHome2, label: 'Home', href: PathsDashboard.Main },
   { icon: IconGauge, label: 'Dashboard', href: Paths.Test },
   { icon: IconDeviceDesktopAnalytics, label: 'Analytics', href: Paths.Test },
   { icon: IconCalendarStats, label: 'Releases', href: Paths.Test },
-  { icon: IconUser, label: 'Account', href: Paths.Account },
+  { icon: IconUser, label: 'Account', href: PathsDashboard.Account },
   { icon: IconFingerprint, label: 'Security', href: Paths.Test },
-  { icon: IconSettings, label: 'Settings', href: Paths.Settings },
+  { icon: IconSettings, label: 'Settings', href: PathsDashboard.Settings },
 ];
 
 export const NavbarMinimal: FC = () => {

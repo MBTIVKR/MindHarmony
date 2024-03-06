@@ -4,9 +4,13 @@ import (
 	"fmt"
 	"lps/cemetery/models"
 	"net/http"
+	"os"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
+	gjwt "github.com/golang-jwt/jwt"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -151,6 +155,52 @@ func isValidRole(role string) bool {
 	default:
 		return false
 	}
+}
+
+func generateToken(claims models.Claims) (string, error) {
+	token := gjwt.NewWithClaims(gjwt.SigningMethodHS256, claims)
+	return token.SignedString([]byte(os.Getenv("JWT_SECRET")))
+}
+
+// CheckHandler function
+func CheckHandler(c *gin.Context) {
+	// Get the token from the authorization header
+	tokenString := c.GetHeader("Authorization")
+	if tokenString == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Token not found"})
+		return
+	}
+
+	// Remove the "Bearer " prefix if present
+	tokenString = strings.ReplaceAll(tokenString, "Bearer ", "")
+
+	// Parse the token
+	token, err := jwt.ParseWithClaims(tokenString, &models.Claims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(os.Getenv("JWT_SECRET")), nil
+	})
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+		return
+	}
+
+	claims, ok := token.Claims.(*models.Claims)
+	if !ok || !token.Valid {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid or expired token"})
+		return
+	}
+
+	// Set user claims in the context
+	c.Set("user", *claims)
+
+	// Create a new JWT token (if needed)
+	// token, err := generateToken(*claims)
+	// if err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+	// 	return
+	// }
+
+	// Respond with the token
+	c.JSON(http.StatusOK, gin.H{"token": tokenString})
 }
 
 // @Summary Удаление пользователя по ID

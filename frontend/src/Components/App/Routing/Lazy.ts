@@ -64,6 +64,8 @@ export const NotFoundPage = Loadable(
 );
 //@ Example Pages
 export const Example = Loadable(lazy(() => import('@Pages/Example/Example')));
+//@ Home Pages
+export const Home = Loadable(lazy(() => import('@Pages/Home/Home')));
 
 //! Utils
 //@ NowYear util

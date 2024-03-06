@@ -8,7 +8,6 @@ import (
 	"lps/cemetery/pkg/jwt"
 	"lps/cemetery/pkg/vars"
 	"net/http"
-	"time"
 
 	"github.com/Avdushin/gogger/logger"
 
@@ -120,7 +119,7 @@ func (u *AuthHandler) Login(c *gin.Context) {
 	}
 
 	// Установка токена в Cookie
-	c.SetCookie("token", token, int((time.Hour * 24 * 30).Seconds()), "/", "", false, false)
+	// c.SetCookie("token", token, int((time.Hour * 24 * 30).Seconds()), "/", "", false, false)
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Успешная авторизация",

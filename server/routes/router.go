@@ -36,6 +36,7 @@ func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 		api.PUT("/users/update/:id", u.UpdateUser)
 		api.PUT("/users/update-role/:id", middlewares.AuthMiddleware(), middlewares.IsAdmin(), u.UpdateUserRole)
 		//? Auth
+		api.GET("/user/auth", handlers.CheckHandler)
 		api.POST("/forgot-password", u.ForgotPassword)
 		api.POST("/reset-password", u.ResetPassword)
 		api.POST("/signup", a.Register)

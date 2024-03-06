@@ -6,6 +6,9 @@ import { IconCheck } from '@tabler/icons-react';
 import { rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { API } from '@/Components/App/Routing/types/API';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/Store/store';
+import { LoginValues } from '@/Utils';
 
 export interface LoginFormValues {
   Auth: {
@@ -16,17 +19,13 @@ export interface LoginFormValues {
 
 export const useLoginForm = () => {
   const [active, setActive] = useState(0);
-  const [loginSuccess, setLoginSuccess] = useState(false);
+  // const [loginSuccess, setLoginSuccess] = useState(false);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (loginSuccess) {
-      const redirectTimer = setTimeout(() => {
-        window.location.href = `${Paths.Home}`;
-      }, 1000);
+  const setLogin = useAuth((state) => state.login);
+  const error = useAuth((state) => state.error);
+  // const loading = useAuth((state) => state.loading);
 
-      return () => clearTimeout(redirectTimer);
-    }
-  }, [loginSuccess]);
 
   const form = useForm<LoginFormValues>({
     initialValues: {
@@ -40,9 +39,7 @@ export const useLoginForm = () => {
       if (active === 0) {
         return {
           'Auth.email':
-            values.Auth.email.trim().length === 0
-              ? 'Введите Email'
-              : null,
+            values.Auth.email.trim().length === 0 ? 'Введите Email' : null,
           'Auth.password':
             values.Auth.password.length === 0 ? 'Введите пароль' : null,
         };
@@ -52,58 +49,39 @@ export const useLoginForm = () => {
     },
   });
 
-  const submitForm = () => {
-    fetch(API.Login, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(form.values),
-    })
-      .then((response) => {
-        if (response.status === 401) {
-          return response.json().then((data) => {
-            notifications.show({
-              title: 'Ошибка',
-              message: 'Неверные учетные данные! 🤔',
-              color: 'red',
-            });
-          });
-        } else if (!response.ok) {
-          notifications.show({
-            title: 'Ошибка',
-            message:
-              'Не удалось отправить форму. Пожалуйста, попробуйте ещё раз...',
-            color: 'red',
-          });
-        } else {
-          notifications.show({
-            icon: (
-              <IconCheck
-                style={{ width: rem(18), height: rem(18), color: 'green' }}
-              />
-            ),
-            title: 'Успешный вход',
-            message:
-              'Вы будете перенаправлены на вашу личную страницу через пару секунд',
-            loading: false,
-            withCloseButton: true,
-            color: 'teal',
-          });
-          setLoginSuccess(true);
-        }
-        {
-          APP_MODE == 'dev' && response.json();
-        }
-      })
-      .catch((error) => {
-        console.error('Error submitting form:', error);
+  const submitForm = async ({ Auth }: LoginFormValues) => {
+    console.log(Auth.email, Auth.password);
+    const user = await setLogin({ Auth });
+    if (user && !error) {
+      notifications.show({
+        icon: (
+          <IconCheck
+            style={{ width: rem(18), height: rem(18), color: 'green' }}
+          />
+        ),
+        title: 'Успешный вход',
+        message:
+          'Вы будете перенаправлены на вашу личную страницу через пару секунд',
+        loading: false,
+        withCloseButton: true,
+        color: 'teal',
       });
+      navigate(Paths.Home);
+      // {
+      //   APP_MODE == 'dev' && user.json();
+      // }
+    } else {
+      notifications.show({
+        title: 'Ошибка',
+        message: 'Неверные учетные данные! 🤔',
+        color: 'red',
+      });
+    }
   };
 
   return {
     active,
-    loginSuccess,
+    // loginSuccess,
     form,
     submitForm,
   };
