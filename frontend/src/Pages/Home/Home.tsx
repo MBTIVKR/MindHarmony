@@ -16,12 +16,9 @@ const Home = () => {
   return (
     <>
       <Sidebar />
-      home baly
-      <div className='outletick cyk'>
-        <Container>
-          <Outlet />
-        </Container>
-      </div>
+      <Container>
+        <Outlet />
+      </Container>
     </>
   );
 };

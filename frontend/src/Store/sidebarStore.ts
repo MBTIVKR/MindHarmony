@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';
 
 interface SidebarStore {
   activeTab: number | undefined;
@@ -6,6 +6,9 @@ interface SidebarStore {
 }
 
 export const useSidebarStore = create<SidebarStore>((set) => ({
-  activeTab: undefined,
-  setActiveTab: (index) => set({ activeTab: index }),
+  activeTab: parseInt(localStorage.getItem('activeTab') || '0', 10),
+  setActiveTab: (index) => {
+    localStorage.setItem('activeTab', index.toString());
+    set({ activeTab: index });
+  },
 }));

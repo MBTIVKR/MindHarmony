@@ -1,15 +1,17 @@
 import React, { useState, useEffect, FC } from 'react';
 import axios from 'axios';
-import { Title, Button, Stack, Text, Flex, Divider, rem } from '@mantine/core';
-import { API_URL } from '@/Share/Variables';
-import { API } from '@/Components/App/Routing/types/API';
-import { format, parseISO } from 'date-fns';
+import {
+  Title,
+  Button,
+  Stack,
+  Text,
+  Flex,
+  Divider,
+  LoadingOverlay,
+} from '@mantine/core';
 import EditingProfile from './Form/EditingProfile';
-import { useAuth } from '@/Store/store';
-import { notifications } from '@mantine/notifications';
-import { IconCheck } from '@tabler/icons-react';
+import { useAuth } from '@/Store';
 import { UserData } from '@/Utils';
-
 
 const Account: FC = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
@@ -20,7 +22,7 @@ const Account: FC = () => {
   const user = useAuth((state) => state.user);
 
   useEffect(() => {
-    getUserData(userID).then(data => console.log(data))
+    getUserData(userID).then((data) => console.log(data));
   }, []);
 
   const handleEditProfile = () => {
@@ -35,22 +37,6 @@ const Account: FC = () => {
     event.preventDefault();
 
     axios.defaults.headers.post['Content-Type'] = 'application/json';
-
-    //@ Валидация пароля
-    // if (editing) {
-    //   getUserData(userID)
-    //   // axios
-    //   //   .get(`${API_URL}${API.Users}/${localStorage.getItem('userId')}`)
-    //   //   .then((response) => {
-    //   //     setMessage(response.data.message);
-
-    //   //     // Обновляем данные пользователя в LocalStorage
-    //   //     // localStorage.setItem('userData', JSON.stringify(userData));
-    //   //   })
-    //   //   .catch((error) => {
-    //   //     setMessage(error.response.data?.message || error.message);
-    //   //   });
-    // }
   };
 
   return (
@@ -110,8 +96,8 @@ const Account: FC = () => {
               <Flex gap={5}>
                 <Text>Дата рождения:</Text>
                 <Text c='dimmed'>
-                  {/* {format(parseISO(user.personal?.birthday), 'dd.MM.yyyy')} */}
-                  DR 
+                  {/* TODO Format by dd.mm.yyy */}
+                  {user.personal?.birthday}
                 </Text>
               </Flex>
             </Stack>
@@ -145,7 +131,12 @@ const Account: FC = () => {
           </Stack>
         )
       ) : (
-        <p>Loading...</p>
+        // <p>Загрузка данных...</p>
+        <LoadingOverlay
+          visible={true}
+          zIndex={10000}
+          overlayProps={{ radius: 'lg', blur: 20 }}
+        />
       )}
     </>
   );

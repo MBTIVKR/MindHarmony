@@ -13,33 +13,35 @@ import {
 import Login from '@Pages/AuthPage/Login/Login';
 import { AuthGuard } from './Providers/AuthGuard';
 
-
 const Routing = () => {
   return createBrowserRouter([
     // {
     //   element: <Layout showSidebar={true} />,
     //   errorElement: <NotFoundPage />,
-    //   children: [        
+    //   children: [
     //   ],
     // },
     {
       //@ Routes with sIdebar and global Container
       path: Paths.Dashbord,
-      element: <Home/>,
+      element: <Home />,
       errorElement: <NotFoundPage />,
       children: [
         {
           path: PathsDashboard.Main,
-          element: <AuthGuard>
-                    <Example />
-                  </AuthGuard>
+          element: (
+            <AuthGuard>
+              <Example />
+            </AuthGuard>
+          ),
         },
         {
           path: PathsDashboard.Account,
-          element: 
+          element: (
             <AuthGuard>
               <Account />
             </AuthGuard>
+          ),
         },
         {
           path: PathsDashboard.Settings,
@@ -49,7 +51,7 @@ const Routing = () => {
             </AuthGuard>
           ),
         },
-      ]
+      ],
     },
     {
       //@ Routes without Sidebar and global Container

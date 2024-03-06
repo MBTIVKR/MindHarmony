@@ -17,10 +17,10 @@ import { type AuthErrorType } from '@/Utils/types/Errors/Auth/Errors';
 
 //TODO Fix interfaces and other
 export interface IAuthStore {
-  isAuth: boolean,
-  user: User,
-  error: string,
-  loading: boolean,
+  isAuth: boolean;
+  user: User;
+  error: string;
+  loading: boolean;
   register: ({
     Auth,
     Personal,
@@ -50,7 +50,6 @@ export const useAuth = create<IAuthStore>()(
             Personal,
             Location,
             position,
-            // role: 'user',
           });
           // console.log(data);
           localStorage.setItem('token', data.token);
@@ -103,6 +102,31 @@ export const useAuth = create<IAuthStore>()(
             const err: AxiosError<AuthErrorType> = error;
             set({ error: err.response?.data.message });
           }
+        }
+      },
+
+      updateUser: (newUserData: UserData) => {
+        set((state) => {
+          state.user = newUserData;
+        });
+      },
+
+      updateUserData: async (userId: string, newData: UserData) => {
+        try {
+          const response = await $host.put(
+            `api/users/update/${userId}`,
+            newData
+          );
+          const updatedUserData = response.data;
+
+          // Обновление данных пользователя в сторе
+          set((state) => {
+            state.user = updatedUserData;
+          });
+
+          return updatedUserData;
+        } catch (error) {
+          throw error;
         }
       },
 

@@ -30,24 +30,6 @@ const Login: FC = () => {
         password: form.values.Auth.password,
       },
     });
-
-    // // After successful form submission
-    // // Check if the cookie 'token' is set
-    // const token = document.cookie.replace(
-    //   /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/,
-    //   '$1'
-    // );
-
-    // if (token) {
-    //   // Parse and decode the token
-    //   const decodedToken = JSON.parse(atob(token.split('.')[1]));
-
-    //   // Extract the 'id' from the decoded token
-    //   const userId = decodedToken.id;
-
-    //   // Save userId to localStorage, replacing the existing value
-    //   localStorage.setItem('userId', userId);
-    // }
   };
 
   return (

@@ -36,7 +36,7 @@ export const useSignupForm = () => {
 
   useEffect(() => {
     if (registrationSuccess) {
-      // navigate(Paths.Login);
+      navigate(Paths.Login);
     }
   }, [registrationSuccess]);
 

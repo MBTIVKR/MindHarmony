@@ -22,6 +22,7 @@ import { notifications } from '@mantine/notifications';
 import { IconX } from '@tabler/icons-react';
 import { IMaskInput } from 'react-imask';
 import { UserData } from '@/Utils';
+import { useAuth } from '@/Store';
 
 interface EditingProfileProps {
   userData: UserData;
@@ -50,6 +51,7 @@ const EditingProfile: FC<EditingProfileProps> = ({
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true);
+  const user = useAuth((state) => state.user);
 
   const handleSave = () => {
     const userId = localStorage.getItem('userId');

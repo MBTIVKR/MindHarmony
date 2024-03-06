@@ -19,7 +19,6 @@ type UserHandler struct {
 	DB *gorm.DB
 }
 
-// Import gorm.Model directly
 var _ gorm.Model
 
 // @Summary Обновление данных пользователя
@@ -157,12 +156,13 @@ func isValidRole(role string) bool {
 	}
 }
 
+// @ Generate JWT Token for the CheckHandler
 func generateToken(claims models.Claims) (string, error) {
 	token := gjwt.NewWithClaims(gjwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(os.Getenv("JWT_SECRET")))
 }
 
-// CheckHandler function
+// @ CheckHandler function
 func CheckHandler(c *gin.Context) {
 	// Get the token from the authorization header
 	tokenString := c.GetHeader("Authorization")
@@ -191,13 +191,6 @@ func CheckHandler(c *gin.Context) {
 
 	// Set user claims in the context
 	c.Set("user", *claims)
-
-	// Create a new JWT token (if needed)
-	// token, err := generateToken(*claims)
-	// if err != nil {
-	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
-	// 	return
-	// }
 
 	// Respond with the token
 	c.JSON(http.StatusOK, gin.H{"token": tokenString})

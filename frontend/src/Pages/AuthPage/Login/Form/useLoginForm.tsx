@@ -1,31 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useForm } from '@mantine/form';
-import { Paths } from '@Components/App/Routing';
+import { PathsDashboard } from '@Components/App/Routing';
 import { APP_MODE } from '@/Share/Variables';
 import { IconCheck } from '@tabler/icons-react';
 import { rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { API } from '@/Components/App/Routing/types/API';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/Store/store';
-import { LoginValues } from '@/Utils';
-
-export interface LoginFormValues {
-  Auth: {
-    email: string;
-    password: string;
-  };
-}
+import { useAuth } from '@/Store';
+import { LoginFormValues } from '@/Utils';
 
 export const useLoginForm = () => {
   const [active, setActive] = useState(0);
-  // const [loginSuccess, setLoginSuccess] = useState(false);
   const navigate = useNavigate();
-
   const setLogin = useAuth((state) => state.login);
   const error = useAuth((state) => state.error);
-  // const loading = useAuth((state) => state.loading);
-
 
   const form = useForm<LoginFormValues>({
     initialValues: {
@@ -52,7 +40,7 @@ export const useLoginForm = () => {
   const submitForm = async ({ Auth }: LoginFormValues) => {
     console.log(Auth.email, Auth.password);
     const user = await setLogin({ Auth });
-    if (user && !error) {
+    if (user && !error && APP_MODE !== 'dev') {
       notifications.show({
         icon: (
           <IconCheck
@@ -66,10 +54,10 @@ export const useLoginForm = () => {
         withCloseButton: true,
         color: 'teal',
       });
-      navigate(Paths.Home);
-      // {
-      //   APP_MODE == 'dev' && user.json();
-      // }
+      navigate(PathsDashboard.Main);
+    } else if (user && !error && APP_MODE == 'dev') {
+      user;
+      return;
     } else {
       notifications.show({
         title: 'Ошибка',
@@ -81,7 +69,6 @@ export const useLoginForm = () => {
 
   return {
     active,
-    // loginSuccess,
     form,
     submitForm,
   };

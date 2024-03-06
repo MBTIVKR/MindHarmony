@@ -1,69 +1,24 @@
-import { FC, useState } from 'react';
-import { Center, Tooltip, UnstyledButton, Stack, rem } from '@mantine/core';
-import {
-  IconHome2,
-  IconGauge,
-  IconDeviceDesktopAnalytics,
-  IconFingerprint,
-  IconCalendarStats,
-  IconUser,
-  IconSettings,
-  IconLogout,
-} from '@tabler/icons-react';
-import { Paths, PathsDashboard } from '@/Components/App/Routing';
+import { FC } from 'react';
+import { Center, Stack } from '@mantine/core';
+import { IconLogout } from '@tabler/icons-react';
+import { Paths } from '@/Components/App/Routing';
 import { Link } from '@Components/Shared';
-import logo from '@/assets/brain.png';
+import { useSidebarStore } from '@/Store';
+import { BarItems } from './BarItems';
+import { NavbarLink } from './NavbarLink';
 import classes from './SideBar.module.scss';
-
-interface NavbarLinkProps {
-  icon: typeof IconHome2;
-  label: string;
-  href: string;
-  active?: boolean;
-  onClick?(): void;
-}
-
-export function NavbarLink({
-  icon: Icon,
-  label,
-  active,
-  onClick,
-  href,
-}: NavbarLinkProps) {
-  return (
-    <Tooltip label={label} position='right' transitionProps={{ duration: 0 }}>
-      <UnstyledButton
-        onClick={onClick}
-        className={classes.link}
-        data-active={active || undefined}
-      >
-        <Link to={href} style={{ textDecoration: 'none', color: 'inherit' }}>
-          <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
-        </Link>
-      </UnstyledButton>
-    </Tooltip>
-  );
-}
-
-const BarItems = [
-  { icon: IconHome2, label: 'Home', href: PathsDashboard.Main },
-  { icon: IconGauge, label: 'Dashboard', href: Paths.Test },
-  { icon: IconDeviceDesktopAnalytics, label: 'Analytics', href: Paths.Test },
-  { icon: IconCalendarStats, label: 'Releases', href: Paths.Test },
-  { icon: IconUser, label: 'Account', href: PathsDashboard.Account },
-  { icon: IconFingerprint, label: 'Security', href: Paths.Test },
-  { icon: IconSettings, label: 'Settings', href: PathsDashboard.Settings },
-];
+import logo from '@/assets/brain.png';
 
 export const NavbarMinimal: FC = () => {
-  const [active, setActive] = useState(0);
+  const activeTab = useSidebarStore((state) => state.activeTab);
+  const setActiveTab = useSidebarStore((state) => state.setActiveTab);
 
   const links = BarItems.map((link, index) => (
     <NavbarLink
       {...link}
       key={link.label}
-      active={index === active}
-      onClick={() => setActive(index)}
+      active={index === activeTab}
+      onClick={() => setActiveTab(index)}
     />
   ));
 
@@ -71,8 +26,7 @@ export const NavbarMinimal: FC = () => {
     <nav className={classes.navbar}>
       <Center>
         <Link to={Paths.Root}>
-          {/* <MantineLogo type='mark' size={30} /> */}
-          <img src={logo} width={50}/>
+          <img src={logo} width={50} />
         </Link>
       </Center>
 
