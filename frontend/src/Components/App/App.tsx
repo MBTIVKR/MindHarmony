@@ -6,16 +6,14 @@ import '@mantine/carousel/styles.css';
 import Routing from './Routing/Router';
 import { useEffect } from 'react';
 import { useAuth } from '@/Store';
-import { APP_MODE } from '@/Share/Variables';
+import { dev } from '@/Utils';
 
 function App() {
   const chaekAuth = useAuth((state) => state.chaekAuth);
 
   useEffect(() => {
     chaekAuth().then((data) => {
-      if (APP_MODE == 'dev') {
-        console.log(data);
-      }
+        dev.log(data);
     });
   }, []);
   return <RouterProvider router={Routing()} />;

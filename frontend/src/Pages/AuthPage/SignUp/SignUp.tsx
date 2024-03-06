@@ -18,7 +18,7 @@ import {
 } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
 import { IconInfoCircle } from '@tabler/icons-react';
-import { APP, APP_MODE } from '@/Share/Variables';
+import { APP } from '@/Share/Variables';
 import { optionsFilter } from './utils/select';
 import { countryOptions } from './utils/countryOptions';
 import { IMaskInput } from 'react-imask';
@@ -26,6 +26,7 @@ import { useSignupForm } from './Form/useSignupForm';
 import { Link } from 'react-router-dom';
 import { Paths } from '@/Components/App/Routing';
 import { Header } from '@/Components/Features/Layouts';
+import { DevMode } from '@/Utils';
 
 const Signup: FC = () => {
   const { active, birthval, form, nextStep, prevStep, submitForm } =
@@ -63,7 +64,7 @@ const Signup: FC = () => {
     <>
       <Header />
       <Container>
-        <Stack pt={30} align='center'>
+        <Stack pt={60} align='center'>
           <Title>Регистрация</Title>
         </Stack>
         <Stepper active={active} pt={50}>
@@ -159,7 +160,7 @@ const Signup: FC = () => {
           </Stepper.Step>
           <Stepper.Completed>
             {SuccesSugnUP()}
-            {APP_MODE == 'dev' && DevSuccesSugnUP()}
+            {DevMode && DevSuccesSugnUP()}
           </Stepper.Completed>
         </Stepper>
         <Group justify='flex-end' mt='xl'>

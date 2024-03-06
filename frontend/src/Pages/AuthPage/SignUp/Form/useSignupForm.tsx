@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useForm } from '@mantine/form';
 import { Paths } from '@Components/App/Routing';
-import { APP_MODE } from '@/Share/Variables';
 import { IconCheck } from '@tabler/icons-react';
 import { rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { API } from '@/Components/App/Routing/types/API';
 import { useNavigate } from 'react-router-dom';
+import { DevMode } from '@/Utils';
 
 export interface SignupFormValues {
   Auth: {
@@ -153,7 +153,7 @@ export const useSignupForm = () => {
           setRegistrationSuccess(true);
         }
         {
-          APP_MODE == 'dev' && response.json();
+          DevMode && response.json();
         }
       })
       .catch((error) => {

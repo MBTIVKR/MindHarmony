@@ -13,6 +13,12 @@ type ErrorResponse struct {
 
 // Определение структуры для запроса
 type AuthRequest struct {
-	Email    string `json:"email" binding:"required"`
-	Password string `json:"password" binding:"required"`
+	Auth `json:"auth"`
 }
+
+type (
+	Auth struct {
+		Email    string `json:"email" binding:"required"`
+		Password string `json:"password" binding:"required"`
+	}
+)

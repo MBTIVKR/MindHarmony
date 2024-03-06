@@ -3,7 +3,7 @@ import { useAuth } from '@/Store';
 import { Loader } from '@mantine/core';
 import { Paths } from '..';
 import { ReactElement } from 'react';
-import { APP_MODE } from '@/Share/Variables';
+import { dev } from '@/Utils';
 
 export type TGuardProps = {
   children: ReactElement;
@@ -13,9 +13,7 @@ const AuthGuard = ({ children }: TGuardProps) => {
   const isAuth = useAuth((state) => state.isAuth);
   const isLoading = useAuth((state) => state.loading);
 
-  if (APP_MODE == 'dev') {
-    console.log('AuthGuard: ' + isAuth);
-  }
+  dev.log('AuthGuard: ' + isAuth);
 
   if (isLoading) {
     return (

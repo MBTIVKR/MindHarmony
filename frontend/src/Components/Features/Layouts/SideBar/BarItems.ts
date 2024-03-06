@@ -11,7 +11,7 @@ import {
 
 export const BarItems = [
   { icon: IconHome2, label: 'Home', href: PathsDashboard.Main },
-  { icon: IconGauge, label: 'Dashboard', href: Paths.Test },
+  { icon: IconGauge, label: 'Dashboard', href: Paths.NotFound },
   { icon: IconDeviceDesktopAnalytics, label: 'Analytics', href: Paths.Test },
   { icon: IconCalendarStats, label: 'Releases', href: Paths.Test },
   { icon: IconUser, label: 'Account', href: PathsDashboard.Account },

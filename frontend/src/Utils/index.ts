@@ -1,3 +1,5 @@
+export * from './DevTools/DevLog/Devlog';
+
 export type {
   UserData,
   SignupFormValues,

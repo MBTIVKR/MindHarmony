@@ -7,7 +7,7 @@ import { rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/Store';
-import { LoginFormValues } from '@/Utils';
+import { DevMode, LoginFormValues } from '@/Utils';
 
 export const useLoginForm = () => {
   const [active, setActive] = useState(0);
@@ -38,7 +38,6 @@ export const useLoginForm = () => {
   });
 
   const submitForm = async ({ Auth }: LoginFormValues) => {
-    console.log(Auth.email, Auth.password);
     const user = await setLogin({ Auth });
     if (user && !error && APP_MODE !== 'dev') {
       notifications.show({
@@ -55,7 +54,8 @@ export const useLoginForm = () => {
         color: 'teal',
       });
       navigate(PathsDashboard.Main);
-    } else if (user && !error && APP_MODE == 'dev') {
+    } else if (user && !error && DevMode) {
+      console.log(Auth.email, Auth.password);
       user;
       return;
     } else {

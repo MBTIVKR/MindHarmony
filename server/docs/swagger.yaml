@@ -136,7 +136,7 @@ definitions:
       updatedAt:
         type: string
     type: object
-  swagger.AuthRequest:
+  swagger.Auth:
     properties:
       email:
         type: string
@@ -145,6 +145,11 @@ definitions:
     required:
     - email
     - password
+    type: object
+  swagger.AuthRequest:
+    properties:
+      auth:
+        $ref: '#/definitions/swagger.Auth'
     type: object
   swagger.SuccessResponse:
     properties:

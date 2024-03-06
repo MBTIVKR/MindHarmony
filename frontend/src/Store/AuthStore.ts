@@ -4,13 +4,12 @@ import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { jwtDecode } from 'jwt-decode';
 import { AxiosError, isAxiosError } from 'axios';
-// import { User } from '@/utils/Types/User';
 import {
   SignupFormValues,
   LoginFormValues,
-  LoginValues,
   UserData as User,
   UserData,
+  dev,
 } from '@/Utils';
 import { type AuthErrorType } from '@/Utils/types/Errors/Auth/Errors';
 // import Cookies from 'universal-cookie';
@@ -40,7 +39,7 @@ export const useAuth = create<IAuthStore>()(
       user: {} as User,
       error: '',
       loading: false,
-
+      
       register: async ({ Auth, Personal, Location, position }) => {
         // const cookie = new Cookies();
         try {
@@ -70,13 +69,13 @@ export const useAuth = create<IAuthStore>()(
 
       login: async ({ Auth }) => {
         // const cookie = new Cookies();
-        console.log(Auth.email, Auth.password);
+        dev.log(`Auth email: ${Auth.email} Auth password: ${Auth.password}`);
         try {
           set({ loading: true });
           const { data } = await $host.post('api/login', {
             Auth,
           });
-          console.log(data);
+          dev.log(data);
           localStorage.setItem('token', data.token);
           // cookie.set('token', data.token);
           const user = jwtDecode<User>(data.token);
@@ -150,7 +149,7 @@ export const useAuth = create<IAuthStore>()(
           setTimeout(() => set({ error: '' }), 1000);
         }
       },
-
+      
       loguot: async () => {
         // const cookie = new Cookies();
         set({ loading: true });

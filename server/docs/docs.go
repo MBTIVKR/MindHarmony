@@ -762,7 +762,7 @@ const docTemplate = `{
                 }
             }
         },
-        "swagger.AuthRequest": {
+        "swagger.Auth": {
             "type": "object",
             "required": [
                 "email",
@@ -774,6 +774,14 @@ const docTemplate = `{
                 },
                 "password": {
                     "type": "string"
+                }
+            }
+        },
+        "swagger.AuthRequest": {
+            "type": "object",
+            "properties": {
+                "auth": {
+                    "$ref": "#/definitions/swagger.Auth"
                 }
             }
         },

@@ -1,10 +1,10 @@
 import { Paths, PathsDashboard } from '@/Components/App/Routing';
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { NavbarMinimal as Sidebar } from '@/Components/Features/Layouts';
 import { Container } from '@mantine/core';
 
-const Home = () => {
+const Home: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {

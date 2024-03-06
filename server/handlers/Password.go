@@ -5,6 +5,7 @@ import (
 	"lps/cemetery/models"
 	"lps/cemetery/pkg/email"
 	"lps/cemetery/pkg/jwt"
+	"lps/cemetery/pkg/vars"
 	"net/http"
 	"time"
 
@@ -64,7 +65,7 @@ func (u *UserHandler) ForgotPassword(c *gin.Context) {
 		return
 	}
 
-	fmt.Println("Password reset request created:", resetRequest)
+	// fmt.Println("Password reset request created:", resetRequest)
 
 	// Генерация URL для сброса пароля
 	resetURL := fmt.Sprintf("http://localhost:8080/reset-password?token=%s", resetRequest.Token)
@@ -141,35 +142,76 @@ func (u *UserHandler) ResetPassword(c *gin.Context) {
 func sendPasswordResetEmail(to, resetURL string) error {
 	subject := "Восстановление пароля"
 	body := fmt.Sprintf(`
-        <html>
-            <head>
-                <style>
-                    body {
-                        font-family: Roboto, sans-serif;
-                        background-color: #f4f4f4;
-                        color: #333;
-                    }
-                    .container {
-                        max-width: 600px;
-                        margin: 0 auto;
-                        padding: 20px;
-                        background-color: #fff;
-                        border-radius: 5px;
-                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                    }
-                    .link {
-                        color: #007BFF;
-                        text-decoration: none;
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                    <p>Для восстановления пароля перейдите по 
-                        <a href='%s' class="link">ссылке</a>.</p>
-                </div>
-            </body>
-        </html>`, resetURL)
+	<html>
+	<head>
+		<style>
+			body {
+				font-family: 'Roboto', sans-serif;
+				background-color: #f4f4f4;
+				color: #333;
+				margin: 0;
+				padding: 0;
+			}
+			a {
+				color: #ffffff;
+				text-decoration: none;
+			}
+			.container {
+				max-width: 600px;
+				margin: 0 auto;
+				padding: 20px;
+				background-color: #fff;
+				border-radius: 5px;
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			}
+			.header {
+				background-color: #007BFF;
+				color: #fff;
+				text-align: center;
+				padding: 10px;
+				border-radius: 5px 5px 0 0;
+			}
+			.content {
+				padding: 20px;
+			}
+			.link {
+				color: #007BFF;
+				text-decoration: none;
+			}
+			.button {
+				display: flex;
+				justify-content: center;
+				width: 110px;
+				margin: 0px auto;
+				padding: 10px 20px;
+				background-color: #007BFF;
+				color: #ffffff !important;
+				text-decoration: none;
+				border-radius: 5px;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="header">
+				<h2>%s</h2>
+				<hr />
+				<p>Восстановление пароля</p>
+			</div>
+			<div class="content">
+				<p>Для восстановления пароля перейдите по 
+					<a href='%s' class="link">ссылке</a>.</p>
+				<p>Если вы не запрашивали сброс пароля, проигнорируйте это сообщение.</p>
+				<p>С уважением,<br>Команда %s</p>
+				<a href='%s' class="button">
+					<buton class="button" align="center">Сбросить пароль</buton>
+				</a>
+			</div>
+		</div>
+	</body>
+	</html>
+	`, vars.APP_NAME, resetURL, vars.APP_NAME, resetURL)
 
 	return email.SendEmail(to, subject, body)
 }
