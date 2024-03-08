@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import {
   Container,
   Title,
@@ -25,9 +25,10 @@ import { UserData } from '@/Utils';
 import { useAuth } from '@/Store';
 
 interface EditingProfileProps {
-  userData: UserData;
-  setUserData: React.Dispatch<React.SetStateAction<UserData | null>>;
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  // userData: UserData;
+  // setUserData: React.Dispatch<React.SetStateAction<UserData | null>>;
+  // onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  user: UserData;
   onCancel: () => void;
   message: string;
 }
@@ -42,19 +43,34 @@ const PasswordsCheck = () => {
 };
 
 const EditingProfile: FC<EditingProfileProps> = ({
-  userData,
-  setUserData,
-  onSubmit,
+  user,
   onCancel,
   message,
 }) => {
+
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true);
-  const user = useAuth((state) => state.user);
+  const [newUserData, setNewUserData] = useState<UserData>({} as UserData);
+  
+  // const user = useAuth((state) => state.user);
+  // const userID = useAuth((state) => state.user.id);
+  const updateUserData = useAuth((state) => state.updateUserData);
+  
+  const apiUrl = `${API_URL}${API.UserUpdate}/${user.id}`;
+
+
+  
+  useEffect(() => {
+      setNewUserData(user)
+      console.log('newUserData: ', newUserData);
+      console.log('user: ', user);
+      console.log('userID: ', user.id);
+
+  }, []);
+  
 
   const handleSave = () => {
-    const userId = localStorage.getItem('userId');
 
     if (newPassword !== confirmPassword) {
       setPasswordsMatch(false);
@@ -62,53 +78,8 @@ const EditingProfile: FC<EditingProfileProps> = ({
       return;
     }
 
-    if (userId) {
-      const apiUrl = `${API_URL}${API.UserUpdate}/${userId}`;
+    updateUserData(user.id, newUserData)
 
-      const requestData = {
-        ...userData,
-        auth: {
-          ...userData.auth,
-          password: newPassword ? newPassword : userData.auth.password,
-        },
-      };
-
-      fetch(apiUrl, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-      })
-        .then((response) => response.json())
-        .then(() => {
-          if (newPassword !== confirmPassword) {
-            setPasswordsMatch(false);
-            return;
-          }
-          notifications.show({
-            title: 'Обновление данных профиля',
-            message: 'Ваши данные профиля успешно обновлены',
-            autoClose: true,
-            withCloseButton: true,
-            color: 'green',
-            icon: <CheckIcon color='green' />,
-          });
-          onCancel();
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-          notifications.show({
-            title: 'Ошибка',
-            message:
-              'Не удалось отправить форму. Пожалуйста, попробуйте ещё раз...',
-            color: 'red',
-            icon: <IconX color='red' />,
-          });
-        });
-    } else {
-      console.error('User ID not found in localStorage');
-    }
   };
 
   return (
@@ -121,19 +92,13 @@ const EditingProfile: FC<EditingProfileProps> = ({
         </Title>
         <Divider mb={2} />
         <div className='user-profile profile_container'>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              onSubmit(e);
-              handleSave();
-            }}
-          >
+          <form onSubmit={handleSave}>
             <Flex direction='column' gap='xs'>
               <TextInput
                 label='Имя пользователя'
-                value={userData.auth.username}
+                value={newUserData?.auth?.username}
                 onChange={(e) =>
-                  setUserData((prev: any) => ({
+                  setNewUserData((prev: any) => ({
                     ...prev,
                     auth: { ...prev.auth, username: e.target.value },
                   }))
@@ -142,9 +107,9 @@ const EditingProfile: FC<EditingProfileProps> = ({
               />
               <TextInput
                 label='Email'
-                value={userData.auth.email}
+                value={newUserData?.auth?.email}
                 onChange={(e) =>
-                  setUserData((prev: any) => ({
+                  setNewUserData((prev: any) => ({
                     ...prev,
                     auth: { ...prev.auth, email: e.target.value },
                   }))
@@ -157,19 +122,19 @@ const EditingProfile: FC<EditingProfileProps> = ({
                 component={IMaskInput}
                 //@ts-ignore
                 mask='+7 (000) 000-00-00'
-                value={userData.personal.phone}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setUserData(
-                    (prev: UserData | null) =>
-                      ({
-                        ...prev,
-                        personal: {
-                          ...prev?.personal,
-                          phone: e.target.value,
-                        },
-                      } as UserData | null)
-                  )
-                }
+                value={newUserData?.personal?.phone}
+                // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                //   setNewUserData(
+                //     (prev: UserData | null) =>
+                //       ({
+                //         ...prev,
+                //         personal: {
+                //           ...prev?.personal,
+                //           phone: e.target.value,
+                //         },
+                //       } as UserData | null)
+                //   )
+                // }
               />
 
               <Box className='passwords-box'>
@@ -207,9 +172,9 @@ const EditingProfile: FC<EditingProfileProps> = ({
             <Stack>
               <TextInput
                 label='Имя'
-                value={userData.personal.name}
+                value={newUserData?.personal?.name}
                 onChange={(e) =>
-                  setUserData((prev: any) => ({
+                  setNewUserData((prev: any) => ({
                     ...prev,
                     personal: { ...prev.personal, name: e.target.value },
                   }))
@@ -217,9 +182,9 @@ const EditingProfile: FC<EditingProfileProps> = ({
               />
               <TextInput
                 label='Фамилия'
-                value={userData.personal.surname}
+                value={newUserData?.personal?.surname}
                 onChange={(e) =>
-                  setUserData((prev: any) => ({
+                  setNewUserData((prev: any) => ({
                     ...prev,
                     personal: { ...prev.personal, surname: e.target.value },
                   }))
@@ -227,9 +192,9 @@ const EditingProfile: FC<EditingProfileProps> = ({
               />
               <TextInput
                 label='Отчество'
-                value={userData.personal.patronymic}
+                value={newUserData?.personal?.patronymic}
                 onChange={(e) =>
-                  setUserData((prev: any) => ({
+                  setNewUserData((prev: any) => ({
                     ...prev,
                     personal: { ...prev.personal, patronymic: e.target.value },
                   }))
@@ -237,9 +202,9 @@ const EditingProfile: FC<EditingProfileProps> = ({
               />
               <TextInput
                 label='Дата рождения'
-                value={userData.personal.birthday}
+                value={newUserData?.personal?.birthday}
                 onChange={(e) =>
-                  setUserData((prev: any) => ({
+                  setNewUserData((prev: any) => ({
                     ...prev,
                     personal: { ...prev.personal, birthday: e.target.value },
                   }))
@@ -254,9 +219,9 @@ const EditingProfile: FC<EditingProfileProps> = ({
             <Stack>
               <TextInput
                 label='Должность'
-                value={userData.position}
+                value={newUserData?.position}
                 onChange={(e) =>
-                  setUserData((prev: any) => ({
+                  setNewUserData((prev: any) => ({
                     ...prev,
                     position: e.target.value,
                   }))
@@ -268,7 +233,7 @@ const EditingProfile: FC<EditingProfileProps> = ({
                 label='Страна'
                 placeholder='Страна'
                 data={countryOptions}
-                value={userData.location.country}
+                value={newUserData?.location?.country}
                 filter={optionsFilter}
                 searchable
                 onChange={(selectedOption) => {
@@ -276,7 +241,7 @@ const EditingProfile: FC<EditingProfileProps> = ({
                     typeof selectedOption === 'string' ||
                     selectedOption === null
                   ) {
-                    setUserData((prev: any) => ({
+                    setNewUserData((prev: any) => ({
                       ...prev,
                       location: {
                         ...prev.location,
@@ -288,9 +253,9 @@ const EditingProfile: FC<EditingProfileProps> = ({
               />
               <TextInput
                 label='Город'
-                value={userData.location.city}
+                value={newUserData?.location?.city}
                 onChange={(e) =>
-                  setUserData((prev: any) => ({
+                  setNewUserData((prev: any) => ({
                     ...prev,
                     location: { ...prev.location, city: e.target.value },
                   }))

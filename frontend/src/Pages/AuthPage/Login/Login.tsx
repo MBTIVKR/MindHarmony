@@ -13,7 +13,6 @@ import { useLoginForm } from './Form/useLoginForm';
 import { Paths } from '@Components/App/Routing/types/Paths';
 import { Link } from '@/Components/Shared';
 import { Header } from '@/Components/Features/Layouts';
-import { APP_MODE } from '@/Share/Variables';
 import { DevMode } from '@/Utils';
 
 const Login: FC = () => {

@@ -11,10 +11,10 @@ import {
 } from '@mantine/core';
 import EditingProfile from './Form/EditingProfile';
 import { useAuth } from '@/Store';
-import { UserData } from '@/Utils';
+// import { UserData } from '@/Utils';
 
 const Account: FC = () => {
-  const [userData, setUserData] = useState<UserData | null>(null);
+  // const [userData, setUserData] = useState<UserData | null>(null);
   const [editing, setEditing] = useState(false);
   const [message, setMessage] = useState('');
   const userID = useAuth((state) => state.user.id);
@@ -22,7 +22,9 @@ const Account: FC = () => {
   const user = useAuth((state) => state.user);
 
   useEffect(() => {
-    getUserData(userID).then((data) => console.log(data));
+    getUserData(userID)
+    // console.log(user)
+    // console.log(userID)
   }, []);
 
   const handleEditProfile = () => {
@@ -33,20 +35,13 @@ const Account: FC = () => {
     setEditing(false);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    axios.defaults.headers.post['Content-Type'] = 'application/json';
-  };
 
   return (
     <>
       {user ? (
         editing ? (
           <EditingProfile
-            userData={user}
-            setUserData={setUserData}
-            onSubmit={handleSubmit}
+            user={user}
             onCancel={handleViewProfile}
             message={message}
           />
@@ -143,3 +138,39 @@ const Account: FC = () => {
 };
 
 export default Account;
+
+
+
+
+// fetch(apiUrl, {
+//   method: 'POST',
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+// })
+//   .then((response) => response.json())
+//   .then(() => {
+//     if (newPassword !== confirmPassword) {
+//       setPasswordsMatch(false);
+//       return;
+//     }
+//     notifications.show({
+//       title: 'Обновление данных профиля',
+//       message: 'Ваши данные профиля успешно обновлены',
+//       autoClose: true,
+//       withCloseButton: true,
+//       color: 'green',
+//       icon: <CheckIcon color='green' />,
+//     });
+//     onCancel();
+//   })
+//   .catch((error) => {
+//     console.error('Error:', error);
+//     notifications.show({
+//       title: 'Ошибка',
+//       message:
+//         'Не удалось отправить форму. Пожалуйста, попробуйте ещё раз...',
+//       color: 'red',
+//       icon: <IconX color='red' />,
+//     });
+//   });
