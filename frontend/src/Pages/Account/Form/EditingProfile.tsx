@@ -13,9 +13,6 @@ import {
   Select,
   CheckIcon,
 } from '@mantine/core';
-
-import { API_URL } from '@/Share/Variables';
-import { API } from '@/Components/App/Routing/types/API';
 import { countryOptions } from '@/Pages/AuthPage/SignUp/utils/countryOptions';
 import { optionsFilter } from '@/Pages/AuthPage/SignUp/utils/select';
 import { notifications } from '@mantine/notifications';
@@ -47,39 +44,32 @@ const EditingProfile: FC<EditingProfileProps> = ({
   onCancel,
   message,
 }) => {
-
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true);
   const [newUserData, setNewUserData] = useState<UserData>({} as UserData);
-  
+
   // const user = useAuth((state) => state.user);
   // const userID = useAuth((state) => state.user.id);
   const updateUserData = useAuth((state) => state.updateUserData);
-  
-  const apiUrl = `${API_URL}${API.UserUpdate}/${user.id}`;
 
+  // const apiUrl = `${API_URL}${API.UserUpdate}/${user.id}`;
 
-  
   useEffect(() => {
-      setNewUserData(user)
-      console.log('newUserData: ', newUserData);
-      console.log('user: ', user);
-      console.log('userID: ', user.id);
-
+    setNewUserData(user);
+    console.log('newUserData: ', newUserData);
+    console.log('user: ', user);
+    console.log('userID: ', user.id);
   }, []);
-  
 
   const handleSave = () => {
-
     if (newPassword !== confirmPassword) {
       setPasswordsMatch(false);
       PasswordsCheck();
       return;
     }
 
-    updateUserData(user.id, newUserData)
-
+    updateUserData(user.id, newUserData);
   };
 
   return (
@@ -123,20 +113,13 @@ const EditingProfile: FC<EditingProfileProps> = ({
                 //@ts-ignore
                 mask='+7 (000) 000-00-00'
                 value={newUserData?.personal?.phone}
-                // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                //   setNewUserData(
-                //     (prev: UserData | null) =>
-                //       ({
-                //         ...prev,
-                //         personal: {
-                //           ...prev?.personal,
-                //           phone: e.target.value,
-                //         },
-                //       } as UserData | null)
-                //   )
-                // }
+                onChange={(e) =>
+                  setNewUserData((prev: any) => ({
+                    ...prev,
+                    personal: { ...prev.personal, phone: e.target.value },
+                  }))
+                }
               />
-
               <Box className='passwords-box'>
                 <PasswordInput
                   label='Новый пароль'
@@ -227,7 +210,6 @@ const EditingProfile: FC<EditingProfileProps> = ({
                   }))
                 }
               />
-
               <Select
                 mt='md'
                 label='Страна'
