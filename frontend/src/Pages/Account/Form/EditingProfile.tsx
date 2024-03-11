@@ -11,7 +11,6 @@ import {
   Divider,
   Stack,
   Select,
-  CheckIcon,
 } from '@mantine/core';
 import { countryOptions } from '@/Pages/AuthPage/SignUp/utils/countryOptions';
 import { optionsFilter } from '@/Pages/AuthPage/SignUp/utils/select';

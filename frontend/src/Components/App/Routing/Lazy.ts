@@ -70,7 +70,3 @@ export const Home = Loadable(lazy(() => import('@Pages/Home/Home')));
 //! Utils
 //@ NowYear util
 export const NowYear = Loadable(lazy(() => import('@/Utils/NowYear/NowYear')));
-
-// export const AccauntPage = Loadable(
-//   lazy(() => import('@/Pages/AccountPage/AccountPage'))
-// );import { Footer } from '@/Layouts';

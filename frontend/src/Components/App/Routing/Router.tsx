@@ -15,18 +15,12 @@ import { AuthGuard } from './Providers/AuthGuard';
 
 const Routing = () => {
   return createBrowserRouter([
-    // {
-    //   element: <Layout showSidebar={true} />,
-    //   errorElement: <NotFoundPage />,
-    //   children: [
-    //   ],
-    // },
     {
       //@ Routes with sIdebar and global Container
       path: Paths.Dashbord,
       element: <Home />,
-      errorElement: <NotFoundPage />,
       children: [
+        
         {
           path: PathsDashboard.Main,
           element: (
@@ -56,6 +50,7 @@ const Routing = () => {
     {
       //@ Routes without Sidebar and global Container
       element: <Layout showSidebar={false} noContainer={true} />,
+      errorElement: <NotFoundPage />,
       children: [
         {
           path: Paths.Root,

@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Group, Stack, Text, Title } from '@mantine/core';
+import { Alert, Button, Group, Stack, Text, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconInfoCircle } from '@tabler/icons-react';
 
@@ -7,11 +7,11 @@ const Example = () => {
   return (
     <Stack>
       <Title order={1}>Heading 1</Title>
-      <Title order={2}>Heading 1</Title>
-      <Title order={3}>Heading 1</Title>
-      <Title order={4}>Heading 1</Title>
-      <Title order={5}>Heading 1</Title>
-      <Title order={6}>Heading 1</Title>
+      <Title order={2}>Heading 2</Title>
+      <Title order={3}>Heading 3</Title>
+      <Title order={4}>Heading 4</Title>
+      <Title order={5}>Heading 5</Title>
+      <Title order={6}>Heading 6</Title>
       <Text>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim

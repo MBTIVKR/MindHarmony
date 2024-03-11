@@ -22,7 +22,7 @@ const Account: FC = () => {
   const user = useAuth((state) => state.user);
 
   useEffect(() => {
-    getUserData(userID)
+    getUserData(userID);
     // console.log(user)
     // console.log(userID)
   }, []);
@@ -34,7 +34,6 @@ const Account: FC = () => {
   const handleViewProfile = () => {
     setEditing(false);
   };
-
 
   return (
     <>
@@ -138,39 +137,3 @@ const Account: FC = () => {
 };
 
 export default Account;
-
-
-
-
-// fetch(apiUrl, {
-//   method: 'POST',
-//   headers: {
-//     'Content-Type': 'application/json',
-//   },
-// })
-//   .then((response) => response.json())
-//   .then(() => {
-//     if (newPassword !== confirmPassword) {
-//       setPasswordsMatch(false);
-//       return;
-//     }
-//     notifications.show({
-//       title: 'Обновление данных профиля',
-//       message: 'Ваши данные профиля успешно обновлены',
-//       autoClose: true,
-//       withCloseButton: true,
-//       color: 'green',
-//       icon: <CheckIcon color='green' />,
-//     });
-//     onCancel();
-//   })
-//   .catch((error) => {
-//     console.error('Error:', error);
-//     notifications.show({
-//       title: 'Ошибка',
-//       message:
-//         'Не удалось отправить форму. Пожалуйста, попробуйте ещё раз...',
-//       color: 'red',
-//       icon: <IconX color='red' />,
-//     });
-//   });

@@ -8,7 +8,7 @@ import {
 } from '@mantine/core';
 import image from '@/assets/Errors/NotFound.svg';
 import classes from './NotFound.module.scss';
-import { Paths } from '@/Components/App/Routing';
+import { PathsDashboard } from '@/Components/App/Routing';
 import { Link } from 'react-router-dom';
 
 export const NotFound = () => {
@@ -22,7 +22,7 @@ export const NotFound = () => {
           Страница, которую вы пытаетесь открыть, не существует. Возможно, вы ошиблись в вводе адреса или страница была перемещена на другой URL. Если вы считаете, что это ошибка, обратитесь в службу поддержки.
           </Text>
 
-          <Link to={Paths.Home}>
+          <Link to={PathsDashboard.Main}>
             <Button
               variant='outline'
               size='md'
