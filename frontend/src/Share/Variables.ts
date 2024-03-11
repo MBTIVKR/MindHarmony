@@ -1,7 +1,7 @@
 //@ Перемнные с описанием приложения и источниками
 export const APP = {
   NAME: 'MH',
-  FULLNAME: 'MindHarmony',
+  FULLNAME: 'Mind Harmony',
   VERSION: '0.4.1',
   AUTHOR: 'Audyushin Dobrynya <avdushinbeaver1@gmail.com>',
   DESCRIPTION:

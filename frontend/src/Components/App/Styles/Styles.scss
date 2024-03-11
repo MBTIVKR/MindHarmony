@@ -12,6 +12,11 @@
 // $ui-index-6: 6; // Для элементов, покрываюших всё
 
 //@ Global Styles
+html, body {
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+}
+
 a {
     color: $primaryColor;
     text-decoration: none;
