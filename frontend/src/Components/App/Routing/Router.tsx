@@ -9,6 +9,8 @@ import {
   Landing,
   Account,
   Home,
+  MBTITest,
+  TestsPage,
 } from './Lazy';
 import Login from '@Pages/AuthPage/Login/Login';
 import { AuthGuard } from './Providers/AuthGuard';
@@ -42,6 +44,22 @@ const Routing = () => {
           element: (
             <AuthGuard>
               <Settings />
+            </AuthGuard>
+          ),
+        },
+        {
+          path: PathsDashboard.Tests,
+          element: (
+            <AuthGuard>
+              <TestsPage />
+            </AuthGuard>
+          ),
+        },
+        {
+          path: PathsDashboard.MBTI,
+          element: (
+            <AuthGuard>
+              <MBTITest />
             </AuthGuard>
           ),
         },

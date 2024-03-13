@@ -17,4 +17,6 @@ export enum PathsDashboard {
   Main = '/dashbord/main',
   Settings = '/dashbord/settings',
   Account = '/dashbord/account',
+  Tests = '/dashbord/tests',
+  MBTI = '/dashbord/tests/mbti',
 }

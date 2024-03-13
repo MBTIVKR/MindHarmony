@@ -29,9 +29,13 @@ export const Hero = Loadable(
 export const GetInTouch = Loadable(
   lazy(() => import('@Pages/Landing/Parts/GetInTouch/GetInTouch'))
 );
-//@ MBTI
+//@ MBTI Landing
 export const MBTI = Loadable(
   lazy(() => import('@Pages/Landing/Parts/MBTI/MBTI'))
+);
+//@ MBTI Test component
+export const MBTITest = Loadable(
+  lazy(() => import('@Components/Features/Tests/mbti/mbti'))
 );
 //@ Reviews
 export const Reviews = Loadable(
@@ -66,7 +70,7 @@ export const NotFoundPage = Loadable(
 export const Example = Loadable(lazy(() => import('@Pages/Example/Example')));
 //@ Home Pages
 export const Home = Loadable(lazy(() => import('@Pages/Home/Home')));
-
+export const TestsPage = Loadable(lazy(() => import('@Pages/TestsPage/TestsPage')));
 //! Utils
 //@ NowYear util
 export const NowYear = Loadable(lazy(() => import('@/Utils/NowYear/NowYear')));

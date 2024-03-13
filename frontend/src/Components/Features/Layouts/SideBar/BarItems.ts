@@ -7,14 +7,15 @@ import {
   IconCalendarStats,
   IconUser,
   IconSettings,
+  IconTestPipe,
 } from '@tabler/icons-react';
 
 export const BarItems = [
-  { icon: IconHome2, label: 'Home', href: PathsDashboard.Main },
-  { icon: IconGauge, label: 'Dashboard', href: Paths.NotFound },
+  { icon: IconHome2, label: 'Главная', href: PathsDashboard.Main },
+  { icon: IconTestPipe, label: 'Тестирование', href: PathsDashboard.Tests },
   { icon: IconDeviceDesktopAnalytics, label: 'Analytics', href: Paths.Test },
   { icon: IconCalendarStats, label: 'Releases', href: Paths.Test },
-  { icon: IconUser, label: 'Account', href: PathsDashboard.Account },
+  { icon: IconUser, label: 'Аккаунт', href: PathsDashboard.Account },
   { icon: IconFingerprint, label: 'Security', href: Paths.Test },
-  { icon: IconSettings, label: 'Settings', href: PathsDashboard.Settings },
+  { icon: IconSettings, label: 'Настройки', href: PathsDashboard.Settings },
 ];
