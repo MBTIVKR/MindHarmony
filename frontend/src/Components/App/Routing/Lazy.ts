@@ -45,6 +45,10 @@ export const Reviews = Loadable(
 export const TopScroll = Loadable(
   lazy(() => import('@Components/Features/Affix/Affix'))
 );
+//@ TopScroll Affix
+export const TestCard = Loadable(
+  lazy(() => import('@/Components/Features/Tests/UI/TestCard/TestCard'))
+);
 
 //! Pages
 //@ Landing Page

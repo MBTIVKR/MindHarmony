@@ -1,1 +1,2 @@
-export * from './mbti/mbti.jsx';
+export * from './mbti/mbti.tsx';
+export * from './UI/TestCard/TestCard.tsx'
