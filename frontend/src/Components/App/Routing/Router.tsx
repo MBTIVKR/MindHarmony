@@ -11,6 +11,7 @@ import {
   Home,
   MBTITest,
   TestsPage,
+  SMILTest,
 } from './Lazy';
 import Login from '@Pages/AuthPage/Login/Login';
 import { AuthGuard } from './Providers/AuthGuard';
@@ -22,7 +23,6 @@ const Routing = () => {
       path: Paths.Dashbord,
       element: <Home />,
       children: [
-        
         {
           path: PathsDashboard.Main,
           element: (
@@ -60,6 +60,14 @@ const Routing = () => {
           element: (
             <AuthGuard>
               <MBTITest />
+            </AuthGuard>
+          ),
+        },
+        {
+          path: PathsDashboard.SMIL,
+          element: (
+            <AuthGuard>
+              <SMILTest />
             </AuthGuard>
           ),
         },
