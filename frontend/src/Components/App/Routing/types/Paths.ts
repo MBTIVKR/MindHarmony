@@ -16,8 +16,9 @@ export enum Paths {
 export enum PathsDashboard {
   Main = '/dashbord/main',
   Settings = '/dashbord/settings',
+  UpdatePassword = '/dashbord/update-password',
   Account = '/dashbord/account',
   Tests = '/dashbord/tests',
   MBTI = '/dashbord/tests/mbti',
-  SMIL = '/dashboard/tests/smil'
+  SMIL = '/dashbord/tests/smil'
 }

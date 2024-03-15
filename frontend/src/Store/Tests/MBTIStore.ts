@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { questions } from '@/Components/Features/Tests/mbti/questions';
+import { devtools } from 'zustand/middleware';
 
 interface Answer {
   [questionId: number]: number;
@@ -14,7 +15,7 @@ interface MBTIStore {
   checkResult: () => void;
 }
 
-export const useMBTIStore = create<MBTIStore>((set) => ({
+export const useMBTIStore = create<MBTIStore>(devtools((set) => ({
   answers: {},
   currentQuestion: 0,
   result: '',
@@ -82,4 +83,4 @@ export const useMBTIStore = create<MBTIStore>((set) => ({
 
       return { result: personalityType };
     }),
-}));
+})));
