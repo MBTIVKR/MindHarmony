@@ -17,6 +17,7 @@ import {
   rem,
   useMantineTheme,
   Flex,
+  ActionIcon,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
@@ -30,6 +31,7 @@ import {
   IconBrandGravatar,
   IconFaceMaskOff,
   IconUser,
+  IconUserCircle,
 } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import { Paths, PathsDashboard } from '@/Components/App/Routing';
@@ -39,7 +41,7 @@ import { ThemeToggler } from '../..';
 import { APP } from '@/Share/Variables';
 import { FC } from 'react';
 import { useAuth } from '@/Store';
-import { IconUserCircle } from '@tabler/icons-react';
+import { cx } from '@emotion/css';
 
 const features = [
   {
@@ -176,10 +178,12 @@ export const Header: FC = () => {
           </Group>
           {/* //TODO fix this sheat */}
           {isAuth == true ? (
-            <Flex>
+            <Flex gap={10} style={{alignItems: 'center', height: '10px'}}>
               <ThemeToggler size='md' />
               <Link to={PathsDashboard.Account}>
-                <IconUserCircle />
+                <ActionIcon variant='default'>
+                  <IconUserCircle stroke={1.5} />
+                </ActionIcon>
               </Link>
             </Flex>
           ) : (
@@ -246,7 +250,9 @@ export const Header: FC = () => {
           {/* //TODO fix this sheat */}
           {isAuth == true ? (
             <Link to={PathsDashboard.Account}>
-              <IconUserCircle />
+              <ActionIcon>
+                <IconUserCircle />
+              </ActionIcon>
             </Link>
           ) : (
             <Group visibleFrom='sm'>

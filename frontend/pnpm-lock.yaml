@@ -118,6 +118,9 @@ devDependencies:
   sass:
     specifier: ^1.71.1
     version: 1.71.1
+  styles.css:
+    specifier: link:@mantine/dates/styles.css
+    version: link:@mantine/dates/styles.css
   typescript:
     specifier: ^5.2.2
     version: 5.3.3
