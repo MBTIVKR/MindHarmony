@@ -99,11 +99,11 @@ func (u *UserHandler) UpdateUser(c *gin.Context) {
 		return
 	}
 
-	if updateRequest.PasswordChanged {
-		c.JSON(http.StatusOK, gin.H{"message": "User updated successfully, password changed"})
-	} else {
-		c.JSON(http.StatusOK, gin.H{"message": "User updated successfully"})
-	}
+	// if updateRequest.PasswordChanged {
+	// 	c.JSON(http.StatusOK, gin.H{"message": "User updated successfully, password changed"})
+	// } else {
+	// 	c.JSON(http.StatusOK, gin.H{"message": "User updated successfully"})
+	// }
 
 	// Генерация нового JWT токена на основе обновленных данных пользователя
 	token, err := cjwt.CreateToken(userToUpdate)

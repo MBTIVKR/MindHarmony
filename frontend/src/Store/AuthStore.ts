@@ -113,7 +113,7 @@ export const useAuth = create<IAuthStore>()(immer(devtools((set, get) => ({
             `api/users/update/${userId}`,
             newData
           );
-          const updatedUserData = response.data;
+          const updatedUserData = response.data.token;
           // Обновление данных пользователя в сторе
           set((state) => {
             state.user = updatedUserData;
