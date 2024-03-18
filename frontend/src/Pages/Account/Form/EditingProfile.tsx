@@ -35,13 +35,14 @@ const EditingProfile: FC<EditingProfileProps> = ({
 
   useEffect(() => {
     setNewUserData(user);
-    console.log('newUserData: ', newUserData);
-    console.log('user: ', user);
-    console.log('userID: ', user.id);
+    dev.log('newUserData: ', newUserData);
+    dev.log('user: ', user);
+    dev.log('userID: ', user.id);
   }, []);
 
   const handleSave = () => {
     updateUserData(user.id, newUserData);
+    window.location.reload();
   };
 
   return (
@@ -54,6 +55,7 @@ const EditingProfile: FC<EditingProfileProps> = ({
         </Title>
         <Divider mb={2} />
         <div className='user-profile profile_container'>
+          <form>
             <Flex direction='column' gap='xs'>
               <TextInput
                 label='Имя пользователя'
@@ -199,7 +201,7 @@ const EditingProfile: FC<EditingProfileProps> = ({
               <Button
                 color='teal'
                 className='save-btn profile-btn btn'
-                // type='click'
+                type='submit'
                 onClick={handleSave}
               >
                 Сохранить
@@ -212,6 +214,7 @@ const EditingProfile: FC<EditingProfileProps> = ({
                 Отмена
               </Button>
             </Flex>
+          </form>
           {message && <p className='message'>{message}</p>}
         </div>
       </Stack>

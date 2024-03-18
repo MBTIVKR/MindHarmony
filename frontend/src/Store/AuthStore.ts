@@ -34,7 +34,6 @@ export interface IAuthStore {
   chaekAuth: () => Promise<User | undefined>;
 }
 
-
 export const useAuth = create<IAuthStore>()(immer(devtools((set, get) => ({
       isAuth: false,
       user: {} as User,
