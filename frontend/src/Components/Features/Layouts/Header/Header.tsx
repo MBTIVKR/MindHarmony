@@ -178,10 +178,10 @@ export const Header: FC = () => {
           </Group>
           {/* //TODO fix this sheat */}
           {isAuth == true ? (
-            <Flex gap={10} style={{alignItems: 'center', height: '10px'}}>
+            <Flex gap={10} visibleFrom='sm'>
               <ThemeToggler size='md' />
               <Link to={PathsDashboard.Account}>
-                <ActionIcon variant='default'>
+                <ActionIcon variant='default' mt={4}>
                   <IconUserCircle stroke={1.5} />
                 </ActionIcon>
               </Link>
@@ -250,8 +250,9 @@ export const Header: FC = () => {
           {/* //TODO fix this sheat */}
           {isAuth == true ? (
             <Link to={PathsDashboard.Account}>
-              <ActionIcon>
-                <IconUserCircle />
+              <ActionIcon w={'100%'}>
+                {/* <IconUserCircle /> */}
+                Личный кабинет
               </ActionIcon>
             </Link>
           ) : (
