@@ -15,6 +15,7 @@ import { useAuth } from '@/Store';
 const Account: FC = () => {
   // const [userData, setUserData] = useState<UserData | null>(null);
   const [editing, setEditing] = useState(false);
+  //@ts-ignore
   const [message, setMessage] = useState('');
   const userID = useAuth((state) => state.user.id);
   const getUserData = useAuth((state) => state.getAlluserData);

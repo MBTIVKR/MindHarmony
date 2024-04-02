@@ -28,9 +28,6 @@ import {
   IconFingerprint,
   IconCoin,
   IconChevronDown,
-  IconBrandGravatar,
-  IconFaceMaskOff,
-  IconUser,
   IconUserCircle,
 } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
@@ -41,7 +38,6 @@ import { ThemeToggler } from '../..';
 import { APP } from '@/Share/Variables';
 import { FC } from 'react';
 import { useAuth } from '@/Store';
-import { cx } from '@emotion/css';
 
 const features = [
   {

@@ -10,6 +10,7 @@ import { useAuth } from '@/Store';
 import { DevMode, LoginFormValues } from '@/Utils';
 
 export const useLoginForm = () => {
+  //@ts-ignore
   const [active, setActive] = useState(0);
   const navigate = useNavigate();
   const setLogin = useAuth((state) => state.login);

@@ -3,7 +3,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { IconInfoCircle } from '@tabler/icons-react';
 
 const Example = () => {
-  const [loading, { toggle }] = useDisclosure();
+  const [loading] = useDisclosure();
   return (
     <Stack>
       <Title order={1}>Heading 1</Title>

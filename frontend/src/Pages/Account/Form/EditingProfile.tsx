@@ -16,7 +16,7 @@ import { IMaskInput } from 'react-imask';
 import { UserData, dev } from '@/Utils';
 import { useAuth } from '@/Store';
 import { Link } from '@/Components/Shared';
-import { Paths, PathsDashboard } from '@Components/App/Routing';
+import { Paths } from '@Components/App/Routing';
 import c from '../Account.module.scss';
 
 interface EditingProfileProps {

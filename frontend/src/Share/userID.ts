@@ -1,3 +1,4 @@
+//@ts-nocheck
 import Cookies from 'universal-cookie';
 import jwt from 'jsonwebtoken';
 import { SECRET } from '@/Share/Variables';

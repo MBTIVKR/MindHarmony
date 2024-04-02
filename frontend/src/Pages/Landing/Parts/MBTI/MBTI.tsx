@@ -1,5 +1,5 @@
 import cx from 'clsx';
-import { Container, Flex, Space, Text, Title } from '@mantine/core';
+import { Container, Flex, Text, Title } from '@mantine/core';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import classes from './MBTI.module.scss';
 import { useState } from 'react';

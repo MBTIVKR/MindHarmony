@@ -1,7 +1,6 @@
 import { Paths, PathsDashboard } from '@/Components/App/Routing';
 import {
   IconHome2,
-  IconGauge,
   IconDeviceDesktopAnalytics,
   IconFingerprint,
   IconCalendarStats,

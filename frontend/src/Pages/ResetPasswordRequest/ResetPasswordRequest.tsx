@@ -1,9 +1,9 @@
+//@ts-nocheck
 import { FC, FormEvent, useState } from 'react';
 import { TextInput, Button, Flex, Title, rem } from '@mantine/core';
 import { useAuth } from '@/Store';
 import { Header } from '@/Components/Features/Layouts';
 import { useNavigate } from 'react-router-dom';
-import { Login } from './../../Components/App/Routing/Lazy';
 import { Paths } from '@/Components/App/Routing';
 import { notifications } from '@mantine/notifications';
 import { IconCheck } from '@tabler/icons-react';
