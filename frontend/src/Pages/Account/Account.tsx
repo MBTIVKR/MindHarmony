@@ -1,5 +1,4 @@
-import React, { useState, useEffect, FC } from 'react';
-import axios from 'axios';
+import { useState, useEffect, FC } from 'react';
 import {
   Title,
   Button,

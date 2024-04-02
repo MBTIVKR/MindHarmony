@@ -16,7 +16,7 @@ import { IMaskInput } from 'react-imask';
 import { UserData, dev } from '@/Utils';
 import { useAuth } from '@/Store';
 import { Link } from '@/Components/Shared';
-import { PathsDashboard } from '@Components/App/Routing';
+import { Paths, PathsDashboard } from '@Components/App/Routing';
 import c from '../Account.module.scss';
 
 interface EditingProfileProps {
@@ -94,7 +94,7 @@ const EditingProfile: FC<EditingProfileProps> = ({
                 }
               />
               <Box className='passwords-box'>
-                <Link to={PathsDashboard.UpdatePassword} className={c.chpass}>
+                <Link to={Paths.ForgotPassword} className={c.chpass}>
                   Сменить пароль
                 </Link>
               </Box>

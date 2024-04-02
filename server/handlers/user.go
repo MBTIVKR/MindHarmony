@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	cjwt "lps/cemetery/pkg/jwt"
 
@@ -311,6 +312,19 @@ func (u *UserHandler) GetUser(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
 		return
 	}
+
+	//? Преобразование строки даты в формат time.Time
+	birthdayTime, err := time.Parse(time.RFC3339, user.Personal.BirthDate)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to parse birthday"})
+		return
+	}
+
+	// ?Форматирование даты в требуемый формат
+	formattedBirthday := birthdayTime.Format("02.01.2006")
+
+	//? Обновление даты рождения в структуре пользователя
+	user.Personal.BirthDate = formattedBirthday
 
 	c.JSON(http.StatusOK, user)
 }
