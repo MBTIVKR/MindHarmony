@@ -59,6 +59,9 @@ const Login: FC = () => {
               Зарегистрируйтесь!
             </Link>
           </Text>
+            <Link underline={true} to={Paths.ForgotPassword}>
+              Забыли пароль?
+            </Link>
           <Group justify='center' mt='xl'>
             <Button onClick={handleLogin}>Войти</Button>
           </Group>

@@ -14,7 +14,7 @@ interface MBTIStore {
   handleAnswer: (questionId: number, level: number) => void;
   checkResult: () => void;
 }
-
+//@ts-ignore
 export const useMBTIStore = create<MBTIStore>(devtools((set) => ({
   answers: {},
   currentQuestion: 0,

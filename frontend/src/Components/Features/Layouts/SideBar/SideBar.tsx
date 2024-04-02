@@ -3,7 +3,7 @@ import { Center, Stack } from '@mantine/core';
 import { IconLogout } from '@tabler/icons-react';
 import { Paths } from '@/Components/App/Routing';
 import { Link } from '@Components/Shared';
-import { useSidebarStore } from '@/Store';
+import { useAuth, useSidebarStore } from '@/Store';
 import { BarItems } from './BarItems';
 import { NavbarLink } from './NavbarLink';
 import classes from './SideBar.module.scss';
@@ -12,6 +12,7 @@ import logo from '@/assets/brain.png';
 export const NavbarMinimal: FC = () => {
   const activeTab = useSidebarStore((state) => state.activeTab);
   const setActiveTab = useSidebarStore((state) => state.setActiveTab);
+  const { loguot } = useAuth();
 
   const links = BarItems.map((link, index) => (
     <NavbarLink
@@ -37,7 +38,7 @@ export const NavbarMinimal: FC = () => {
       </div>
 
       <Stack justify='center' gap={0}>
-        <NavbarLink icon={IconLogout} label='Logout' href={Paths.Logout} />
+        <NavbarLink icon={IconLogout} label='Logout' onClick={loguot} />
       </Stack>
     </nav>
   );

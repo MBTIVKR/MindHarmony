@@ -15,6 +15,7 @@ import {
 } from './Lazy';
 import Login from '@Pages/AuthPage/Login/Login';
 import { AuthGuard } from './Providers/AuthGuard';
+import { ResetPasswordPage, ResetPasswordRequest } from '@/Pages';
 
 const Routing = () => {
   return createBrowserRouter([
@@ -89,6 +90,14 @@ const Routing = () => {
         {
           path: Paths.Login,
           element: <Login />,
+        },
+        {
+          path: Paths.ForgotPassword,
+          element: <ResetPasswordRequest />,
+        },
+        {
+          path: Paths.ResetPassword,
+          element: <ResetPasswordPage />,
         },
       ],
     },

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { $authHost, $host } from '@/Services/instance/index';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
@@ -30,6 +31,8 @@ export interface IAuthStore {
   login: ({ Auth }: LoginFormValues) => Promise<User | undefined>;
   getAlluserData: (id: number) => Promise<UserData | undefined>;
   updateUserData: (id: number, newData: UserData | null) => Promise<User | void>;
+  forgotPassword: (email: string) => Promise<void>;
+  resetPassword: (token: string, newPassword: string) => Promise<void>;
   loguot: () => void;
   chaekAuth: () => Promise<User | undefined>;
 }
@@ -79,7 +82,7 @@ export const useAuth = create<IAuthStore>()(immer(devtools((set, get) => ({
           // cookie.set('token', data.token);
           const user = jwtDecode<User>(data.token);
           set({ user: user, isAuth: true });
-          console.log(user);
+          // console.log(user);
           return user;
         } catch (error) {
           if (isAxiosError(error)) {
@@ -148,12 +151,35 @@ export const useAuth = create<IAuthStore>()(immer(devtools((set, get) => ({
         }
       },
 
+      forgotPassword: async (email: string) => {
+        try {
+          set({ loading: true });
+          const { data } = await $host.post('api/forgot-password', { email });
+          console.log('Password reset link sent successfully!', data);
+        } catch (error) {
+          console.error('Error sending password reset link:', error);
+        } finally {
+          set({ loading: false });
+        }
+      },
+
+      resetPassword: async (token: string, newPassword: string) => {
+        try {
+          set({ loading: true });
+          const response = await $host.post('api/reset-password', { token, newPassword });
+          set({ loading: false });
+          console.log('Password reset successfully:', response.data);
+        } catch (error) {
+          set({ loading: false });
+          console.error('Error resetting password:', error);
+          throw new Error('Error resetting password');
+        }
+      },
+
       loguot: async () => {
-        // const cookie = new Cookies();
         set({ loading: true });
         try {
           localStorage.removeItem('token');
-          // cookie.remove('token');
           set({ user: {} as User, isAuth: false });
         } catch (error) {
           if (isAxiosError(error)) {
@@ -163,7 +189,7 @@ export const useAuth = create<IAuthStore>()(immer(devtools((set, get) => ({
         } finally {
           set({ loading: false });
         }
-      },
+      },      
     }))
   )
 );

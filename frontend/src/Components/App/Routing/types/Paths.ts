@@ -10,6 +10,8 @@ export enum Paths {
   Login = '/login',
   Logout = '/logout',
   Users = '/api/users',
+  ForgotPassword = '/forgot-password',
+  ResetPassword = '/reset-password',
 }
 
 //@ Route pathes inside the application
