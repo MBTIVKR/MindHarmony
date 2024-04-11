@@ -11,7 +11,7 @@ import (
 // Создание JWT токена
 func CreateToken(user models.User) (string, error) {
 	claims := models.Claims{
-		ID: user.ID,
+		ID: user.GormModel.ID,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 24 * 7).Unix(),
 		},
@@ -36,7 +36,9 @@ func CreateToken(user models.User) (string, error) {
 
 	//@ Включение остальных полей
 	claims.Position = user.Position
-	claims.MBTI = user.MBTI
+	claims.MBTI.ID = user.MBTI.ID
+	claims.MBTI.UserID = user.MBTI.UserID
+	claims.MBTI.Type = user.MBTI.Type
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(os.Getenv("JWT_SECRET")))

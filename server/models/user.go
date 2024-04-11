@@ -31,21 +31,24 @@ type GormModel struct {
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
 
-// @ User table...
 type User struct {
 	GormModel
 	Auth     `json:"auth"`
 	Personal `json:"personal"`
 	Location `json:"location"`
 	Position string `json:"position"`
-	MBTI     `json:"mbti"`
-
-	//? Think about omitempty
+	MBTI     `json:"mbti_result" gorm:"foreignKey:UserID"`
 }
+
+// type MBTIResult struct {
+// 	ID     uint   `gorm:"primaryKey" json:"id"`
+// 	UserID uint   `json:"user_id" gorm:"foreignKey:UserID"`
+// 	Type   string `json:"type"`
+// }
 
 func (u *User) MarshalJSON() ([]byte, error) {
 	// Extract ID from gorm.Model
-	id := u.ID
+	id := u.GormModel.ID
 
 	// Create a map with desired structure
 	data := map[string]interface{}{
@@ -80,7 +83,9 @@ type (
 		City    string `json:"city"`
 	}
 	MBTI struct {
-		Type string `json:"type"`
+		ID     uint   `gorm:"primaryKey" json:"id"`
+		UserID uint   `json:"user_id" gorm:"foreignKey:UserID"`
+		Type   string `json:"type"`
 	}
 )
 
@@ -106,7 +111,9 @@ type Claims struct {
 	}
 	Position string `json:"position"`
 	MBTI     struct {
-		Type string `json:"type"`
+		ID     uint   `gorm:"primaryKey" json:"id"`
+		UserID uint   `json:"user_id" gorm:"foreignKey:UserID"`
+		Type   string `json:"type"`
 	}
 	jwt.StandardClaims
 }
@@ -131,7 +138,9 @@ type UpdateUserRequest struct {
 	}
 	Position string `json:"position"`
 	MBTI     struct {
-		Type string `json:"type"`
+		ID     uint   `gorm:"primaryKey" json:"id"`
+		UserID uint   `json:"user_id" gorm:"foreignKey:UserID"`
+		Type   string `json:"type"`
 	}
 	PasswordChanged bool `json:"password_changed"`
 }

@@ -53,6 +53,7 @@ func InitDB() {
 // @ Таблицы: users, content, password_reset_requests, forgot_password_requests
 func SyncDB() {
 	DB.AutoMigrate(&models.User{})
+	DB.AutoMigrate(&models.MBTI{})
 
 	migrator := DB.Migrator()
 

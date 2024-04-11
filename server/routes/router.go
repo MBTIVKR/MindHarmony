@@ -42,6 +42,9 @@ func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 		api.POST("/signup", a.Register)
 		api.POST("/login", a.Login)
 		api.GET("/logout", a.Logout)
+		//? Tests
+		// Роут для получения данных MBTI по пользователю
+		api.GET("/api/mbti/:id", u.GetMBTIData)
 	}
 
 	//@ Группа маршрутов, требующих авторизации и определенной роли

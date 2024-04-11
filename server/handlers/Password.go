@@ -46,7 +46,7 @@ func (u *UserHandler) ForgotPassword(c *gin.Context) {
 	}
 
 	resetRequest := models.PasswordResetRequest{
-		UserID:    user.ID,
+		UserID:    user.GormModel.ID,
 		Token:     token,
 		ExpiresAt: time.Now().Add(time.Hour * 1),
 	}

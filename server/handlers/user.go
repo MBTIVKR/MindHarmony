@@ -7,9 +7,9 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"time"
 
 	cjwt "lps/cemetery/pkg/jwt"
+	"lps/cemetery/pkg/utils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
@@ -313,17 +313,13 @@ func (u *UserHandler) GetUser(c *gin.Context) {
 		return
 	}
 
-	//? Преобразование строки даты в формат time.Time
-	birthdayTime, err := time.Parse(time.RFC3339, user.Personal.BirthDate)
+	formattedBirthday, err := utils.ParseBirthday(user.Personal.BirthDate)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to parse birthday"})
 		return
 	}
 
-	// ?Форматирование даты в требуемый формат
-	formattedBirthday := birthdayTime.Format("02.01.2006")
-
-	//? Обновление даты рождения в структуре пользователя
+	// Обновление даты рождения в структуре пользователя
 	user.Personal.BirthDate = formattedBirthday
 
 	c.JSON(http.StatusOK, user)
