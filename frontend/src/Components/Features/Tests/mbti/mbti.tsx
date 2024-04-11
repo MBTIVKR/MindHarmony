@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { Box, Button, Flex, Stack, Text, Title } from '@mantine/core';
 import { questions } from './questions';
-import { useMBTIStore } from '@/Store';
+import { useAuth, useMBTIStore } from '@/Store';
 
 const MBTITest = () => {
+  const userID = useAuth((state) => state.user.id);
   const {
     currentQuestion,
-    result,
+    type,
     showResult,
     handleAnswer,
     checkResult,
@@ -16,13 +17,34 @@ const MBTITest = () => {
   useEffect(() => {
     if (showResult) {
       checkResult();
-      //? Сохранение результата в localStorage
-      localStorage.setItem('mbtiResult', result);
+  
+      // Отправка результата на сервер
+      fetch(`/api/update-mbti-result/${userID}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ type }),
+      })
+        .then(response => {
+          if (response.ok) {
+            console.log('Результат успешно отправлен на сервер');
+          } else {
+            console.error('Ошибка при отправке результата на сервер');
+          }
+        })
+        .catch(error => {
+          console.error('Ошибка при отправке результата на сервер:', error);
+        });
+  
+      // Сохранение результата в localStorage
+      localStorage.setItem('mbtiResult', type);
     }
-  }, [showResult, checkResult, result]);
+  }, [showResult, checkResult, type]);
+  
 
   useEffect(() => {
-    //? Сохранение ответов пользователя в localStorage при их изменении
+    // Сохранение ответов пользователя в localStorage при их изменении
     localStorage.setItem('mbtiAnswers', JSON.stringify(answers));
   }, [answers]);
 
@@ -59,8 +81,8 @@ const MBTITest = () => {
       {showResult && (
         <Box>
           <Title order={2}>Результаты теста</Title>
-          {result ? (
-            <p>Ваш тип личности: {result}</p>
+          {type ? (
+            <p>Ваш тип личности: {type}</p>
           ) : (
             <p>Вычисление результата...</p>
           )}

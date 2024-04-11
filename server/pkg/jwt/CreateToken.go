@@ -34,10 +34,12 @@ func CreateToken(user models.User) (string, error) {
 	claims.Location.Country = user.Location.Country
 	claims.Location.City = user.Location.City
 
-	//@ Включение остальных полей
+	//@ Должность
 	claims.Position = user.Position
+
+	//@ Результаты MBTI
 	claims.MBTI.ID = user.MBTI.ID
-	claims.MBTI.UserID = user.MBTI.UserID
+	claims.MBTI.UserID = user.GormModel.ID
 	claims.MBTI.Type = user.MBTI.Type
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)

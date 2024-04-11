@@ -38,7 +38,7 @@ export const NavbarMinimal: FC = () => {
       </div>
 
       <Stack justify='center' gap={0}>
-        <NavbarLink icon={IconLogout} label='Logout' onClick={loguot} />
+        <NavbarLink icon={IconLogout} label='Logout' onClick={loguot}  />
       </Stack>
     </nav>
   );

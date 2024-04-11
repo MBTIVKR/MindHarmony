@@ -37,14 +37,8 @@ type User struct {
 	Personal `json:"personal"`
 	Location `json:"location"`
 	Position string `json:"position"`
-	MBTI     `json:"mbti_result" gorm:"foreignKey:UserID"`
+	MBTI     `json:"mbti" gorm:"foreignKey:UserID"`
 }
-
-// type MBTIResult struct {
-// 	ID     uint   `gorm:"primaryKey" json:"id"`
-// 	UserID uint   `json:"user_id" gorm:"foreignKey:UserID"`
-// 	Type   string `json:"type"`
-// }
 
 func (u *User) MarshalJSON() ([]byte, error) {
 	// Extract ID from gorm.Model

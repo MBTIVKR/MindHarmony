@@ -9,7 +9,7 @@ interface Answer {
 interface MBTIStore {
   answers: Answer;
   currentQuestion: number;
-  result: string;
+  type: string;
   showResult: boolean;
   handleAnswer: (questionId: number, level: number) => void;
   checkResult: () => void;
@@ -18,7 +18,7 @@ interface MBTIStore {
 export const useMBTIStore = create<MBTIStore>(devtools((set) => ({
   answers: {},
   currentQuestion: 0,
-  result: '',
+  type: '',
   showResult: false,
   handleAnswer: (questionId, level) =>
     set((state) => {
@@ -81,6 +81,6 @@ export const useMBTIStore = create<MBTIStore>(devtools((set) => ({
 
       const personalityType = extraversion + sensing + thinking + judging;
 
-      return { result: personalityType };
+      return { type: personalityType };
     }),
 })));

@@ -13,6 +13,8 @@ import {
   dev,
 } from '@/Utils';
 import { type AuthErrorType } from '@/Utils/types/Errors/Auth/Errors';
+import { useNavigate } from 'react-router-dom';
+import { Paths } from '@/Components/App/Routing';
 
 // import Cookies from 'universal-cookie';
 
@@ -181,6 +183,7 @@ export const useAuth = create<IAuthStore>()(immer(devtools((set, get) => ({
         try {
           localStorage.removeItem('token');
           set({ user: {} as User, isAuth: false });
+          setTimeout(() => window.location.reload, 1200);
         } catch (error) {
           if (isAxiosError(error)) {
             const err: AxiosError<AuthErrorType> = error;
