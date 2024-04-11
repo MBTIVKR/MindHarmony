@@ -1,5 +1,4 @@
-import React, { useState, useEffect, FC } from 'react';
-import axios from 'axios';
+import { useState, useEffect, FC } from 'react';
 import {
   Title,
   Button,
@@ -11,18 +10,21 @@ import {
 } from '@mantine/core';
 import EditingProfile from './Form/EditingProfile';
 import { useAuth } from '@/Store';
-import { UserData } from '@/Utils';
+// import { UserData } from '@/Utils';
 
 const Account: FC = () => {
-  const [userData, setUserData] = useState<UserData | null>(null);
+  // const [userData, setUserData] = useState<UserData | null>(null);
   const [editing, setEditing] = useState(false);
+  //@ts-ignore
   const [message, setMessage] = useState('');
   const userID = useAuth((state) => state.user.id);
   const getUserData = useAuth((state) => state.getAlluserData);
   const user = useAuth((state) => state.user);
 
   useEffect(() => {
-    getUserData(userID).then((data) => console.log(data));
+    getUserData(userID);
+    // console.log(user)
+    // console.log(userID)
   }, []);
 
   const handleEditProfile = () => {
@@ -33,20 +35,12 @@ const Account: FC = () => {
     setEditing(false);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    axios.defaults.headers.post['Content-Type'] = 'application/json';
-  };
-
   return (
     <>
       {user ? (
         editing ? (
           <EditingProfile
-            userData={user}
-            setUserData={setUserData}
-            onSubmit={handleSubmit}
+            user={user}
             onCancel={handleViewProfile}
             message={message}
           />

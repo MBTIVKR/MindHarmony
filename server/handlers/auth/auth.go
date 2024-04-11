@@ -104,12 +104,12 @@ func (u *AuthHandler) Login(c *gin.Context) {
 
 	// Проверка пароля
 	if err := bcrypt.CompareHashAndPassword([]byte(dbUser.Auth.Password), []byte(user.Auth.Password)); err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error":    "Invalid credentials",
+			"dbpass":   []byte(dbUser.Auth.Password),
+			"password": []byte(user.Auth.Password)})
 		return
 	}
-
-	// Пробуем выполнить предварительную загрузку объектов и игнорируем ошибку
-	_ = u.DB.Model(&dbUser).Preload("Content").Preload("TimeCapsules").Find(&dbUser).Error
 
 	// Создание токена
 	token, err := jwt.CreateToken(dbUser)

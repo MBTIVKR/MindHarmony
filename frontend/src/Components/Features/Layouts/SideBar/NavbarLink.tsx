@@ -6,7 +6,7 @@ import classes from './SideBar.module.scss';
 export interface NavbarLinkProps {
   icon: typeof IconHome2;
   label: string;
-  href: string;
+  href?: string;
   active?: boolean;
   onClick?(): void;
 }
@@ -25,7 +25,7 @@ export function NavbarLink({
         className={classes.link}
         data-active={active || undefined}
       >
-        <Link to={href} style={{ textDecoration: 'none', color: 'inherit' }}>
+        <Link to={`${href}`} style={{ textDecoration: 'none', color: 'inherit' }}>
           <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
         </Link>
       </UnstyledButton>

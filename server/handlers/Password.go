@@ -100,7 +100,7 @@ func (u *UserHandler) ResetPassword(c *gin.Context) {
 		return
 	}
 
-	fmt.Println("NewPassword in request:", request.NewPassword) // Добавленный лог
+	fmt.Println("NewPassword in request:", request.NewPassword)
 
 	resetRequest := models.PasswordResetRequest{}
 	fmt.Println("Token in request:", request.Token)

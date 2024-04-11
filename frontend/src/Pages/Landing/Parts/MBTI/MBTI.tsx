@@ -1,5 +1,5 @@
 import cx from 'clsx';
-import { Container, Flex, Space, Text, Title } from '@mantine/core';
+import { Container, Flex, Text, Title } from '@mantine/core';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import classes from './MBTI.module.scss';
 import { useState } from 'react';
@@ -63,11 +63,11 @@ const MBTI = () => {
     data.filter((item) => item.symbol.endsWith('i'))
   );
 
-  const isOpposite = (symbol1, symbol2) =>
+  const isOpposite = (symbol1: any, symbol2: any) =>
     (symbol1.endsWith('e') && symbol2.endsWith('i')) ||
     (symbol1.endsWith('i') && symbol2.endsWith('e'));
 
-  const onDragEnd = (result) => {
+  const onDragEnd = (result: any) => {
     const { source, destination } = result;
 
     if (destination && source.index !== destination.index) {
@@ -79,7 +79,6 @@ const MBTI = () => {
         destination.droppableId === 'elementsE' ? elementsE : elementsI;
       destinationList.splice(destination.index, 0, movedElement);
 
-      // Дополнительная проверка для перемещения "противоположной" функции
       if (
         isOpposite(
           movedElement.symbol,

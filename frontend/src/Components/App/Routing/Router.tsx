@@ -9,23 +9,20 @@ import {
   Landing,
   Account,
   Home,
+  MBTITest,
+  TestsPage,
+  SMILTest,
 } from './Lazy';
 import Login from '@Pages/AuthPage/Login/Login';
 import { AuthGuard } from './Providers/AuthGuard';
+import { ResetPasswordPage, ResetPasswordRequest } from '@/Pages';
 
 const Routing = () => {
   return createBrowserRouter([
-    // {
-    //   element: <Layout showSidebar={true} />,
-    //   errorElement: <NotFoundPage />,
-    //   children: [
-    //   ],
-    // },
     {
       //@ Routes with sIdebar and global Container
       path: Paths.Dashbord,
       element: <Home />,
-      errorElement: <NotFoundPage />,
       children: [
         {
           path: PathsDashboard.Main,
@@ -51,11 +48,36 @@ const Routing = () => {
             </AuthGuard>
           ),
         },
+        {
+          path: PathsDashboard.Tests,
+          element: (
+            <AuthGuard>
+              <TestsPage />
+            </AuthGuard>
+          ),
+        },
+        {
+          path: PathsDashboard.MBTI,
+          element: (
+            <AuthGuard>
+              <MBTITest />
+            </AuthGuard>
+          ),
+        },
+        {
+          path: PathsDashboard.SMIL,
+          element: (
+            <AuthGuard>
+              <SMILTest />
+            </AuthGuard>
+          ),
+        },
       ],
     },
     {
       //@ Routes without Sidebar and global Container
       element: <Layout showSidebar={false} noContainer={true} />,
+      errorElement: <NotFoundPage />,
       children: [
         {
           path: Paths.Root,
@@ -68,6 +90,14 @@ const Routing = () => {
         {
           path: Paths.Login,
           element: <Login />,
+        },
+        {
+          path: Paths.ForgotPassword,
+          element: <ResetPasswordRequest />,
+        },
+        {
+          path: Paths.ResetPassword,
+          element: <ResetPasswordPage />,
         },
       ],
     },

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { $authHost, $host } from '@/Services/instance/index';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
@@ -12,6 +13,7 @@ import {
   dev,
 } from '@/Utils';
 import { type AuthErrorType } from '@/Utils/types/Errors/Auth/Errors';
+
 // import Cookies from 'universal-cookie';
 
 //TODO Fix interfaces and other
@@ -27,19 +29,20 @@ export interface IAuthStore {
     position,
   }: SignupFormValues) => Promise<User | undefined>;
   login: ({ Auth }: LoginFormValues) => Promise<User | undefined>;
-  getAlluserData: (id: string) => Promise<User | void>;
+  getAlluserData: (id: number) => Promise<UserData | undefined>;
+  updateUserData: (id: number, newData: UserData | null) => Promise<User | void>;
+  forgotPassword: (email: string) => Promise<void>;
+  resetPassword: (token: string, newPassword: string) => Promise<void>;
   loguot: () => void;
   chaekAuth: () => Promise<User | undefined>;
 }
 
-export const useAuth = create<IAuthStore>()(
-  immer(
-    devtools((set) => ({
+export const useAuth = create<IAuthStore>()(immer(devtools((set, get) => ({
       isAuth: false,
       user: {} as User,
       error: '',
       loading: false,
-      
+
       register: async ({ Auth, Personal, Location, position }) => {
         // const cookie = new Cookies();
         try {
@@ -68,7 +71,6 @@ export const useAuth = create<IAuthStore>()(
       },
 
       login: async ({ Auth }) => {
-        // const cookie = new Cookies();
         dev.log(`Auth email: ${Auth.email} Auth password: ${Auth.password}`);
         try {
           set({ loading: true });
@@ -80,6 +82,7 @@ export const useAuth = create<IAuthStore>()(
           // cookie.set('token', data.token);
           const user = jwtDecode<User>(data.token);
           set({ user: user, isAuth: true });
+          // console.log(user);
           return user;
         } catch (error) {
           if (isAxiosError(error)) {
@@ -92,10 +95,12 @@ export const useAuth = create<IAuthStore>()(
         }
       },
 
-      getAlluserData: async (id: string) => {
+      getAlluserData: async (id: number) => {
         try {
           const { data } = await $host.get(`api/users/${id}`);
+          // console.log(data);
           set({ user: data });
+          return data
         } catch (error) {
           if (isAxiosError(error)) {
             const err: AxiosError<AuthErrorType> = error;
@@ -104,24 +109,20 @@ export const useAuth = create<IAuthStore>()(
         }
       },
 
-      updateUser: (newUserData: UserData) => {
-        set((state) => {
-          state.user = newUserData;
-        });
-      },
-
-      updateUserData: async (userId: string, newData: UserData) => {
+      updateUserData: async (userId: number, newData: UserData | null) => {
         try {
           const response = await $host.put(
             `api/users/update/${userId}`,
             newData
           );
-          const updatedUserData = response.data;
-
+          const updatedUserData = response.data.token;
           // Обновление данных пользователя в сторе
           set((state) => {
             state.user = updatedUserData;
           });
+
+          console.log(response.data);
+          localStorage.setItem('token', response.data.token);
 
           return updatedUserData;
         } catch (error) {
@@ -149,13 +150,36 @@ export const useAuth = create<IAuthStore>()(
           setTimeout(() => set({ error: '' }), 1000);
         }
       },
-      
+
+      forgotPassword: async (email: string) => {
+        try {
+          set({ loading: true });
+          const { data } = await $host.post('api/forgot-password', { email });
+          console.log('Password reset link sent successfully!', data);
+        } catch (error) {
+          console.error('Error sending password reset link:', error);
+        } finally {
+          set({ loading: false });
+        }
+      },
+
+      resetPassword: async (token: string, newPassword: string) => {
+        try {
+          set({ loading: true });
+          const response = await $host.post('api/reset-password', { token, newPassword });
+          set({ loading: false });
+          console.log('Password reset successfully:', response.data);
+        } catch (error) {
+          set({ loading: false });
+          console.error('Error resetting password:', error);
+          throw new Error('Error resetting password');
+        }
+      },
+
       loguot: async () => {
-        // const cookie = new Cookies();
         set({ loading: true });
         try {
           localStorage.removeItem('token');
-          // cookie.remove('token');
           set({ user: {} as User, isAuth: false });
         } catch (error) {
           if (isAxiosError(error)) {
@@ -165,7 +189,7 @@ export const useAuth = create<IAuthStore>()(
         } finally {
           set({ loading: false });
         }
-      },
+      },      
     }))
   )
 );

@@ -29,9 +29,17 @@ export const Hero = Loadable(
 export const GetInTouch = Loadable(
   lazy(() => import('@Pages/Landing/Parts/GetInTouch/GetInTouch'))
 );
-//@ MBTI
+//@ MBTI Landing
 export const MBTI = Loadable(
   lazy(() => import('@Pages/Landing/Parts/MBTI/MBTI'))
+);
+//@ MBTI Test component
+export const MBTITest = Loadable(
+  lazy(() => import('@Components/Features/Tests/mbti/mbti'))
+);
+//@ SMIL Test component
+export const SMILTest = Loadable(
+  lazy(() => import('@Components/Features/Tests/smil/smil'))
 );
 //@ Reviews
 export const Reviews = Loadable(
@@ -40,6 +48,10 @@ export const Reviews = Loadable(
 //@ TopScroll Affix
 export const TopScroll = Loadable(
   lazy(() => import('@Components/Features/Affix/Affix'))
+);
+//@ TopScroll Affix
+export const TestCard = Loadable(
+  lazy(() => import('@/Components/Features/Tests/UI/TestCard/TestCard'))
 );
 
 //! Pages
@@ -57,7 +69,9 @@ export const Login = Loadable(
   lazy(() => import('@Pages/AuthPage/Login/Login'))
 );
 export const Account = Loadable(lazy(() => import('@Pages/Account/Account')));
-export const EditingProfile = Loadable(lazy(() => import('@Pages/Account/Form/EditingProfile')));
+export const EditingProfile = Loadable(
+  lazy(() => import('@Pages/Account/Form/EditingProfile'))
+);
 //@ Error pages
 export const NotFoundPage = Loadable(
   lazy(() => import('@Pages/ErrorsPages/NotFound/NotFound'))
@@ -66,11 +80,9 @@ export const NotFoundPage = Loadable(
 export const Example = Loadable(lazy(() => import('@Pages/Example/Example')));
 //@ Home Pages
 export const Home = Loadable(lazy(() => import('@Pages/Home/Home')));
-
+export const TestsPage = Loadable(
+  lazy(() => import('@Pages/TestsPage/TestsPage'))
+);
 //! Utils
 //@ NowYear util
 export const NowYear = Loadable(lazy(() => import('@/Utils/NowYear/NowYear')));
-
-// export const AccauntPage = Loadable(
-//   lazy(() => import('@/Pages/AccountPage/AccountPage'))
-// );import { Footer } from '@/Layouts';

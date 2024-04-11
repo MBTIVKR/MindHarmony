@@ -3,7 +3,7 @@ import classes from './Reviews.module.scss';
 
 export const Reviews = () =>{
   return (
-    <Paper withBorder radius="md" className={classes.comment}  w='20%' style={{margin: '25px auto'}}>
+    <Paper withBorder radius="md" className={classes.comment}  w='20%' style={{margin: '25px auto'}} id='reviews'>
       <Group>
         <Avatar
           src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png"

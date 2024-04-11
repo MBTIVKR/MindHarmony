@@ -2,6 +2,9 @@ import { Image, Container, Title, Button, Group, Text, List, ThemeIcon, rem } fr
 import { IconCheck } from '@tabler/icons-react';
 import image from '@/assets/parts/hero/hero.svg';
 import classes from './Hero.module.scss';
+import { APP } from '@/Share/Variables';
+import { Link } from 'react-router-dom';
+import { Paths } from '@/Components/App/Routing';
 
 export const Hero = () => {
   return (
@@ -9,11 +12,11 @@ export const Hero = () => {
       <div className={classes.inner}>
         <div className={classes.content}>
           <Title className={classes.title}>
-            A <span className={classes.highlight}>modern</span> React <br /> components library
+            {/* Mind <span className={classes.highlight}>Harmony</span> */}
+            {APP.FULLNAME}
           </Title>
           <Text c="dimmed" mt="md">
-            Build fully functional accessible web applications faster than ever – Mantine includes
-            more than 120 customizable components and hooks to cover you in any situation
+            Сервис для сбора данных о когнитивных функциях вашей команды
           </Text>
 
           <List
@@ -27,26 +30,27 @@ export const Hero = () => {
             }
           >
             <List.Item>
-              <b>TypeScript based</b> – build type safe applications, all components and hooks
-              export types
+              <b>Повышение продуктивности</b> – при грамотном применении сервиса продуктивность вашей команды улучшится
             </List.Item>
             <List.Item>
-              <b>Free and open source</b> – all packages have MIT license, you can use Mantine in
-              any project
+              <b>Интеграционная</b> – легко внедряется в организации
             </List.Item>
             <List.Item>
-              <b>No annoying focus ring</b> – focus ring will appear only when user navigates with
-              keyboard
+              <b>Эмпатия</b> – прокачайте свою эмпатию на коллективном уровне
             </List.Item>
           </List>
 
           <Group mt={30}>
+            <Link to={Paths.Login}>
             <Button radius="xl" size="md" className={classes.control}>
-              Get started
+              Начать
             </Button>
+            </Link>
+            <Link to={APP.SOCIAL_MEDIA.GITHUB} target='blank'>
             <Button variant="default" radius="xl" size="md" className={classes.control}>
-              Source code
+              Исходный код
             </Button>
+            </Link>
           </Group>
         </div>
         <Image src={image} className={classes.image} />

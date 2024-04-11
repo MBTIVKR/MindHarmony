@@ -7,6 +7,9 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
+
+	cjwt "lps/cemetery/pkg/jwt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
@@ -60,16 +63,26 @@ func (u *UserHandler) UpdateUser(c *gin.Context) {
 	// Update the user data
 	userToUpdate.Auth.Username = updateRequest.Auth.Username
 	userToUpdate.Auth.Email = updateRequest.Auth.Email
+
 	// Хеширование нового пароля перед сохранением
-	if len(updateRequest.Auth.Password) > 0 {
+	updateRequest.PasswordChanged = false
+	if updateRequest.PasswordChanged {
 		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(updateRequest.Auth.Password), bcrypt.DefaultCost)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash the password", "details": err.Error()})
 			return
 		}
 		userToUpdate.Auth.Password = string(hashedPassword)
+	} else {
+		// Не обновлять пароль, если он не был изменен
 	}
-	// userToUpdate.Auth.Password = updateRequest.Auth.Password
+
+	// Сохранение пользователя
+	if err := u.DB.Save(&userToUpdate).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user", "details": err.Error()})
+		return
+	}
+
 	userToUpdate.Auth.Role = updateRequest.Auth.Role
 	userToUpdate.Personal.Name = updateRequest.Personal.Name
 	userToUpdate.Personal.Surname = updateRequest.Personal.Surname
@@ -87,7 +100,28 @@ func (u *UserHandler) UpdateUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "User updated successfully"})
+	// if updateRequest.PasswordChanged {
+	// 	c.JSON(http.StatusOK, gin.H{"message": "User updated successfully, password changed"})
+	// } else {
+	// 	c.JSON(http.StatusOK, gin.H{"message": "User updated successfully"})
+	// }
+
+	// Генерация нового JWT токена на основе обновленных данных пользователя
+	token, err := cjwt.CreateToken(userToUpdate)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token", "details": err.Error()})
+		return
+	}
+
+	// c.SetCookie("token", token, int((time.Hour * 24 * 30).Seconds()), "/", "", false, false)
+
+	// Ответ с сообщением об успехе и новым JWT токеном
+	c.JSON(http.StatusOK, gin.H{
+		"message": "User updated successfully",
+		"token":   token,
+	})
+
+	// fmt.Println("Token: ", token)
 }
 
 // @Summary Обновление роли пользователя
@@ -278,6 +312,19 @@ func (u *UserHandler) GetUser(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
 		return
 	}
+
+	//? Преобразование строки даты в формат time.Time
+	birthdayTime, err := time.Parse(time.RFC3339, user.Personal.BirthDate)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to parse birthday"})
+		return
+	}
+
+	// ?Форматирование даты в требуемый формат
+	formattedBirthday := birthdayTime.Format("02.01.2006")
+
+	//? Обновление даты рождения в структуре пользователя
+	user.Personal.BirthDate = formattedBirthday
 
 	c.JSON(http.StatusOK, user)
 }

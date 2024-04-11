@@ -16,6 +16,8 @@ import {
   ScrollArea,
   rem,
   useMantineTheme,
+  Flex,
+  ActionIcon,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
@@ -26,6 +28,7 @@ import {
   IconFingerprint,
   IconCoin,
   IconChevronDown,
+  IconUserCircle,
 } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import { Paths, PathsDashboard } from '@/Components/App/Routing';
@@ -34,6 +37,7 @@ import classes from './Header.module.scss';
 import { ThemeToggler } from '../..';
 import { APP } from '@/Share/Variables';
 import { FC } from 'react';
+import { useAuth } from '@/Store';
 
 const features = [
   {
@@ -69,6 +73,8 @@ const features = [
 ];
 
 export const Header: FC = () => {
+  // const isAuth = useAuth();
+  const isAuth = useAuth((state) => state.isAuth);
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
@@ -102,10 +108,9 @@ export const Header: FC = () => {
           <Link to={Paths.Root}>
             <img src={logo} alt='logotype' width={50} />
           </Link>
-
           <Group h='100%' gap={0} visibleFrom='sm'>
             <Link to={PathsDashboard.Main} className={classes.link}>
-              Home
+              Приложение
             </Link>
             <HoverCard
               width={600}
@@ -157,23 +162,37 @@ export const Header: FC = () => {
                 </div>
               </HoverCard.Dropdown>
             </HoverCard>
-            <a href='#' className={classes.link}>
-              Learn
+            <a href='#faq' className={classes.link}>
+              Часто задаваемые вопросы
             </a>
-            <a href='#' className={classes.link}>
-              Academy
+            <a href='#reviews' className={classes.link}>
+              Отзывы
+            </a>
+            <a href='#get_in_touch' className={classes.link}>
+              Get in touch
             </a>
           </Group>
-
-          <Group visibleFrom='sm'>
-            <ThemeToggler size='lg' />
-            <Link to={Paths.Login}>
-              <Button variant='default'>Вход</Button>
-            </Link>
-            <Link to={Paths.Signup}>
-              <Button>Регистрация</Button>
-            </Link>
-          </Group>
+          {/* //TODO fix this sheat */}
+          {isAuth == true ? (
+            <Flex gap={10} visibleFrom='sm'>
+              <ThemeToggler size='md' />
+              <Link to={PathsDashboard.Account}>
+                <ActionIcon variant='default' mt={4}>
+                  <IconUserCircle stroke={1.5} />
+                </ActionIcon>
+              </Link>
+            </Flex>
+          ) : (
+            <Group visibleFrom='sm'>
+              <ThemeToggler size='lg' />
+              <Link to={Paths.Login}>
+                <Button variant='default'>Вход</Button>
+              </Link>
+              <Link to={Paths.Signup}>
+                <Button>Регистрация</Button>
+              </Link>
+            </Group>
+          )}
 
           <Group className={classes.mtoggler} visibleFrom='base'>
             <ThemeToggler size='md' />
@@ -198,8 +217,8 @@ export const Header: FC = () => {
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx='-md'>
           <Divider my='sm' />
 
-          <Link to={Paths.Home} className={classes.link}>
-            Home
+          <Link to={PathsDashboard.Main} className={classes.link}>
+            Приложение
           </Link>
           <UnstyledButton className={classes.link} onClick={toggleLinks}>
             <Center inline>
@@ -213,22 +232,36 @@ export const Header: FC = () => {
             </Center>
           </UnstyledButton>
           <Collapse in={linksOpened}>{links}</Collapse>
-          <a href='#' className={classes.link}>
-            Learn
+          <a href='#faq' className={classes.link}>
+            Часто задаваемые вопросы
           </a>
-          <a href='#' className={classes.link}>
-            Academy
+          <a href='#reviews' className={classes.link}>
+            Отзывы
+          </a>
+          <a href='#get_in_touch' className={classes.link}>
+            Get in touch
           </a>
           <Divider my='sm' />
 
-          <Group justify='center' pb='xl' px='md'>
-            <Link to={Paths.Login}>
-              <Button variant='default'>Вход</Button>
+          {/* //TODO fix this sheat */}
+          {isAuth == true ? (
+            <Link to={PathsDashboard.Account}>
+              <ActionIcon w={'100%'}>
+                {/* <IconUserCircle /> */}
+                Личный кабинет
+              </ActionIcon>
             </Link>
-            <Link to={Paths.Signup}>
-              <Button>Регистрация</Button>
-            </Link>
-          </Group>
+          ) : (
+            <Group visibleFrom='sm'>
+              <ThemeToggler size='lg' />
+              <Link to={Paths.Login}>
+                <Button variant='default'>Вход</Button>
+              </Link>
+              <Link to={Paths.Signup}>
+                <Button>Регистрация</Button>
+              </Link>
+            </Group>
+          )}
         </ScrollArea>
       </Drawer>
     </Box>

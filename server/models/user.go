@@ -1,6 +1,9 @@
 package models
 
 import (
+	"encoding/json"
+	"time"
+
 	"github.com/golang-jwt/jwt"
 	"gorm.io/gorm"
 )
@@ -21,9 +24,16 @@ const (
 	SimpleUser UserRole = "user"
 )
 
+type GormModel struct {
+	ID        uint `gorm:"primarykey" json:"id"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt `gorm:"index"`
+}
+
 // @ User table...
 type User struct {
-	gorm.Model
+	GormModel
 	Auth     `json:"auth"`
 	Personal `json:"personal"`
 	Location `json:"location"`
@@ -33,11 +43,29 @@ type User struct {
 	//? Think about omitempty
 }
 
+func (u *User) MarshalJSON() ([]byte, error) {
+	// Extract ID from gorm.Model
+	id := u.ID
+
+	// Create a map with desired structure
+	data := map[string]interface{}{
+		"id":       id,
+		"auth":     u.Auth,
+		"personal": u.Personal,
+		"location": u.Location,
+		"position": u.Position,
+		"mbti":     u.MBTI,
+	}
+
+	// Marshal the map to JSON
+	return json.Marshal(data)
+}
+
 type (
 	Auth struct {
 		Username string `json:"username"`
 		Email    string `gorm:"unique_index;not null" json:"email"`
-		Password string `json:"password"`
+		Password string `json:"password,omitempty"`
 		Role     string `gorm:"default:'user'" json:"role"`
 	}
 	Personal struct {
@@ -87,7 +115,7 @@ type UpdateUserRequest struct {
 	Auth struct {
 		Username string `json:"username"`
 		Email    string `gorm:"unique_index;not null" json:"email"`
-		Password string `json:"password"`
+		Password string `json:"password,omitempty"`
 		Role     string `gorm:"default:'user'" json:"role"`
 	}
 	Personal struct {
@@ -105,6 +133,7 @@ type UpdateUserRequest struct {
 	MBTI     struct {
 		Type string `json:"type"`
 	}
+	PasswordChanged bool `json:"password_changed"`
 }
 
 // ? User UPD role request stuct

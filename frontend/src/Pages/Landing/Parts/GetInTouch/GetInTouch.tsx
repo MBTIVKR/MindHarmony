@@ -30,6 +30,7 @@ export const GetInTouch = () => {
       p='xl'
       radius='lg'
       style={{ boxShadow: '0px 0px 25px 1px #3B3B3B' }}
+      id='get_in_touch'
     >
       <form onSubmit={form.onSubmit(() => {})}>
         <Title

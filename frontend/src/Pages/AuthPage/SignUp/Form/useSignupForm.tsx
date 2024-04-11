@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { useState, useEffect } from 'react';
 import { useForm } from '@mantine/form';
 import { Paths } from '@Components/App/Routing';
