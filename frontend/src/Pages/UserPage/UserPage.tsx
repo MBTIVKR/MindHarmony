@@ -10,9 +10,11 @@ import {
   LoadingOverlay,
   Anchor,
   Breadcrumbs,
+  Button,
 } from "@mantine/core";
 import axios from "axios";
 import { AdminPaths } from "@/Components/App/Routing";
+import { createPdf } from "./CreatePDF";
 
 const UserPage = () => {
   const { id } = useParams();
@@ -45,7 +47,7 @@ const UserPage = () => {
   }
 
   const items = [
-    { title: "Панель администратора", href: AdminPaths.Panel},
+    { title: "Панель администратора", href: AdminPaths.Panel },
     { title: "Пользователи", href: AdminPaths.Users },
     { title: `${user?.auth?.username}`, href: "" },
   ].map((item, index) => (
@@ -57,9 +59,16 @@ const UserPage = () => {
   return (
     <>
       <Stack gap="lg" p="lg">
-        <Title order={2}>
-          Профиль пользователя <b> {user?.auth?.username}</b>
-        </Title>
+        <Flex
+        direction={{ base: "column", sm: "row" }}
+        m={{base: '0px auto', sm: '0px'}}>
+          <Title order={2}>
+            Профиль пользователя <b> {user?.auth?.username}</b>
+          </Title>
+          <Button ml="auto" onClick={() => createPdf(user)}>
+            Скачать PDF
+          </Button>
+        </Flex>
         <Divider />
         <Breadcrumbs>{items}</Breadcrumbs>
         <Divider />
