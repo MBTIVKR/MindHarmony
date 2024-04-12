@@ -19,6 +19,7 @@ import { $host } from "@/Services/instance";
 import { Link, useNavigate } from "react-router-dom";
 import { IconUserCancel, IconUserFilled } from "@tabler/icons-react";
 import { AdminPaths } from "@/Components/App/Routing";
+import { exportToExcel } from "./exportToExel";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -116,6 +117,9 @@ const Users = () => {
   return (
     <>
         <Title order={1} pt={20} mb={20}>Пользователи</Title>
+        <Button mb={20} onClick={() => exportToExcel(users, "UsersList")}>
+        Скачать как Excel
+      </Button>
         <Divider />
         <Breadcrumbs pt={20} pb={20}>{items}</Breadcrumbs>
         <Divider />
