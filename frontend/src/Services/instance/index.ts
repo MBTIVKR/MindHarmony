@@ -4,7 +4,6 @@ const $host = axios.create({
   withCredentials: true,
   baseURL: import.meta.env.VITE_APP_API_URL,
 });
-
 const $authHost = axios.create({
   baseURL: import.meta.env.VITE_APP_API_URL,
 });

@@ -86,3 +86,12 @@ export const TestsPage = Loadable(
 //! Utils
 //@ NowYear util
 export const NowYear = Loadable(lazy(() => import('@/Utils/NowYear/NowYear')));
+
+//! Admin components
+export const AdminPanel = Loadable(lazy(() => import('@/Components/Admin/Panel/AdminPanel')));
+export const AdminUsers = Loadable(lazy(() => import('@/Components/Admin/Usesr/Users')));
+export const AdminTests = Loadable(lazy(() => import('@/Components/Admin/Tests/Tests')));
+
+//! Admin Pages
+export const AdminPanelPage = Loadable(lazy(() => import('@Pages/AdminPanelPage/AdminPanelPage')));
+export const AdminUserPage = Loadable(lazy(() => import('@Pages/UserPage/UserPage')));

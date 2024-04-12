@@ -5,6 +5,7 @@ export enum Paths {
   Test = '/test',
   Example = '/example',
   Dashbord = '/dashbord',
+  Admin = '/admin',
   //@ `/api` Authentication
   Signup = '/signup',
   Login = '/login',
@@ -22,5 +23,13 @@ export enum PathsDashboard {
   Account = '/dashbord/account',
   Tests = '/dashbord/tests',
   MBTI = '/dashbord/tests/mbti',
-  SMIL = '/dashbord/tests/smil'
+  SMIL = '/dashbord/tests/smil',
+  PublicUserProfile = '/dashbord/users/:id'
+}
+
+//@ Admin Routes
+export enum AdminPaths {
+  Panel = '/admin/panel',
+  Users = '/admin/panel/users',
+  Tests = '/admin/panel/tests',
 }

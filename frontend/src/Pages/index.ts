@@ -8,6 +8,10 @@ export { default as TestsPage } from './TestsPage/TestsPage';
 export { default as ResetPasswordRequest } from './ResetPasswordRequest/ResetPasswordRequest';
 export { default as ResetPasswordPage } from './ResetPasswordForm/ResetPasswordPage';
 
+//! Admin Pages
+export { default as AdminPanelPage } from './AdminPanelPage/AdminPanelPage';
+export { default as UserPage } from './UserPage/UserPage';
+
 //!TODO 500, 503 pages
 //@ Errors
 export * from './ErrorsPages/epages';

@@ -41,7 +41,8 @@ export interface IAuthStore {
 
 export const useAuth = create<IAuthStore>()(immer(devtools((set, get) => ({
       isAuth: false,
-      user: {} as User,
+      // user: {} as User,
+      user: { auth: { role: null } } as User,
       error: '',
       loading: false,
 

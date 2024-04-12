@@ -1,6 +1,6 @@
-import { createBrowserRouter } from 'react-router-dom';
-import { Paths, PathsDashboard } from '.';
-import { Layout } from '@Components/Features/Layouts/Layout';
+import { createBrowserRouter } from "react-router-dom";
+import { AdminPaths, Paths, PathsDashboard } from ".";
+import { Layout } from "@Components/Features/Layouts/Layout";
 import {
   NotFoundPage,
   Settings,
@@ -12,10 +12,17 @@ import {
   MBTITest,
   TestsPage,
   SMILTest,
-} from './Lazy';
-import Login from '@Pages/AuthPage/Login/Login';
-import { AuthGuard } from './Providers/AuthGuard';
-import { ResetPasswordPage, ResetPasswordRequest } from '@/Pages';
+  AdminUsers,
+  AdminTests,
+} from "./Lazy";
+import Login from "@Pages/AuthPage/Login/Login";
+import { AuthGuard } from "./Providers/AuthGuard";
+import {
+  AdminPanelPage,
+  ResetPasswordPage,
+  ResetPasswordRequest,
+  UserPage,
+} from "@/Pages";
 
 const Routing = () => {
   return createBrowserRouter([
@@ -69,6 +76,49 @@ const Routing = () => {
           element: (
             <AuthGuard>
               <SMILTest />
+            </AuthGuard>
+          ),
+        },
+        {
+          //! Admin access
+          path: PathsDashboard.PublicUserProfile,
+          element: (
+            <AuthGuard>
+              <UserPage />
+            </AuthGuard>
+          ),
+        },
+      ],
+    },
+    {
+      //@ Routes with sIdebar and global Container
+      path: Paths.Admin,
+      element: <Home />,
+      children: [
+        {
+          //! Admin access
+          path: AdminPaths.Panel,
+          element: (
+            <AuthGuard isAdmin>
+              <AdminPanelPage />
+            </AuthGuard>
+          ),
+        },
+        {
+          //! Admin access
+          path: AdminPaths.Users,
+          element: (
+            <AuthGuard isAdmin>
+              <AdminUsers />
+            </AuthGuard>
+          ),
+        },
+        {
+          //! Admin access
+          path: AdminPaths.Tests,
+          element: (
+            <AuthGuard isAdmin>
+              <AdminTests />
             </AuthGuard>
           ),
         },
