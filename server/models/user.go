@@ -31,30 +31,35 @@ type GormModel struct {
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
 
+type Section struct {
+	GormModel
+	SectionID uint
+	Name      string `json:"position_name"`
+}
+
 type User struct {
 	GormModel
 	Auth     `json:"auth"`
 	Personal `json:"personal"`
 	Location `json:"location"`
-	Position string `json:"position"`
+	Position string  `json:"position"`
+	Section  Section `json:"section" gorm:"foreignKey:SectionID"`
 	MBTI     `json:"mbti" gorm:"foreignKey:UserID"`
 }
 
 func (u *User) MarshalJSON() ([]byte, error) {
-	// Extract ID from gorm.Model
 	id := u.GormModel.ID
 
-	// Create a map with desired structure
 	data := map[string]interface{}{
 		"id":       id,
 		"auth":     u.Auth,
 		"personal": u.Personal,
 		"location": u.Location,
 		"position": u.Position,
+		"section":  u.Section,
 		"mbti":     u.MBTI,
 	}
 
-	// Marshal the map to JSON
 	return json.Marshal(data)
 }
 
@@ -104,6 +109,7 @@ type Claims struct {
 		City    string `json:"city"`
 	}
 	Position string `json:"position"`
+	Section  `json:"section"`
 	MBTI     struct {
 		ID     uint   `gorm:"primaryKey" json:"id"`
 		UserID uint   `json:"user_id" gorm:"foreignKey:UserID"`
@@ -131,6 +137,7 @@ type UpdateUserRequest struct {
 		City    string `json:"city"`
 	}
 	Position string `json:"position"`
+	Section  `json:"section"`
 	MBTI     struct {
 		ID     uint   `gorm:"primaryKey" json:"id"`
 		UserID uint   `json:"user_id" gorm:"foreignKey:UserID"`
@@ -142,4 +149,10 @@ type UpdateUserRequest struct {
 // ? User UPD role request stuct
 type UpdateUserRoleRequest struct {
 	NewRole string `json:"newRole" binding:"required" enums:"user,support,moderator,admin"`
+}
+
+// ? User UPD section request stuct
+type UpdateUserSectionRequest struct {
+	SectionID   uint   `json:"section_id" binding:"required"`
+	SectionName string `json:"section_name" binding:"required"`
 }

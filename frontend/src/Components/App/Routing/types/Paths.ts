@@ -32,4 +32,8 @@ export enum AdminPaths {
   Panel = '/admin/panel',
   Users = '/admin/panel/users',
   Tests = '/admin/panel/tests',
+  Positions = '/admin/panel/positions',
+  Departments = '/admin/panel/departments',
+  CreatePosition = '/admin/panel/create-position',
+  ManagePosition = '/admin/panel/manage-position',
 }

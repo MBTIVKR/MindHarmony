@@ -91,6 +91,10 @@ export const NowYear = Loadable(lazy(() => import('@/Utils/NowYear/NowYear')));
 export const AdminPanel = Loadable(lazy(() => import('@/Components/Admin/Panel/AdminPanel')));
 export const AdminUsers = Loadable(lazy(() => import('@/Components/Admin/Usesr/Users')));
 export const AdminTests = Loadable(lazy(() => import('@/Components/Admin/Tests/Tests')));
+export const CreatePosition = Loadable(lazy(() => import('@Components/Admin/Positions/CreatePosition/CreatePosition')));
+export const ManagePosition = Loadable(lazy(() => import('@Components/Admin/Positions/ManagePosition/ManagePosition')));
+export const Positions = Loadable(lazy(() => import('@Components/Admin/Positions/Positions')));
+export const Departments = Loadable(lazy(() => import('@Components/Admin/Positions/Departments')));
 
 //! Admin Pages
 export const AdminPanelPage = Loadable(lazy(() => import('@Pages/AdminPanelPage/AdminPanelPage')));

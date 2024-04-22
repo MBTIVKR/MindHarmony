@@ -1,5 +1,5 @@
 import { AdminPaths } from "@/Components/App/Routing";
-import { Card, Button,  Text, Grid, Title, Flex } from "@mantine/core";
+import { Card, Button,  Text, Title, Flex } from "@mantine/core";
 import { Link } from "react-router-dom";
 
 const AdminPanel = () => {
@@ -50,6 +50,30 @@ const AdminPanel = () => {
 
             <Link
               to={AdminPaths.Tests}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Button variant="light" style={{ marginTop: "auto" }}>
+                Перейти
+              </Button>
+            </Link>
+          </Card>
+          <Card
+            shadow="sm"
+            padding="lg"
+            radius="md"
+            style={{ display: "flex", flexDirection: "column", height: "100%" }}
+          >
+            <div style={{ flexGrow: 1 }}>
+              <Text size="lg" style={{ marginBottom: 10 }}>
+                Отделы
+              </Text>
+              <Text size="sm" pb={10}>
+                Управление отделами: создание, редактирование, удаление.
+              </Text>
+            </div>
+
+            <Link
+              to={AdminPaths.Positions}
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <Button variant="light" style={{ marginTop: "auto" }}>

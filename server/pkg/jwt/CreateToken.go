@@ -36,6 +36,10 @@ func CreateToken(user models.User) (string, error) {
 
 	//@ Должность
 	claims.Position = user.Position
+	// @ Должность
+	claims.Position = user.Position
+	claims.Section.ID = user.Section.ID
+	claims.Section.Name = user.Section.Name
 
 	//@ Результаты MBTI
 	claims.MBTI.ID = user.MBTI.ID

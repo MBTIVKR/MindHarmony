@@ -14,6 +14,10 @@ import {
   SMILTest,
   AdminUsers,
   AdminTests,
+  CreatePosition,
+  ManagePosition,
+  Positions,
+  Departments,
 } from "./Lazy";
 import Login from "@Pages/AuthPage/Login/Login";
 import { AuthGuard } from "./Providers/AuthGuard";
@@ -80,7 +84,6 @@ const Routing = () => {
           ),
         },
         {
-          //! Admin access
           path: PathsDashboard.PublicUserProfile,
           element: (
             <AuthGuard>
@@ -119,6 +122,42 @@ const Routing = () => {
           element: (
             <AuthGuard isAdmin>
               <AdminTests />
+            </AuthGuard>
+          ),
+        },
+        {
+          //! Admin access
+          path: AdminPaths.Positions,
+          element: (
+            <AuthGuard isAdmin>
+              <Positions />
+            </AuthGuard>
+          ),
+        },
+        {
+          //! Admin access
+          path: AdminPaths.CreatePosition,
+          element: (
+            <AuthGuard isAdmin>
+              <CreatePosition />
+            </AuthGuard>
+          ),
+        },
+        {
+          //! Admin access
+          path: AdminPaths.ManagePosition,
+          element: (
+            <AuthGuard isAdmin>
+              <ManagePosition />
+            </AuthGuard>
+          ),
+        },
+        {
+          //! Admin access
+          path: AdminPaths.Departments,
+          element: (
+            <AuthGuard isAdmin>
+              <Departments />
             </AuthGuard>
           ),
         },

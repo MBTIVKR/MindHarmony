@@ -42,6 +42,11 @@ func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 		api.POST("/signup", a.Register)
 		api.POST("/login", a.Login)
 		api.GET("/logout", a.Logout)
+		//? Отделы
+		api.POST("/sections", u.CreateSection)
+		api.GET("/sections", u.GetSections)
+		api.PUT("/users/update-section/:id", u.UpdateUserSection)
+		api.DELETE("/sections/:id", u.DeleteSection)
 		//? Tests
 		// Роут для получения данных MBTI по пользователю
 		api.GET("/api/mbti/:id", u.GetMBTIData)

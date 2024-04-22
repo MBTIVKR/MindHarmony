@@ -92,6 +92,8 @@ func (u *UserHandler) UpdateUser(c *gin.Context) {
 	userToUpdate.Location.Country = updateRequest.Location.Country
 	userToUpdate.Location.City = updateRequest.Location.City
 	userToUpdate.Position = updateRequest.Position
+	userToUpdate.Section.ID = updateRequest.Section.ID
+	userToUpdate.Section.Name = updateRequest.Section.Name
 	userToUpdate.MBTI.Type = updateRequest.MBTI.Type
 
 	// Save the updated user data
