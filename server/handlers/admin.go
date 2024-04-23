@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"lps/cemetery/models"
 	"net/http"
 
@@ -11,9 +12,17 @@ import (
 func (u *UserHandler) CreateSection(c *gin.Context) {
 	var section models.Section
 	if err := c.ShouldBindJSON(&section); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request", "details": err.Error()})
 		return
 	}
+
+	fmt.Println("Received JSON body:", section)
+
+	if section.Name == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Section name is required"})
+		return
+	}
+
 	if err := u.DB.Create(&section).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create section"})
 		return

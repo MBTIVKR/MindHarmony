@@ -33,18 +33,18 @@ type GormModel struct {
 
 type Section struct {
 	GormModel
-	SectionID uint
-	Name      string `json:"position_name"`
+	Name string `json:"name" gorm:"unique"`
 }
 
 type User struct {
 	GormModel
-	Auth     `json:"auth"`
-	Personal `json:"personal"`
-	Location `json:"location"`
-	Position string  `json:"position"`
-	Section  Section `json:"section" gorm:"foreignKey:SectionID"`
-	MBTI     `json:"mbti" gorm:"foreignKey:UserID"`
+	Auth      `json:"auth"`
+	Personal  `json:"personal"`
+	Location  `json:"location"`
+	Position  string  `json:"position"`
+	SectionID uint    `json:"section_id"`
+	Section   Section `json:"section" gorm:"foreignKey:SectionID"`
+	MBTI      `json:"mbti" gorm:"foreignKey:UserID"`
 }
 
 func (u *User) MarshalJSON() ([]byte, error) {

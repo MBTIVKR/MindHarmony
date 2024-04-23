@@ -4,7 +4,6 @@ import {
   Button,
   Modal,
   Text,
-  Select,
   Group,
   Box,
   Tooltip,
@@ -12,10 +11,11 @@ import {
   Breadcrumbs,
   Title,
   Anchor,
+  Select,
 } from "@mantine/core";
 import { $host } from "@/Services/instance";
 import { useNavigate } from "react-router-dom";
-import { IconUserCancel, IconUserFilled } from "@tabler/icons-react";
+import { IconUserCancel, IconUserFilled, Icon123 } from "@tabler/icons-react";
 import { AdminPaths } from "@/Components/App/Routing";
 import { exportToExcel } from "./exportToExel";
 
@@ -24,6 +24,10 @@ const Users = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sections, setSections] = useState([]);
+  const [selectedSection, setSelectedSection] = useState({
+    id: "",
+    position_name: "",
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -114,24 +118,41 @@ const Users = () => {
     }
   };
 
-  const handleChangeSection = async (userId, sectionId, sectionName) => {
+  const handleChangeSection = async (userId) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
         console.error("No token found, user might not be logged in");
         return;
       }
-
+  
+      if (!selectedSection || !selectedSection.id) {
+        console.error("Please select a section");
+        return;
+      }
+  
+      const sectionId = selectedSection.id.toString(); // Ensure it's a string
+      const section = sections.find(
+        (section) => section.id.toString() === sectionId
+      );
+      if (!section) {
+        console.error("Section not found");
+        return;
+      }
+  
       const response = await $host.put(
         `/api/users/update-section/${userId}`,
-        { section_id: parseInt(sectionId), section_name: sectionName }, // Добавляем section_name
+        {
+          section_id: section.id,
+          section_name: section.name,
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-
+  
       if (response.status === 200) {
         await fetchUsers();
         console.log("Section updated successfully");
@@ -144,6 +165,15 @@ const Users = () => {
     } catch (error) {
       console.error("Failed to update user section:", error);
     }
+  };  
+
+  const openModal = (user) => {
+    setSelectedUser(user);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   const items = [
@@ -186,16 +216,19 @@ const Users = () => {
           {users.map((user) => (
             <Table.Tr key={user?.id}>
               <Table.Td>{user?.id}</Table.Td>
-              <Table.Td>{user?.auth.username}</Table.Td>
+              <Table.Td>{user?.auth?.username}</Table.Td>
               <Table.Td>{user?.auth?.email}</Table.Td>
               <Table.Td>
                 <Select
-                  value={user?.auth?.role.toString()}
+                  value={user?.auth?.role ? user.auth.role.toString() : ""}
                   onChange={(value) => handleChangeRole(user?.id, value)}
                   data={[
                     { value: "admin", label: "Admin" },
                     { value: "user", label: "User" },
-                  ]}
+                  ].map((option) => ({
+                    value: option.value.toString(),
+                    label: option.label,
+                  }))}
                 />
               </Table.Td>
               <Table.Td>
@@ -210,16 +243,10 @@ const Users = () => {
                 )}
               </Table.Td>
               <Table.Td>
-              <Select
-                value={user?.position || "none"}
-                onChange={(value) => handleChangeSection(user?.id, value, user?.section?.position_name || "")} // Передаем section_name или пустую строку
-                data={sections.map((section) => ({
-                  value: section?.id.toString(), // Используем id отдела как значение
-                  label: section?.position_name || "Не указано",
-                }))}
-              />
+                {user?.section?.name|| (
+                  <Text c={"dark"}>Отсутствует</Text>
+                )}
               </Table.Td>
-
               <Table.Td>
                 <Group gap="sm">
                   <Tooltip label="Профиль">
@@ -230,11 +257,11 @@ const Users = () => {
                   <Tooltip label="Удалить">
                     <IconUserCancel
                       color="red"
-                      onClick={() => {
-                        setSelectedUser(user);
-                        setIsModalOpen(true);
-                      }}
+                      onClick={() => openModal(user)}
                     />
+                  </Tooltip>
+                  <Tooltip label="Перевод">
+                    <Icon123 onClick={() => openModal(user)} />
                   </Tooltip>
                 </Group>
               </Table.Td>
@@ -245,18 +272,35 @@ const Users = () => {
 
       <Modal
         opened={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title="Confirm Deletion"
+        onClose={closeModal}
+        title="Перевод пользователя в другой отдел"
       >
         <Box>
-          <Text>
-            Вы действительно хотите удалить пользователя{" "}
-            <b>{selectedUser?.auth?.username}</b>?
-          </Text>
+          <Text>Выберите новый отдел для пользователя:</Text>
+          <Select
+            value={selectedSection.id ? selectedSection.id.toString() : ""}
+            onChange={(value) => {
+              const section = sections.find(
+                (section) => section.id.toString() === value
+              );
+              setSelectedSection(section || { id: "", position_name: "" });
+            }}
+            data={sections.map((section) => ({
+              value: String(section?.id),
+              label: section?.position || section?.name || "", // Используйте position или name в зависимости от структуры данных
+            }))}
+          />
+          <Button
+            color="blue"
+            mt={10}
+            onClick={() => {
+              handleChangeSection(selectedUser?.id);
+              closeModal();
+            }}
+          >
+            Перевести
+          </Button>
         </Box>
-        <Button color="red" onClick={() => handleDelete(selectedUser?.id)}>
-          Delete User
-        </Button>
       </Modal>
     </>
   );
