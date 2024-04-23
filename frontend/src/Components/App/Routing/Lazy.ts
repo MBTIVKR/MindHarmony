@@ -92,7 +92,7 @@ export const AdminPanel = Loadable(lazy(() => import('@/Components/Admin/Panel/A
 export const AdminUsers = Loadable(lazy(() => import('@/Components/Admin/Usesr/Users')));
 export const AdminTests = Loadable(lazy(() => import('@/Components/Admin/Tests/Tests')));
 export const CreatePosition = Loadable(lazy(() => import('@Components/Admin/Positions/CreatePosition/CreatePosition')));
-export const ManagePosition = Loadable(lazy(() => import('@Components/Admin/Positions/ManagePosition/ManagePosition')));
+export const PositionList = Loadable(lazy(() => import('@Components/Admin/Positions/PositionList')));
 export const Positions = Loadable(lazy(() => import('@Components/Admin/Positions/Positions')));
 export const Departments = Loadable(lazy(() => import('@Components/Admin/Positions/Departments')));
 

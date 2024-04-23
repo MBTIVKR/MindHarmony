@@ -16,7 +16,11 @@ import {
 } from "@mantine/core";
 import { $host } from "@/Services/instance";
 import { useNavigate } from "react-router-dom";
-import { IconUserCancel, IconUserFilled, IconArrowRightCircle } from "@tabler/icons-react";
+import {
+  IconUserCancel,
+  IconUserFilled,
+  IconArrowRightCircle,
+} from "@tabler/icons-react";
 import { AdminPaths } from "@/Components/App/Routing";
 import { exportToExcel } from "./exportToExel";
 
@@ -24,6 +28,7 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [sections, setSections] = useState([]);
   const [selectedSection, setSelectedSection] = useState({
     id: "",
@@ -81,7 +86,7 @@ const Users = () => {
     } catch (error) {
       console.error("Failed to delete user:", error);
     }
-    setIsModalOpen(false);
+    closeDeleteModal();
   };
 
   const handleChangeRole = async (userId, newRole) => {
@@ -126,13 +131,13 @@ const Users = () => {
         console.error("No token found, user might not be logged in");
         return;
       }
-  
+
       if (!selectedSection || !selectedSection.id) {
         console.error("Please select a section");
         return;
       }
-  
-      const sectionId = selectedSection.id.toString(); // Ensure it's a string
+
+      const sectionId = selectedSection.id.toString();
       const section = sections.find(
         (section) => section.id.toString() === sectionId
       );
@@ -140,7 +145,7 @@ const Users = () => {
         console.error("Section not found");
         return;
       }
-  
+
       const response = await $host.put(
         `/api/users/update-section/${userId}`,
         {
@@ -153,7 +158,7 @@ const Users = () => {
           },
         }
       );
-  
+
       if (response.status === 200) {
         await fetchUsers();
         console.log("Section updated successfully");
@@ -166,11 +171,20 @@ const Users = () => {
     } catch (error) {
       console.error("Failed to update user section:", error);
     }
-  };  
+  };
 
   const openModal = (user) => {
     setSelectedUser(user);
     setIsModalOpen(true);
+  };
+
+  const openDeleteModal = (user) => {
+    setSelectedUser(user);
+    setIsModalDeleteOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setIsModalDeleteOpen(false);
   };
 
   const closeModal = () => {
@@ -244,9 +258,7 @@ const Users = () => {
                 )}
               </Table.Td>
               <Table.Td>
-                {user?.section?.name|| (
-                  <Text c={"dark"}>Отсутствует</Text>
-                )}
+                {user?.section?.name || <Text c={"dark"}>Отсутствует</Text>}
               </Table.Td>
               <Table.Td>
                 <Group gap="sm">
@@ -258,7 +270,7 @@ const Users = () => {
                   <Tooltip label="Удалить">
                     <IconUserCancel
                       color="red"
-                      onClick={() => openModal(user)}
+                      onClick={() => openDeleteModal(user)}
                     />
                   </Tooltip>
                   <Tooltip label="Перевод">
@@ -272,6 +284,22 @@ const Users = () => {
       </Table>
 
       <Modal
+        opened={isModalDeleteOpen}
+        onClose={() => setIsModalDeleteOpen(false)}
+        title="Подтвердить удаление"
+      >
+        <Box>
+          <Text>
+            Вы действительно хотите удалить пользователя{" "}
+            <b>{selectedUser?.auth?.username}</b>?
+          </Text>
+        </Box>
+        <Button color="red" onClick={() => handleDelete(selectedUser?.id)}>
+          Удалить пользователя
+        </Button>
+      </Modal>
+
+      <Modal
         opened={isModalOpen}
         onClose={closeModal}
         title="Перевод пользователя в другой отдел"
@@ -279,7 +307,11 @@ const Users = () => {
         <Box>
           <Text>Выберите новый отдел для пользователя:</Text>
           <Select
-            value={selectedSection.id ? selectedSection.name.toString() : selectedSection.name}
+            value={
+              selectedSection.id
+                ? selectedSection.name.toString()
+                : selectedSection.name
+            }
             onChange={(value) => {
               const section = sections.find(
                 (section) => section.id.toString() === value

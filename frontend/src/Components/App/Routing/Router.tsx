@@ -15,9 +15,9 @@ import {
   AdminUsers,
   AdminTests,
   CreatePosition,
-  ManagePosition,
   Positions,
   Departments,
+  PositionList,
 } from "./Lazy";
 import Login from "@Pages/AuthPage/Login/Login";
 import { AuthGuard } from "./Providers/AuthGuard";
@@ -148,7 +148,7 @@ const Routing = () => {
           path: AdminPaths.ManagePosition,
           element: (
             <AuthGuard isAdmin>
-              <ManagePosition />
+              <PositionList />
             </AuthGuard>
           ),
         },
