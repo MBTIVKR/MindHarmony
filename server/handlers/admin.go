@@ -78,11 +78,9 @@ func (u *UserHandler) UpdateUserSection(c *gin.Context) {
 	}
 
 	// Обновляем отдел пользователя
-	user.Section.Name = request.SectionName
+	user.SectionID = &request.SectionID
 
-	// Получаем название отдела и присваиваем его пользователю
-	user.Position = section.Name
-
+	// Сохраняем пользователя
 	if err := u.DB.Save(&user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user section"})
 		return

@@ -96,7 +96,7 @@ const Departments = () => {
           {sections.map((section) => (
             <Table.Tr key={section.id}>
               <Table.Td>{section.id}</Table.Td>
-              <Table.Td>{section.position_name}</Table.Td>
+              <Table.Td>{section.name}</Table.Td>
               <Table.Td>
                 <Button onClick={() => handleDelete(section.id)}>
                   Удалить

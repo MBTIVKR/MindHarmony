@@ -42,7 +42,7 @@ type User struct {
 	Personal  `json:"personal"`
 	Location  `json:"location"`
 	Position  string  `json:"position"`
-	SectionID uint    `json:"section_id"`
+	SectionID *uint   `json:"section_id"`
 	Section   Section `json:"section" gorm:"foreignKey:SectionID"`
 	MBTI      `json:"mbti" gorm:"foreignKey:UserID"`
 }

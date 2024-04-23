@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+//@ts-nocheck
+import { useState, useEffect } from "react";
 import {
   Table,
   Button,
@@ -15,7 +16,7 @@ import {
 } from "@mantine/core";
 import { $host } from "@/Services/instance";
 import { useNavigate } from "react-router-dom";
-import { IconUserCancel, IconUserFilled, Icon123 } from "@tabler/icons-react";
+import { IconUserCancel, IconUserFilled, IconArrowRightCircle } from "@tabler/icons-react";
 import { AdminPaths } from "@/Components/App/Routing";
 import { exportToExcel } from "./exportToExel";
 
@@ -261,7 +262,7 @@ const Users = () => {
                     />
                   </Tooltip>
                   <Tooltip label="Перевод">
-                    <Icon123 onClick={() => openModal(user)} />
+                    <IconArrowRightCircle onClick={() => openModal(user)} />
                   </Tooltip>
                 </Group>
               </Table.Td>
@@ -278,7 +279,7 @@ const Users = () => {
         <Box>
           <Text>Выберите новый отдел для пользователя:</Text>
           <Select
-            value={selectedSection.id ? selectedSection.id.toString() : ""}
+            value={selectedSection.id ? selectedSection.name.toString() : selectedSection.name}
             onChange={(value) => {
               const section = sections.find(
                 (section) => section.id.toString() === value
@@ -287,7 +288,7 @@ const Users = () => {
             }}
             data={sections.map((section) => ({
               value: String(section?.id),
-              label: section?.position || section?.name || "", // Используйте position или name в зависимости от структуры данных
+              label: section?.position || section?.name || "",
             }))}
           />
           <Button

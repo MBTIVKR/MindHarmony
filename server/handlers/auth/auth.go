@@ -139,7 +139,7 @@ func (u *AuthHandler) Logout(c *gin.Context) {
 }
 
 func CreateAdmin(db *gorm.DB) {
-	//? Проверка наличия пользователя с ролью администратора
+	// Проверка наличия пользователя с ролью администратора
 	var adminUser models.User
 	result := db.Where("role = ?", string(models.Admin)).First(&adminUser)
 	if result.Error == nil {
@@ -147,20 +147,22 @@ func CreateAdmin(db *gorm.DB) {
 		return
 	}
 
-	//@ Хешируем пароль
+	// Хешируем пароль
 	hashedPassword, err := password.HashPassword(vars.ADMIN_PASS)
 	if err != nil {
 		logger.Error("Failed to hash admin password:", err)
 		return
 	}
 
-	//@ Создаём администратора
+	// Создаём администратора
 	newAdmin := models.User{
 		Auth: models.Auth{
 			Email:    vars.ADMIN_EMAIL,
 			Role:     string(models.Admin),
 			Password: hashedPassword,
 		},
+		// Устанавливаем SectionID в nil
+		SectionID: nil,
 	}
 
 	if err := db.Create(&newAdmin).Error; err != nil {
