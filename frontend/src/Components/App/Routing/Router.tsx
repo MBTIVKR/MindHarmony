@@ -13,6 +13,7 @@ import {
   TestsPage,
   SMILTest,
   AdminUsers,
+  AdminUserPage,
   AdminTests,
   CreatePosition,
   Positions,
@@ -25,7 +26,6 @@ import {
   AdminPanelPage,
   ResetPasswordPage,
   ResetPasswordRequest,
-  UserPage,
 } from "@/Pages";
 
 const Routing = () => {
@@ -87,7 +87,7 @@ const Routing = () => {
           path: PathsDashboard.PublicUserProfile,
           element: (
             <AuthGuard>
-              <UserPage />
+              <AdminUserPage />
             </AuthGuard>
           ),
         },

@@ -264,7 +264,7 @@ const Users = () => {
                 <Group gap="sm">
                   <Tooltip label="Профиль">
                     <IconUserFilled
-                      onClick={() => navigate(`/dashboard/users/${user?.id}`)}
+                      onClick={() => navigate(`/dashbord/users/${user?.id}`)}
                     />
                   </Tooltip>
                   <Tooltip label="Удалить">
