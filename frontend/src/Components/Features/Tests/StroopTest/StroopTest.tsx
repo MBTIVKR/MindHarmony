@@ -83,35 +83,38 @@ const StroopTest = () => {
 
   const sendResultsToServer = async () => {
     if (!userId) {
-      console.error("Invalid user ID");
-      return;
+        console.error("Invalid user ID");
+        return;
     }
     const resultData = {
-      userId,
-      correct: score.correct,
-      incorrect: score.incorrect,
+        userId,
+        correct: score.correct,
+        incorrect: score.incorrect,
     };
 
     try {
-      const response = await fetch("/api/stroop-results", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(resultData),
-      });
+        const response = await fetch("/api/stroop-results", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(resultData),
+        });
 
-      const data = await response.json();
-      if (response.ok) {
-        console.log("Test result saved successfully:", data);
-        fetchResults(); // Refresh results to show updated data
-      } else {
-        throw new Error(data.error || "Failed to save test result");
-      }
+        const data = await response.json();
+        if (response.ok) {
+            console.log("Test result saved successfully:", data);
+            localStorage.setItem("token", data.token);  // Update the token in localStorage
+            setUserId(getUserIdFromToken());           // Refresh userId from the new token if needed
+            fetchResults();                            // Optionally refresh results from server
+        } else {
+            throw new Error(data.error || "Failed to save test result");
+        }
     } catch (error) {
-      console.error("Failed to save test result:", error.message);
+        console.error("Failed to save test result:", error.message);
     }
-  };
+};
+
 
   return (
     <Container>

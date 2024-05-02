@@ -45,7 +45,7 @@ type User struct {
 	SectionID    *uint   `json:"section_id"`
 	Section      Section `json:"section" gorm:"foreignKey:SectionID"`
 	MBTI         `json:"mbti" gorm:"foreignKey:UserID"`
-	StroopResult `json:"stroop" gorm"foreignKey:UserID"`
+	StroopResult StroopResult `json:"stroop" gorm:"foreignKey:UserID;references:ID"`
 }
 
 func (u *User) MarshalJSON() ([]byte, error) {
