@@ -41,10 +41,10 @@ type User struct {
 	Auth         `json:"auth"`
 	Personal     `json:"personal"`
 	Location     `json:"location"`
-	Position     string  `json:"position"`
-	SectionID    *uint   `json:"section_id"`
-	Section      Section `json:"section" gorm:"foreignKey:SectionID"`
-	MBTI         `json:"mbti" gorm:"foreignKey:UserID"`
+	Position     string       `json:"position"`
+	SectionID    *uint        `json:"section_id"`
+	Section      Section      `json:"section" gorm:"foreignKey:SectionID"`
+	MBTI         MBTI         `json:"mbti" gorm:"foreignKey:UserID"`
 	StroopResult StroopResult `json:"stroop" gorm:"foreignKey:UserID;references:ID"`
 }
 
@@ -134,36 +134,6 @@ type Claims struct {
 	}
 	jwt.StandardClaims
 }
-
-// type Claims struct {
-// 	ID   uint `json:"id"`
-// 	Auth struct {
-// 		Username string `json:"username"`
-// 		Email    string `gorm:"unique_index;not null" json:"email"`
-// 		Password string `json:"password"`
-// 		Role     string `gorm:"default:'user'" json:"role"`
-// 	}
-// 	Personal struct {
-// 		Name        string `json:"name"`
-// 		Surname     string `json:"surname"`
-// 		Patronymic  string `json:"patronymic"`
-// 		BirthDate   string `json:"birthday"`
-// 		PhoneNumber string `json:"phone"`
-// 	}
-// 	Location struct {
-// 		Country string `json:"country"`
-// 		City    string `json:"city"`
-// 	}
-// 	Position string `json:"position"`
-// 	Section  `json:"section"`
-// 	MBTI     struct {
-// 		ID     uint   `gorm:"primaryKey" json:"id"`
-// 		UserID uint   `json:"user_id" gorm:"foreignKey:UserID"`
-// 		Type   string `json:"type"`
-// 	}
-// 	StroopResults []StroopResult `json:"stroop_results"`
-// 	jwt.StandardClaims
-// }
 
 type UpdateUserRequest struct {
 	Auth struct {

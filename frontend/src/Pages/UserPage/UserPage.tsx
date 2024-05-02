@@ -11,6 +11,8 @@ import {
   Anchor,
   Breadcrumbs,
   Button,
+  Box,
+  Paper,
 } from "@mantine/core";
 import axios from "axios";
 import { AdminPaths } from "@/Components/App/Routing";
@@ -60,8 +62,9 @@ const UserPage = () => {
     <>
       <Stack gap="lg" p="lg">
         <Flex
-        direction={{ base: "column", sm: "row" }}
-        m={{base: '0px auto', sm: '0px'}}>
+          direction={{ base: "column", sm: "row" }}
+          m={{ base: "0px auto", sm: "0px" }}
+        >
           <Title order={2}>
             Профиль пользователя <b> {user?.auth?.username}</b>
           </Title>
@@ -134,12 +137,27 @@ const UserPage = () => {
           </Flex>
 
           <Title order={3}>Тестирования</Title>
-          <Flex align="center">
-            <Text fw={700} size="sm" style={{ minWidth: 100 }}>
-              Тип MBTI:
-            </Text>
-            <Text>{user?.mbti?.type || "Отсутствует"}</Text>
-          </Flex>
+          <Stack>
+            <Flex align="center">
+              <Text fw={700} size="sm" style={{ minWidth: 100 }}>
+                Тип MBTI:
+              </Text>
+              <Text>{user?.mbti?.type || "Отсутствует"}</Text>
+            </Flex>
+
+            <Flex align="center">
+              <Text fw={700} size="sm" style={{ minWidth: 100 }}>
+                Тест Струпа:
+              </Text>
+              <Paper withBorder shadow="md" p="md" radius="md">
+                <Stack>
+                  <Text>Тест №{user?.stroop?.id || "Отсутствует"}</Text>
+                  <Text>Кол-во правильных ответов: {user?.stroop?.correct || "Отсутствует"}</Text>
+                  <Text>Кол-во неправильных ответов: {user?.stroop?.incorrect || "Отсутствует"}</Text>
+                </Stack>
+              </Paper>
+            </Flex>
+          </Stack>
         </Stack>
       </Stack>
     </>

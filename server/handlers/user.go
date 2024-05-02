@@ -285,6 +285,10 @@ func (u *UserHandler) GetAllUsers(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get users"})
 		return
 	}
+	if err := u.DB.Preload("StroopResult").Find(&users).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get users"})
+		return
+	}
 
 	c.JSON(http.StatusOK, users)
 }
@@ -323,6 +327,20 @@ func (u *UserHandler) GetUser(c *gin.Context) {
 
 	// Обновление даты рождения в структуре пользователя
 	user.Personal.BirthDate = formattedBirthday
+
+	//@ Preload other data
+	if err := u.DB.Preload("Section").Find(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user"})
+		return
+	}
+	if err := u.DB.Preload("StroopResult").Find(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user"})
+		return
+	}
+	if err := u.DB.Preload("MBTI").Find(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user"})
+		return
+	}
 
 	c.JSON(http.StatusOK, user)
 }

@@ -50,7 +50,7 @@ func InitDB() {
 }
 
 // @ DataBase auto-migrate tables from structures...
-// @ Таблицы: users, Section, MBTI, password_reset_requests, forgot_password_requests
+// @ Таблицы: users, Section, MBTI, StroopResult
 func SyncDB() {
 	DB.AutoMigrate(&models.User{})
 	DB.AutoMigrate(&models.Section{})
