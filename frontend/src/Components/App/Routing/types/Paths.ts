@@ -24,6 +24,7 @@ export enum PathsDashboard {
   Tests = '/dashbord/tests',
   MBTI = '/dashbord/tests/mbti',
   SMIL = '/dashbord/tests/smil',
+  STROOP = '/dashbord/tests/stroop',
   PublicUserProfile = '/dashbord/users/:id'
 }
 

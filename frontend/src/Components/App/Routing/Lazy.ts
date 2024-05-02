@@ -37,6 +37,10 @@ export const MBTI = Loadable(
 export const MBTITest = Loadable(
   lazy(() => import('@Components/Features/Tests/mbti/mbti'))
 );
+//@ StroopTest Test component
+export const StroopTest = Loadable(
+  lazy(() => import('@Components/Features/Tests/StroopTest/StroopTest'))
+);
 //@ SMIL Test component
 export const SMILTest = Loadable(
   lazy(() => import('@Components/Features/Tests/smil/smil'))

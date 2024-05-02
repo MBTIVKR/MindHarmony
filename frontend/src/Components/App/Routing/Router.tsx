@@ -19,6 +19,7 @@ import {
   Positions,
   Departments,
   PositionList,
+  StroopTest,
 } from "./Lazy";
 import Login from "@Pages/AuthPage/Login/Login";
 import { AuthGuard } from "./Providers/AuthGuard";
@@ -80,6 +81,14 @@ const Routing = () => {
           element: (
             <AuthGuard>
               <SMILTest />
+            </AuthGuard>
+          ),
+        },
+        {
+          path: PathsDashboard.STROOP,
+          element: (
+            <AuthGuard>
+              <StroopTest />
             </AuthGuard>
           ),
         },

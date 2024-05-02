@@ -55,6 +55,7 @@ func SyncDB() {
 	DB.AutoMigrate(&models.User{})
 	DB.AutoMigrate(&models.Section{})
 	DB.AutoMigrate(&models.MBTI{})
+	DB.AutoMigrate(&models.StroopResult{})
 
 	migrator := DB.Migrator()
 

@@ -73,3 +73,48 @@ func (u *UserHandler) UpdateMBTIResult(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "MBTI result updated successfully", "type": requestBody.Type})
 }
+
+// ! Troop Test
+// @ Сохранение результатов теста Струпа
+func (u *UserHandler) SaveStroopResult(c *gin.Context) {
+	var requestBody struct {
+		UserID    uint `json:"userId"`
+		Correct   int  `json:"correct"`
+		Incorrect int  `json:"incorrect"`
+	}
+	if err := c.BindJSON(&requestBody); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
+		return
+	}
+
+	result := models.StroopResult{
+		UserID:    requestBody.UserID,
+		Correct:   requestBody.Correct,
+		Incorrect: requestBody.Incorrect,
+	}
+
+	if err := u.DB.Create(&result).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save test result"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Test result saved successfully", "result_id": result.ID})
+}
+
+// @ Получение результатов теста Струпа для пользователя
+func (u *UserHandler) GetStroopResults(c *gin.Context) {
+	userIDStr := c.Param("id")
+	userID, err := strconv.ParseUint(userIDStr, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+		return
+	}
+
+	var results []models.StroopResult
+	if err := u.DB.Where("user_id = ?", uint(userID)).Find(&results).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No results found for the user"})
+		return
+	}
+
+	c.JSON(http.StatusOK, results)
+}

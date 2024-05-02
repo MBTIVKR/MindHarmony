@@ -48,9 +48,12 @@ func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 		api.PUT("/users/update-section/:id", u.UpdateUserSection)
 		api.DELETE("/sections/:id", u.DeleteSection)
 		//? Tests
-		// Роут для получения данных MBTI по пользователю
+		//! Роут для получения данных MBTI по пользователю
 		api.GET("/api/mbti/:id", u.GetMBTIData)
 		api.POST("/update-mbti-result/:id", u.UpdateMBTIResult)
+		//! Роуты для теста Струпа
+		api.POST("/stroop-results", u.SaveStroopResult)    // Сохранение результатов теста Струпа
+		api.GET("/stroop-results/:id", u.GetStroopResults) // Получение результатов для пользователя
 	}
 
 	//@ Группа маршрутов, требующих авторизации и определенной роли

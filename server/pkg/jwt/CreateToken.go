@@ -46,6 +46,12 @@ func CreateToken(user models.User) (string, error) {
 	claims.MBTI.UserID = user.GormModel.ID
 	claims.MBTI.Type = user.MBTI.Type
 
+	//@ Результаты Теста Струпа
+	claims.StroopResult.ID = user.StroopResult.ID
+	claims.StroopResult.UserID = user.StroopResult.UserID
+	claims.StroopResult.Correct = user.StroopResult.Correct
+	claims.StroopResult.Incorrect = user.StroopResult.Incorrect
+
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(os.Getenv("JWT_SECRET")))
 }

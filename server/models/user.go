@@ -38,13 +38,14 @@ type Section struct {
 
 type User struct {
 	GormModel
-	Auth      `json:"auth"`
-	Personal  `json:"personal"`
-	Location  `json:"location"`
-	Position  string  `json:"position"`
-	SectionID *uint   `json:"section_id"`
-	Section   Section `json:"section" gorm:"foreignKey:SectionID"`
-	MBTI      `json:"mbti" gorm:"foreignKey:UserID"`
+	Auth         `json:"auth"`
+	Personal     `json:"personal"`
+	Location     `json:"location"`
+	Position     string  `json:"position"`
+	SectionID    *uint   `json:"section_id"`
+	Section      Section `json:"section" gorm:"foreignKey:SectionID"`
+	MBTI         `json:"mbti" gorm:"foreignKey:UserID"`
+	StroopResult `json:"stroop" gorm"foreignKey:UserID"`
 }
 
 func (u *User) MarshalJSON() ([]byte, error) {
@@ -58,6 +59,7 @@ func (u *User) MarshalJSON() ([]byte, error) {
 		"position": u.Position,
 		"section":  u.Section,
 		"mbti":     u.MBTI,
+		"stroop":   u.StroopResult,
 	}
 
 	return json.Marshal(data)
@@ -86,6 +88,12 @@ type (
 		UserID uint   `json:"user_id" gorm:"foreignKey:UserID"`
 		Type   string `json:"type"`
 	}
+	StroopResult struct {
+		ID        uint `gorm:"primaryKey" json:"id"`
+		UserID    uint `gorm:"foreignKey:UserID" json:"user_id"`
+		Correct   int  `json:"correct"`
+		Incorrect int  `json:"incorrect"`
+	}
 )
 
 // @ JWT user claims
@@ -109,14 +117,53 @@ type Claims struct {
 		City    string `json:"city"`
 	}
 	Position string `json:"position"`
-	Section  `json:"section"`
-	MBTI     struct {
-		ID     uint   `gorm:"primaryKey" json:"id"`
-		UserID uint   `json:"user_id" gorm:"foreignKey:UserID"`
+	Section  struct {
+		ID   uint   `json:"id"`
+		Name string `json:"name"`
+	}
+	MBTI struct {
+		ID     uint   `json:"id"`
+		UserID uint   `json:"user_id"`
 		Type   string `json:"type"`
+	}
+	StroopResult struct {
+		ID        uint `gorm:"primaryKey" json:"id"`
+		UserID    uint `gorm:"foreignKey:UserID" json:"user_id"`
+		Correct   int  `json:"correct"`
+		Incorrect int  `json:"incorrect"`
 	}
 	jwt.StandardClaims
 }
+
+// type Claims struct {
+// 	ID   uint `json:"id"`
+// 	Auth struct {
+// 		Username string `json:"username"`
+// 		Email    string `gorm:"unique_index;not null" json:"email"`
+// 		Password string `json:"password"`
+// 		Role     string `gorm:"default:'user'" json:"role"`
+// 	}
+// 	Personal struct {
+// 		Name        string `json:"name"`
+// 		Surname     string `json:"surname"`
+// 		Patronymic  string `json:"patronymic"`
+// 		BirthDate   string `json:"birthday"`
+// 		PhoneNumber string `json:"phone"`
+// 	}
+// 	Location struct {
+// 		Country string `json:"country"`
+// 		City    string `json:"city"`
+// 	}
+// 	Position string `json:"position"`
+// 	Section  `json:"section"`
+// 	MBTI     struct {
+// 		ID     uint   `gorm:"primaryKey" json:"id"`
+// 		UserID uint   `json:"user_id" gorm:"foreignKey:UserID"`
+// 		Type   string `json:"type"`
+// 	}
+// 	StroopResults []StroopResult `json:"stroop_results"`
+// 	jwt.StandardClaims
+// }
 
 type UpdateUserRequest struct {
 	Auth struct {
@@ -142,6 +189,12 @@ type UpdateUserRequest struct {
 		ID     uint   `gorm:"primaryKey" json:"id"`
 		UserID uint   `json:"user_id" gorm:"foreignKey:UserID"`
 		Type   string `json:"type"`
+	}
+	StroopResult struct {
+		ID        uint `gorm:"primaryKey" json:"id"`
+		UserID    uint `gorm:"foreignKey:UserID" json:"user_id"`
+		Correct   int  `json:"correct"`
+		Incorrect int  `json:"incorrect"`
 	}
 	PasswordChanged bool `json:"password_changed"`
 }
