@@ -4,10 +4,54 @@
   padding: var(--mantine-spacing-md);
   display: flex;
   flex-direction: column;
-  border-right: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  border-right: rem(1px) solid
+    light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
   position: fixed;
   z-index: $ui-index-4;
+
+  @media (max-width: 775px) {
+    width: 100%; /* Ширина будет 100% на мобильных устройствах */
+    height: auto; /* Автоматическая высота на мобильных */
+    padding: var(--mantine-spacing-md);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    bottom: 0; /* Сайдбар будет прикреплен к нижней части экрана */
+    left: 0; /* Сайдбар будет прикреплен к левой части экрана */
+    z-index: $ui-index-4;
+  }
 }
+
+.logo {
+  @media (max-width: 775px) {
+    display: none;
+  }
+}
+
+.links {
+  @media (max-width: 775px) {
+    flex-direction: row;
+    background-color: var(--mantine-color-dark-8);
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    padding: 20px 0;
+  }
+}
+
+@media (max-width: 775px) {
+  .mobile-logout-button {
+    width: 100%;
+    background-color: var(--mantine-color-red);
+    padding: var(--mantine-spacing-md);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: $ui-index-4;
+  }
+}
+
 
 .navbarMain {
   flex: 1;
@@ -24,7 +68,10 @@
   color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
 
   &:hover {
-    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-5));
+    background-color: light-dark(
+      var(--mantine-color-gray-0),
+      var(--mantine-color-dark-5)
+    );
   }
 
   &[data-active] {
@@ -33,5 +80,16 @@
       background-color: var(--mantine-color-blue-light);
       color: var(--mantine-color-blue-light-color);
     }
+  }
+  @media (max-width: 775px) {
+    width: rem(70px);
+    height: rem(70px);
+  }
+}
+
+.mlogout {
+  display: none;
+  @media (max-width: 775px) {
+    display: block;
   }
 }

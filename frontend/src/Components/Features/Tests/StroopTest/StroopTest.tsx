@@ -1,7 +1,15 @@
+//@ts-nocheck
 import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import {
-  Stack, Title, Button, Text, Group, Container, Paper
+  Stack,
+  Title,
+  Button,
+  Text,
+  Group,
+  Container,
+  Paper,
+  Box,
 } from "@mantine/core";
 
 const colors = ["red", "blue", "green", "yellow"];
@@ -83,53 +91,60 @@ const StroopTest = () => {
 
   const sendResultsToServer = async () => {
     if (!userId) {
-        console.error("Invalid user ID");
-        return;
+      console.error("Invalid user ID");
+      return;
     }
     const resultData = {
-        userId,
-        correct: score.correct,
-        incorrect: score.incorrect,
+      userId,
+      correct: score.correct,
+      incorrect: score.incorrect,
     };
 
     try {
-        const response = await fetch("/api/stroop-results", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(resultData),
-        });
+      const response = await fetch("/api/stroop-results", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(resultData),
+      });
 
-        const data = await response.json();
-        if (response.ok) {
-            console.log("Test result saved successfully:", data);
-            localStorage.setItem("token", data.token);  // Update the token in localStorage
-            setUserId(getUserIdFromToken());           // Refresh userId from the new token if needed
-            fetchResults();                            // Optionally refresh results from server
-        } else {
-            throw new Error(data.error || "Failed to save test result");
-        }
+      const data = await response.json();
+      if (response.ok) {
+        console.log("Тестирование Струпа пройдено:", data);
+        localStorage.setItem("token", data.token); // Update the token in localStorage
+        setUserId(getUserIdFromToken()); // Refresh userId from the new token if needed
+        fetchResults(); // Optionally refresh results from server
+      } else {
+        throw new Error(data.error || "Failed to save test result");
+      }
     } catch (error) {
-        console.error("Failed to save test result:", error.message);
+      console.error("Failed to save test result:", error.message);
     }
-};
-
+  };
 
   return (
     <Container>
       <Stack pt={40}>
         <Title>Тест Струпа</Title>
         <Text size="sm">
-          Инструкция: Нажмите на кнопку, цвет которой соответствует цвету текста слова, а не значению слова.
+          Инструкция: Нажмите на кнопку, цвет которой соответствует цвету текста
+          слова, а не значению слова.
         </Text>
         {results ? (
           <>
-            <Text>Ваш последний результат: Правильных ответов: {results[0].correct}, Неправильных ответов: {results[0].incorrect}</Text>
-            <Button onClick={startTest} color="green">Пройти тест заново</Button>
+            <Text>
+              Ваш последний результат: Правильных ответов: {results[0].correct},
+              Неправильных ответов: {results[0].incorrect}
+            </Text>
+            <Button onClick={startTest} color="green">
+              Пройти тест заново
+            </Button>
           </>
         ) : (
-          <Button onClick={startTest} color="green">Начать тестирование</Button>
+          <Button onClick={startTest} color="green">
+            Начать тестирование
+          </Button>
         )}
         {testStarted && (
           <Paper withBorder shadow="md" p="md" radius="md">
@@ -152,6 +167,30 @@ const StroopTest = () => {
             <Text>Оставшееся время: {timeLeft} секунд</Text>
           </Paper>
         )}
+
+        <Box>
+        <Title order={3} pb={10} pt={10}>Рекомендации</Title>
+          <Text fw="bold">Условия: </Text>
+          <Text>
+            Тест следует проходить в тихой обстановке, чтобы минимизировать
+            отвлекающие факторы.
+          </Text>
+        </Box>
+        <Box>
+          <Text fw="bold">Время на прохождение:</Text>
+          <Text size="sm">
+            {" "}
+            Тест ограничен 30 секундами, что стимулирует быструю реакцию и
+            способность к концентрации.
+          </Text>
+        </Box>
+        <Box>
+          <Text fw="bold">Цель:</Text>
+          <Text>
+            Ответить на максимальное количество вопросов правильно за отведённое
+            время.
+          </Text>
+        </Box>
       </Stack>
     </Container>
   );

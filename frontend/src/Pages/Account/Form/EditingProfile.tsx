@@ -46,8 +46,8 @@ const EditingProfile: FC<EditingProfileProps> = ({
   };
 
   return (
-    <Container size='lg' className='Private' pt={40} pb={50}>
-      <Stack>
+    // <Container size='lg' className='Private' pt={40} pb={50}>
+      <Stack  pt={40} pb={{base: 160, sm: 50}}>
         <Title order={2}>Личный кабинет</Title>
         <Divider mt={5} mb={2} />
         <Title order={3} pt={0}>
@@ -218,7 +218,7 @@ const EditingProfile: FC<EditingProfileProps> = ({
           {message && <p className='message'>{message}</p>}
         </div>
       </Stack>
-    </Container>
+    // </Container>
   );
 };
 
