@@ -15,7 +15,11 @@ export const exportToExcel = (users, fileName) => {
     "Должность": user.position || "Отсутствует",
     "Страна": user.location.country || "Отсутствует",
     "Город": user.location.city || "Отсутствует",
-    "MBTI тип": user.mbti.type || "Отсутствует"
+    "MBTI тип": user.mbti.type || "Отсутствует",
+    "Тест Струпа": user?.stroop?.id || "Отсутствует",
+    "Тест Струпа - Кол-во правильных ответов": user?.stroop?.correct || "Отсутствует",
+    "Тест Струпа - Кол-во неправильных ответов": user?.stroop?.incorrect || "Отсутствует"
+    
   })), { header: [
     "ID", "Username", "Email", "Телефон", "Роль", "Имя", "Фамилия", "Отчество", "Дата рождения",
     "Должность", "Страна", "Город", "MBTI тип"
