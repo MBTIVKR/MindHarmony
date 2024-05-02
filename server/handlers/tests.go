@@ -76,6 +76,8 @@ func (u *UserHandler) UpdateMBTIResult(c *gin.Context) {
 
 // ! Troop Test
 // @ Сохранение результатов теста Струпа
+// ! Troop Test
+// @ Сохранение результатов теста Струпа
 func (u *UserHandler) SaveStroopResult(c *gin.Context) {
 	var requestBody struct {
 		UserID    uint `json:"userId"`
@@ -87,18 +89,36 @@ func (u *UserHandler) SaveStroopResult(c *gin.Context) {
 		return
 	}
 
-	result := models.StroopResult{
-		UserID:    requestBody.UserID,
-		Correct:   requestBody.Correct,
-		Incorrect: requestBody.Incorrect,
-	}
-
-	if err := u.DB.Create(&result).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save test result"})
+	// Check if the user exists
+	var user models.User
+	if err := u.DB.First(&user, requestBody.UserID).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Test result saved successfully", "result_id": result.ID})
+	var result models.StroopResult
+	// Try to find existing result for the user
+	resultFound := u.DB.Where("user_id = ?", requestBody.UserID).First(&result).Error == nil
+
+	result.UserID = requestBody.UserID
+	result.Correct = requestBody.Correct
+	result.Incorrect = requestBody.Incorrect
+
+	if resultFound {
+		// Update existing result
+		if err := u.DB.Save(&result).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update test result", "details": err.Error()})
+			return
+		}
+	} else {
+		// Create new result if none exist
+		if err := u.DB.Create(&result).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save test result", "details": err.Error()})
+			return
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Результат теста успешно сохранен", "result_id": result.ID})
 }
 
 // @ Получение результатов теста Струпа для пользователя
