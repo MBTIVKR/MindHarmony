@@ -45,6 +45,10 @@ export const StroopTest = Loadable(
 export const SMILTest = Loadable(
   lazy(() => import('@Components/Features/Tests/smil/smil'))
 );
+//@ TestsPassed component
+export const TestsPassed = Loadable(
+  lazy(() => import('@Components/Features/Tests/TestsPassed/TestsPassed'))
+);
 //@ Reviews
 export const Reviews = Loadable(
   lazy(() => import('@Pages/Landing/Parts/Reviews/Reviews'))
@@ -82,6 +86,7 @@ export const NotFoundPage = Loadable(
 );
 //@ Example Pages
 export const Example = Loadable(lazy(() => import('@Pages/Example/Example')));
+export const AppHome = Loadable(lazy(() => import('@Pages/Dashboard/AppHome/AppHome')));
 //@ Home Pages
 export const Home = Loadable(lazy(() => import('@Pages/Home/Home')));
 export const TestsPage = Loadable(

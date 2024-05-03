@@ -12,6 +12,9 @@ export const APP = {
     TELEGRAM: '',
     GITHUB: 'https://github.com/MBTIVKR/',
   },
+  Tests: {
+    TotalTests: 3,
+  }
 };
 
 //@ Dotenv variables

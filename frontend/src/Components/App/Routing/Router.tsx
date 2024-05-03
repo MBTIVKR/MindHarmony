@@ -20,6 +20,7 @@ import {
   Departments,
   PositionList,
   StroopTest,
+  AppHome,
 } from "./Lazy";
 import Login from "@Pages/AuthPage/Login/Login";
 import { AuthGuard } from "./Providers/AuthGuard";
@@ -40,7 +41,7 @@ const Routing = () => {
           path: PathsDashboard.Main,
           element: (
             <AuthGuard>
-              <Example />
+              <AppHome />
             </AuthGuard>
           ),
         },

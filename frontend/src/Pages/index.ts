@@ -3,6 +3,7 @@ export { default as Signup } from './AuthPage/SignUp/SignUp';
 export { default as Example } from './Example/Example';
 export { default as Settings } from './Settings/Settings';
 export { default as TestsPage } from './TestsPage/TestsPage';
+export {default as AppHome } from './Dashboard/AppHome/AppHome'
 
 // Password
 export { default as ResetPasswordRequest } from './ResetPasswordRequest/ResetPasswordRequest';

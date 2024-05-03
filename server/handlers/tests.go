@@ -140,3 +140,35 @@ func (u *UserHandler) GetStroopResults(c *gin.Context) {
 
 	c.JSON(http.StatusOK, results)
 }
+
+// ! Tests statuses
+// GetTestStatus проверяет завершенность тестов для пользователя
+func (u *UserHandler) GetTestStatus(c *gin.Context) {
+	userIDStr := c.Param("id")
+	userID, err := strconv.ParseUint(userIDStr, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+		return
+	}
+
+	var testStatus struct {
+		MBTICompleted   bool `json:"mbtiCompleted"`
+		StroopCompleted bool `json:"stroopCompleted"`
+		// SMILCompleted    bool `json:"smilCompleted"` // Добавьте когда будет реализован
+	}
+
+	// Проверка наличия записи MBTI для пользователя
+	if err := u.DB.Model(&models.MBTI{}).Select("1").Where("user_id = ?", userID).Limit(1).Find(&testStatus.MBTICompleted).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to query MBTI test status"})
+		return
+	}
+
+	// Проверка наличия записи Stroop для пользователя
+	if err := u.DB.Model(&models.StroopResult{}).Select("1").Where("user_id = ?", userID).Limit(1).Find(&testStatus.StroopCompleted).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to query Stroop test status"})
+		return
+	}
+
+	// Возвращаем статус завершенности тестов
+	c.JSON(http.StatusOK, testStatus)
+}
