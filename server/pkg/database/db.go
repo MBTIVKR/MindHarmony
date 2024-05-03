@@ -31,6 +31,7 @@ func SyncDB() {
 	DB.AutoMigrate(&models.Section{})
 	DB.AutoMigrate(&models.MBTI{})
 	DB.AutoMigrate(&models.StroopResult{})
+	DB.AutoMigrate(&models.SMIL{})
 
 	migrator := DB.Migrator()
 

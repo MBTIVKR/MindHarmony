@@ -34,7 +34,7 @@ const Routing = () => {
   return createBrowserRouter([
     {
       //@ Routes with sIdebar and global Container
-      path: Paths.Dashbord,
+      path: Paths.Dashboard,
       element: <Home />,
       children: [
         {

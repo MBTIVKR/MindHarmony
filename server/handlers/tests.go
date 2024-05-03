@@ -101,13 +101,13 @@ func (u *UserHandler) SaveStroopResult(c *gin.Context) {
 	result.Correct = requestBody.Correct
 	result.Incorrect = requestBody.Incorrect
 
-	// Создание нового или обновление существующего результата
+	//? Создание нового или обновление существующего результата
 	if err := u.DB.Save(&result).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save or update test result", "details": err.Error()})
 		return
 	}
 
-	// Повторное получение пользователя с обновленными результатами для генерации нового токена
+	//? Повторное получение пользователя с обновленными результатами для генерации нового токена
 	var user models.User
 	u.DB.Preload("StroopResult").First(&user, requestBody.UserID)
 	newToken, err := jwt.CreateToken(user) // Обновление JWT токена
@@ -142,7 +142,7 @@ func (u *UserHandler) GetStroopResults(c *gin.Context) {
 }
 
 // ! Tests statuses
-// GetTestStatus проверяет завершенность тестов для пользователя
+// @ GetTestStatus проверяет завершенность тестов для пользователя
 func (u *UserHandler) GetTestStatus(c *gin.Context) {
 	userIDStr := c.Param("id")
 	userID, err := strconv.ParseUint(userIDStr, 10, 64)
@@ -154,21 +154,25 @@ func (u *UserHandler) GetTestStatus(c *gin.Context) {
 	var testStatus struct {
 		MBTICompleted   bool `json:"mbtiCompleted"`
 		StroopCompleted bool `json:"stroopCompleted"`
-		// SMILCompleted    bool `json:"smilCompleted"` // Добавьте когда будет реализован
+		SMILCompleted   bool `json:"smilCompleted"`
 	}
 
-	// Проверка наличия записи MBTI для пользователя
+	//? Проверка наличия записи MBTI для пользователя
 	if err := u.DB.Model(&models.MBTI{}).Select("1").Where("user_id = ?", userID).Limit(1).Find(&testStatus.MBTICompleted).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to query MBTI test status"})
 		return
 	}
 
-	// Проверка наличия записи Stroop для пользователя
+	//? Проверка наличия записи Stroop для пользователя
 	if err := u.DB.Model(&models.StroopResult{}).Select("1").Where("user_id = ?", userID).Limit(1).Find(&testStatus.StroopCompleted).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to query Stroop test status"})
 		return
 	}
+	//? Проверка наличия записи СМИЛ для пользователя
+	if err := u.DB.Model(&models.SMIL{}).Select("1").Where("user_id = ?", userID).Limit(1).Find(&testStatus.StroopCompleted).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to query SMIL test status"})
+		return
+	}
 
-	// Возвращаем статус завершенности тестов
 	c.JSON(http.StatusOK, testStatus)
 }

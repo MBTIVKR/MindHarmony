@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { RingProgress, Text, Center } from '@mantine/core';
+import { APP } from '@/Share/Variables';
 
 //@ts-ignore
 const TestRing = ({ userId }) => {
   const [completedTests, setCompletedTests] = useState(0);
-  const totalTests = 3;
 
   useEffect(() => {
     fetch(`/api/user/${userId}/test-status`)
@@ -13,7 +13,7 @@ const TestRing = ({ userId }) => {
         let count = 0;
         if (data.mbtiCompleted) count++;
         if (data.stroopCompleted) count++;
-        //if (data.smilCompleted) count++;
+        if (data.smilCompleted) count++;
         setCompletedTests(count);
       })
       .catch(error => {
@@ -21,7 +21,7 @@ const TestRing = ({ userId }) => {
       });
   }, [userId]);
 
-  const completionPercentage = Math.round((completedTests / totalTests) * 100);
+  const completionPercentage = Math.round((completedTests / APP.Tests.TotalTests) * 100);
 
   return (
     <Center style={{ width: 200, height: 200 }}>

@@ -49,6 +49,10 @@ export const SMILTest = Loadable(
 export const TestsPassed = Loadable(
   lazy(() => import('@Components/Features/Tests/TestsPassed/TestsPassed'))
 );
+//@ ActionsGrid component
+export const ActionsGrid = Loadable(
+  lazy(() => import('@Components/ActionsGrid/ActionsGrid'))
+);
 //@ Reviews
 export const Reviews = Loadable(
   lazy(() => import('@Pages/Landing/Parts/Reviews/Reviews'))

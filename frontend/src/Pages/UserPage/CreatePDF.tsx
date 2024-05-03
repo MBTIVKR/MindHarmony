@@ -1,7 +1,6 @@
 //@ts-nocheck
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
-// import "@/assets/fonts/Roboto-ThinItalic-normal.js";
 import "@/assets/fonts/Roboto-Medium-normal.js";
 
 export const createPdf = (user) => {
@@ -10,23 +9,35 @@ export const createPdf = (user) => {
   doc.setFont("Roboto-Medium", "normal");
 
   doc.text(`Профиль пользователя: ${user?.auth?.username}`, 14, 16);
+
+  const bodyContent = [
+    ["Имя пользователя", user?.auth?.username || "Нет данных"],
+    ["Email", user?.auth?.email || "Нет данных"],
+    ["Роль", user?.auth?.role || "Нет данных"],
+    ["Имя", user?.personal?.name || "Нет данных"],
+    ["Фамилия", user?.personal?.surname || "Нет данных"],
+    ["Телефон", user?.personal?.phone || "Нет данных"],
+    ["Должность", user?.position || "Нет данных"],
+    ["Страна", user?.location?.country || "Нет данных"],
+    ["Город", user?.location?.city || "Нет данных"],
+    ["Тип MBTI", user?.mbti?.type || "Отсутствует"],
+    // Заголовок для теста Струпа
+    [{content: 'Тест Струпа', colSpan: 2, styles: { fontStyle: 'bold', fillColor: [211, 211, 211] }}],
+    ["Кол-во правильных ответов", user?.stroop?.correct || "Отсутствует"],
+    ["Кол-во неправильных ответов", user?.stroop?.incorrect || "Отсутствует"],
+    // Заголовок для теста СМИЛ
+    [{content: 'Тест СМИЛ', colSpan: 2, styles: { fontStyle: 'bold', fillColor: [211, 211, 211] }}],
+  ];
+
+  if (user?.smil?.url) {
+    bodyContent.push(["Результат", user.smil.url]);
+  } else {
+    bodyContent.push(["Результат", "Не пройден"]);
+  }
+
   doc.autoTable({
     head: [["Поле", "Значение"]],
-    body: [
-      ["Имя пользователя", user?.auth?.username || "Нет данных"],
-      ["Email", user?.auth?.email || "Нет данных"],
-      ["Роль", user?.auth?.role || "Нет данных"],
-      ["Имя", user?.personal?.name || "Нет данных"],
-      ["Фамилия", user?.personal?.surname || "Нет данных"],
-      ["Телефон", user?.personal?.phone || "Нет данных"],
-      ["Должность", user?.position || "Нет данных"],
-      ["Страна", user?.location?.country || "Нет данных"],
-      ["Город", user?.location?.city || "Нет данных"],
-      ["Тип MBTI", user?.mbti?.type || "Отсутствует"],
-      ["Тест Струпа", user?.stroop?.id || "Отсутствует"],
-      ["Тест Струпа - Кол-во правильных ответов", user?.stroop?.correct || "Отсутствует"],
-      ["Тест Струпа - Кол-во неправильных ответов", user?.stroop?.incorrect || "Отсутствует"],
-    ],
+    body: bodyContent,
     startY: 22,
     styles: { font: "Roboto-Medium" },
   });

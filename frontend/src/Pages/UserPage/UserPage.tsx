@@ -1,6 +1,6 @@
 //@ts-nocheck
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   Title,
   Stack,
@@ -152,10 +152,31 @@ const UserPage = () => {
               <Paper withBorder shadow="md" p="md" radius="md">
                 <Stack>
                   <Text>Тест №{user?.stroop?.id || "Отсутствует"}</Text>
-                  <Text>Кол-во правильных ответов: {user?.stroop?.correct || "Отсутствует"}</Text>
-                  <Text>Кол-во неправильных ответов: {user?.stroop?.incorrect || "Отсутствует"}</Text>
+                  <Text>
+                    Кол-во правильных ответов:{" "}
+                    {user?.stroop?.correct || "Отсутствует"}
+                  </Text>
+                  <Text>
+                    Кол-во неправильных ответов:{" "}
+                    {user?.stroop?.incorrect || "Отсутствует"}
+                  </Text>
                 </Stack>
               </Paper>
+            </Flex>
+
+            <Flex align="center" gap={10}>
+              <Text fw={700} size="sm" style={{ minWidth: 100 }}>
+                Результат СМИЛ:
+              </Text>
+              {
+                user?.smil?.url ? (
+                  <Link to={user?.smil?.url}>
+                    Смотреть
+                  </Link>
+                ) : (
+                  <Text>Не пройден</Text>
+                )
+              }
             </Flex>
           </Stack>
         </Stack>

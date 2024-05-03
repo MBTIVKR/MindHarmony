@@ -4,7 +4,7 @@ export enum Paths {
   NotFound = '*',
   Test = '/test',
   Example = '/example',
-  Dashbord = '/dashbord',
+  Dashboard = '/dashboard',
   Admin = '/admin',
   //@ `/api` Authentication
   Signup = '/signup',
@@ -17,15 +17,15 @@ export enum Paths {
 
 //@ Route pathes inside the application
 export enum PathsDashboard {
-  Main = '/dashbord/main',
-  Settings = '/dashbord/settings',
-  UpdatePassword = '/dashbord/update-password',
-  Account = '/dashbord/account',
-  Tests = '/dashbord/tests',
-  MBTI = '/dashbord/tests/mbti',
-  SMIL = '/dashbord/tests/smil',
-  STROOP = '/dashbord/tests/stroop',
-  PublicUserProfile = '/dashbord/users/:id'
+  Main = '/dashboard/main',
+  Settings = '/dashboard/settings',
+  UpdatePassword = '/dashboard/update-password',
+  Account = '/dashboard/account',
+  Tests = '/dashboard/tests',
+  MBTI = '/dashboard/tests/mbti',
+  SMIL = '/dashboard/tests/smil',
+  STROOP = '/dashboard/tests/stroop',
+  PublicUserProfile = '/dashboard/users/:id'
 }
 
 //@ Admin Routes

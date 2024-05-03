@@ -46,6 +46,7 @@ type User struct {
 	Section      Section      `json:"section" gorm:"foreignKey:SectionID"`
 	MBTI         MBTI         `json:"mbti" gorm:"foreignKey:UserID"`
 	StroopResult StroopResult `json:"stroop" gorm:"foreignKey:UserID;references:ID"`
+	SMIL         SMIL         `json:"smil" gorm:"foreignKey:UserID;references:ID"`
 }
 
 func (u *User) MarshalJSON() ([]byte, error) {
@@ -60,6 +61,7 @@ func (u *User) MarshalJSON() ([]byte, error) {
 		"section":  u.Section,
 		"mbti":     u.MBTI,
 		"stroop":   u.StroopResult,
+		"smil":     u.SMIL,
 	}
 
 	return json.Marshal(data)
@@ -93,6 +95,11 @@ type (
 		UserID    uint `gorm:"foreignKey:UserID" json:"user_id"`
 		Correct   int  `json:"correct"`
 		Incorrect int  `json:"incorrect"`
+	}
+	SMIL struct {
+		ID     uint   `gorm:"primaryKey" json:"id"`
+		UserID uint   `gorm:"foreignKey:UserID" json:"user_id"`
+		Url    string `json:"url"`
 	}
 )
 
@@ -132,6 +139,11 @@ type Claims struct {
 		Correct   int  `json:"correct"`
 		Incorrect int  `json:"incorrect"`
 	}
+	SMIL struct {
+		ID     uint   `gorm:"primaryKey" json:"id"`
+		UserID uint   `gorm:"foreignKey:UserID" json:"user_id"`
+		Url    string `json:"url"`
+	}
 	jwt.StandardClaims
 }
 
@@ -165,6 +177,11 @@ type UpdateUserRequest struct {
 		UserID    uint `gorm:"foreignKey:UserID" json:"user_id"`
 		Correct   int  `json:"correct"`
 		Incorrect int  `json:"incorrect"`
+	}
+	SMIL struct {
+		ID     uint   `gorm:"primaryKey" json:"id"`
+		UserID uint   `gorm:"foreignKey:UserID" json:"user_id"`
+		Url    string `json:"url"`
 	}
 	PasswordChanged bool `json:"password_changed"`
 }

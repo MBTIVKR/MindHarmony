@@ -13,6 +13,8 @@ import {
   Title,
   Anchor,
   Select,
+  TextInput,
+  Input,
 } from "@mantine/core";
 import { $host } from "@/Services/instance";
 import { useNavigate } from "react-router-dom";
@@ -20,6 +22,7 @@ import {
   IconUserCancel,
   IconUserFilled,
   IconArrowRightCircle,
+  IconSearch,
 } from "@tabler/icons-react";
 import { AdminPaths } from "@/Components/App/Routing";
 import { exportToExcel } from "./exportToExel";
@@ -34,6 +37,7 @@ const Users = () => {
     id: "",
     position_name: "",
   });
+  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -191,6 +195,19 @@ const Users = () => {
     setIsModalOpen(false);
   };
 
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const filteredUsers = users.filter(
+    (user) =>
+      user.auth.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.auth.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.personal.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.personal.surname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.personal.birthday.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const items = [
     { title: "Панель администратора", href: AdminPaths.Panel },
     { title: "Пользователи", href: AdminPaths.Users },
@@ -212,7 +229,14 @@ const Users = () => {
       <Breadcrumbs pt={20} pb={20}>
         {items}
       </Breadcrumbs>
-      <Divider />
+      <TextInput
+        placeholder="Найти пользователя"
+        value={searchQuery}
+        onChange={handleSearchChange}
+        rightSection = {<IconSearch width={15} />}
+        mb="md"
+        data={['React', 'Angular', 'Vue', 'Svelte']}
+      />
       <Table striped highlightOnHover withTableBorder>
         <Table.Thead>
           <Table.Tr>
@@ -228,7 +252,7 @@ const Users = () => {
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {users.map((user) => (
+          {filteredUsers.map((user) => (
             <Table.Tr key={user?.id}>
               <Table.Td>{user?.id}</Table.Td>
               <Table.Td>{user?.auth?.username}</Table.Td>
@@ -264,7 +288,7 @@ const Users = () => {
                 <Group gap="sm">
                   <Tooltip label="Профиль">
                     <IconUserFilled
-                      onClick={() => navigate(`/dashbord/users/${user?.id}`)}
+                      onClick={() => navigate(`/dashboard/users/${user?.id}`)}
                     />
                   </Tooltip>
                   <Tooltip label="Удалить">

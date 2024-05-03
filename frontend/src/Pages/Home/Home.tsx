@@ -8,7 +8,7 @@ const Home: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
-    if (location.pathname === Paths.Dashbord) {
+    if (location.pathname === Paths.Dashboard) {
       navigate(PathsDashboard.Main);
     }
   }, [navigate, location]);

@@ -3,21 +3,21 @@ import { PathsDashboard } from "@/Components/App/Routing";
 export const data = [
     {
       image:
-        '/public/banners/mbti_image.jpg',
+        '/banners/mbti_image.jpg',
       title: 'Тестирование MBTI',
       category: 'Тестирование',
       url:  PathsDashboard.MBTI,
     },
     {
       image:
-        '/public/banners/stroop_banner.png',
+        '/banners/stroop_banner.png',
       title: 'Тест Струпа',
       category: 'Тестирование',
       url: PathsDashboard.STROOP,
     },
     {
       image:
-        '/public/banners/smil_banner.png',
+        '/banners/smil_banner.png',
       title: 'Стантартизированный метод исследования личности',
       category: 'Тестирование',
       url: PathsDashboard.SMIL,
