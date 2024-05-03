@@ -1,7 +1,7 @@
 package version
 
 import (
-	"lps/cemetery/pkg/vars"
+	"MyndHarmony/pkg/vars"
 
 	"github.com/Avdushin/gogger/logger"
 )

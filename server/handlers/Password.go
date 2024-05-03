@@ -1,11 +1,11 @@
 package handlers
 
 import (
+	"MyndHarmony/models"
+	"MyndHarmony/pkg/email"
+	"MyndHarmony/pkg/jwt"
+	"MyndHarmony/pkg/vars"
 	"fmt"
-	"lps/cemetery/models"
-	"lps/cemetery/pkg/email"
-	"lps/cemetery/pkg/jwt"
-	"lps/cemetery/pkg/vars"
 	"net/http"
 	"time"
 

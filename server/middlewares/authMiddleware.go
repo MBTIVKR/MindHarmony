@@ -1,8 +1,8 @@
 package middlewares
 
 import (
+	"MyndHarmony/models"
 	"fmt"
-	"lps/cemetery/models"
 	"net/http"
 	"os"
 

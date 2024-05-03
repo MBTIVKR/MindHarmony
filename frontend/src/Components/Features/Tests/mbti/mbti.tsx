@@ -1,10 +1,12 @@
+// MBTIComponent
 import { useEffect } from 'react';
-import { Box, Button, Flex, Stack, Text, Title } from '@mantine/core';
+import { Box, Button, Flex, Stack, Text, Title, useMantineTheme } from '@mantine/core';
 import { questions } from './questions';
 import { useAuth, useMBTIStore } from '@/Store';
 
 const MBTITest = () => {
   const userID = useAuth((state) => state.user.id);
+  const theme = useMantineTheme();
   const {
     currentQuestion,
     type,
@@ -50,17 +52,20 @@ const MBTITest = () => {
 
   return (
     <Stack pt={40}>
-      <Title>Тест MBTI</Title>
+      <Title ta="center">Тест MBTI</Title>
       {currentQuestion < questions.length && (
         <div>
-          <Text className='question'>{questions[currentQuestion].text}</Text>
-          <Flex mt={10}>
+          <Text className='question' ta="center" pb={20} size='lg'>{questions[currentQuestion].text}</Text>
+          <Flex mt={10} justify='center'>
             <Box
               style={{
+                width: '100%',
                 display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: 10,
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: 12,
                 textAlign: 'center',
+                margin: '0px auto',
+                justifyContent: 'center'
               }}
             >
               {questions[currentQuestion].options.map((option, index) => (
@@ -78,14 +83,12 @@ const MBTITest = () => {
           </Flex>
         </div>
       )}
-      {showResult && (
+     {showResult && (
         <Box>
           <Title order={2}>Результаты теста</Title>
-          {type ? (
-            <p>Ваш тип личности: {type}</p>
-          ) : (
-            <p>Вычисление результата...</p>
-          )}
+          <Text size="lg" style={{ marginTop: theme.spacing.sm }}>
+            Ваш тип личности: {type ? type : "Вычисление результата..."}
+          </Text>
         </Box>
       )}
     </Stack>

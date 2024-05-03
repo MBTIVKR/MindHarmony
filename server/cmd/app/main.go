@@ -1,11 +1,11 @@
 package main
 
 import (
+	"MyndHarmony/cmd/app/version"
+	"MyndHarmony/cmd/server"
+	"MyndHarmony/pkg/database"
+	"MyndHarmony/pkg/vars"
 	"context"
-	"lps/cemetery/cmd/app/version"
-	"lps/cemetery/cmd/server"
-	"lps/cemetery/pkg/database"
-	"lps/cemetery/pkg/vars"
 
 	"github.com/Avdushin/gogger/logger"
 	_ "github.com/jinzhu/gorm/dialects/postgres"

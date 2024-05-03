@@ -1,8 +1,8 @@
 package email
 
 import (
+	"MyndHarmony/pkg/vars"
 	"fmt"
-	"lps/cemetery/pkg/vars"
 	"net/smtp"
 )
 

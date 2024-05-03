@@ -1,12 +1,12 @@
 package database
 
 import (
+	"MyndHarmony/pkg/vars"
 	"archive/zip"
 	"context"
 	"fmt"
 	"io"
 	"log"
-	"lps/cemetery/pkg/vars"
 	"os"
 	"os/exec"
 	"path/filepath"

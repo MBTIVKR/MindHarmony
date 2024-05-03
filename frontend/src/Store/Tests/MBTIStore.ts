@@ -1,4 +1,5 @@
-import { create } from 'zustand';
+ //@ts-nocheck
+ import { create } from 'zustand';
 import { questions } from '@/Components/Features/Tests/mbti/questions';
 import { devtools } from 'zustand/middleware';
 
@@ -14,7 +15,7 @@ interface MBTIStore {
   handleAnswer: (questionId: number, level: number) => void;
   checkResult: () => void;
 }
-//@ts-ignore
+
 export const useMBTIStore = create<MBTIStore>(devtools((set) => ({
   answers: {},
   currentQuestion: 0,
@@ -36,51 +37,76 @@ export const useMBTIStore = create<MBTIStore>(devtools((set) => ({
   checkResult: () =>
     set((state) => {
       const { answers } = state;
+      let counts = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
 
-      let extraversionCount = 0;
-      let sensingCount = 0;
-      let thinkingCount = 0;
-      let judgingCount = 0;
-
-      Object.values(answers).forEach((level) => {
-        switch (level) {
-          case 3:
-            extraversionCount++;
-            sensingCount++;
-            thinkingCount++;
-            judgingCount++;
-            break;
-          case 2:
-            extraversionCount += 0.5;
-            sensingCount += 0.5;
-            thinkingCount += 0.5;
-            judgingCount += 0.5;
-            break;
-          case -1:
-            extraversionCount -= 0.5;
-            sensingCount -= 0.5;
-            thinkingCount -= 0.5;
-            judgingCount -= 0.5;
-            break;
-          case -2:
-            extraversionCount--;
-            sensingCount--;
-            thinkingCount--;
-            judgingCount--;
-            break;
-          default:
-            break;
+      questions.forEach((question) => {
+        const answerValue = answers[question.id];
+        if (answerValue !== undefined) {
+          const category = question.category;
+          const impact = answerValue === 3 ? 1 : answerValue === 2 ? 0.5 : answerValue === -1 ? -0.5 : answerValue === -2 ? -1 : 0;
+          counts[category] += impact;
         }
       });
 
-      const totalQuestions = questions.length;
-      const extraversion = extraversionCount >= totalQuestions / 2 ? 'E' : 'I';
-      const sensing = sensingCount >= totalQuestions / 2 ? 'S' : 'N';
-      const thinking = thinkingCount >= totalQuestions / 2 ? 'T' : 'F';
-      const judging = judgingCount >= totalQuestions / 2 ? 'J' : 'P';
+      const extraversion = counts['E'] - counts['I'] >= 0 ? 'E' : 'I';
+      const sensing = counts['S'] - counts['N'] >= 0 ? 'S' : 'N';
+      const thinking = counts['T'] - counts['F'] >= 0 ? 'T' : 'F';
+      const judging = counts['J'] - counts['P'] >= 0 ? 'J' : 'P';
 
       const personalityType = extraversion + sensing + thinking + judging;
 
       return { type: personalityType };
     }),
 })));
+
+
+//  import { create } from 'zustand';
+// import { questions } from '@/Components/Features/Tests/mbti/questions';
+// import { devtools } from 'zustand/middleware';
+
+// interface Answer {
+//   [questionId: number]: number;
+// }
+
+//  export const useMBTIStore = create<MBTIStore>(devtools((set) => ({
+//   answers: {},
+//   currentQuestion: 0,
+//   type: '',
+//   showResult: false,
+//   handleAnswer: (questionId, level) =>
+//     set((state) => {
+//       const newAnswers = { ...state.answers, [questionId]: level };
+//       const nextQuestion = state.currentQuestion + 1;
+//       const showResult = nextQuestion >= questions.length;
+
+//       return {
+//         answers: newAnswers,
+//         currentQuestion: showResult ? state.currentQuestion : nextQuestion,
+//         showResult,
+//       };
+//     }),
+//   checkResult: () =>
+//   set((state) => {
+//     let counts = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+
+//     questions.forEach((question) => {
+//       const answerValue = state.answers[question.id];
+//       if (answerValue !== undefined) {
+//         const category = question.category;
+//         const impact = answerValue === 3 ? 1 : answerValue === 2 ? 0.5 : answerValue === -1 ? -0.5 : answerValue === -2 ? -1 : 0;
+//         counts[category] += impact;
+//       }
+//     });
+
+//     const extraversion = counts['E'] - counts['I'] >= 0 ? 'E' : 'I';
+//     const sensing = counts['S'] - counts['N'] >= 0 ? 'S' : 'N';
+//     const thinking = counts['T'] - counts['F'] >= 0 ? 'T' : 'F';
+//     const judging = counts['J'] - counts['P'] >= 0 ? 'J' : 'P';
+
+//     const personalityType = extraversion + sensing + thinking + judging;
+
+//     // Важно установить showResult в true, чтобы отобразить результаты
+//     return { type: personalityType, showResult: true };
+//   }),
+
+// })));

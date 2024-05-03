@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"lps/cemetery/models"
+	"MyndHarmony/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

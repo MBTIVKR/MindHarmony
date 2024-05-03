@@ -22,7 +22,7 @@ export const exportToExcel = (users, fileName) => {
     
   })), { header: [
     "ID", "Username", "Email", "Телефон", "Роль", "Имя", "Фамилия", "Отчество", "Дата рождения",
-    "Должность", "Страна", "Город", "MBTI тип"
+    "Должность", "Страна", "Город", "MBTI тип", "Тест Струпа"
   ]});
 
   const workbook = XLSX.utils.book_new();

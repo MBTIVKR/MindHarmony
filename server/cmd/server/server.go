@@ -1,12 +1,12 @@
 package server
 
 import (
+	"MyndHarmony/handlers"
+	"MyndHarmony/handlers/auth"
+	"MyndHarmony/pkg/database"
+	"MyndHarmony/pkg/vars"
+	"MyndHarmony/routes"
 	"log"
-	"lps/cemetery/handlers"
-	"lps/cemetery/handlers/auth"
-	"lps/cemetery/pkg/database"
-	"lps/cemetery/pkg/vars"
-	"lps/cemetery/routes"
 )
 
 // @ Start server function

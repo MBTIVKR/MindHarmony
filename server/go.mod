@@ -1,4 +1,4 @@
-module lps/cemetery
+module MyndHarmony
 
 go 1.21.0
 

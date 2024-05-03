@@ -1,7 +1,7 @@
 package jwt
 
 import (
-	"lps/cemetery/models"
+	"MyndHarmony/models"
 	"os"
 	"time"
 

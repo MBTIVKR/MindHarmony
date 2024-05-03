@@ -1,12 +1,12 @@
 package auth
 
 import (
+	"MyndHarmony/models"
+	password "MyndHarmony/pkg/Password"
+	"MyndHarmony/pkg/jwt"
+	"MyndHarmony/pkg/vars"
 	"errors"
 	"fmt"
-	"lps/cemetery/models"
-	password "lps/cemetery/pkg/Password"
-	"lps/cemetery/pkg/jwt"
-	"lps/cemetery/pkg/vars"
 	"net/http"
 
 	"github.com/Avdushin/gogger/logger"

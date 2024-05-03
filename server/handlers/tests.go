@@ -1,9 +1,9 @@
 package handlers
 
 import (
+	"MyndHarmony/models"
+	"MyndHarmony/pkg/jwt"
 	"errors"
-	"lps/cemetery/models"
-	"lps/cemetery/pkg/jwt"
 	"net/http"
 	"strconv"
 

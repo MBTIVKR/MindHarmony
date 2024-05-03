@@ -1,8 +1,8 @@
 package jwt
 
 import (
+	"MyndHarmony/models"
 	"errors"
-	"lps/cemetery/models"
 	"os"
 	"strconv"
 

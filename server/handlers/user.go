@@ -1,15 +1,15 @@
 package handlers
 
 import (
+	"MyndHarmony/models"
 	"fmt"
-	"lps/cemetery/models"
 	"net/http"
 	"os"
 	"strconv"
 	"strings"
 
-	cjwt "lps/cemetery/pkg/jwt"
-	"lps/cemetery/pkg/utils"
+	cjwt "MyndHarmony/pkg/jwt"
+	"MyndHarmony/pkg/utils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"

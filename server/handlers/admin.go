@@ -1,8 +1,8 @@
 package handlers
 
 import (
+	"MyndHarmony/models"
 	"fmt"
-	"lps/cemetery/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

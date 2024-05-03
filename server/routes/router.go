@@ -1,12 +1,12 @@
 package routes
 
 import (
-	"lps/cemetery/handlers"
-	"lps/cemetery/handlers/auth"
-	"lps/cemetery/middlewares"
-	_ "lps/cemetery/pkg/vars"
+	"MyndHarmony/handlers"
+	"MyndHarmony/handlers/auth"
+	"MyndHarmony/middlewares"
+	_ "MyndHarmony/pkg/vars"
 
-	docs "lps/cemetery/docs"
+	docs "MyndHarmony/docs"
 
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"

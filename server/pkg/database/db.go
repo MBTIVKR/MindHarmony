@@ -1,8 +1,8 @@
 package database
 
 import (
-	"lps/cemetery/models"
-	"lps/cemetery/pkg/vars"
+	"MyndHarmony/models"
+	"MyndHarmony/pkg/vars"
 
 	"github.com/Avdushin/gogger/logger"
 	"gorm.io/driver/postgres"
@@ -21,31 +21,6 @@ func InitDB() {
 	if err != nil {
 		logger.Error("Failed to connect to database:", err)
 		panic("Failed to connect to database")
-	}
-
-	// Проверяем, существует ли уже тип content_status
-	var contentTypeExists bool
-	if err := DB.Raw("SELECT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'content_status')").Row().Scan(&contentTypeExists); err != nil {
-		panic("Failed to check if content_status type exists")
-	}
-
-	// Создаем тип content_status, если его еще нет
-	if !contentTypeExists {
-		if err := DB.Exec(`CREATE TYPE content_status AS ENUM ('Pending', 'Approved', 'Rejected')`).Error; err != nil {
-			panic("Failed to create content_status type")
-		}
-	}
-
-	var contentCategoryExists bool
-	if err := DB.Raw("SELECT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'content_category')").Row().Scan(&contentCategoryExists); err != nil {
-		panic("Failed to check if content_category type exists")
-	}
-
-	// Создаем тип content_category, если его еще нет
-	if !contentCategoryExists {
-		if err := DB.Exec(`CREATE TYPE content_category AS ENUM ('MemoryPage', 'TimeCapsule', 'FamilyTree', 'Other')`).Error; err != nil {
-			panic("Failed to create content_category type")
-		}
 	}
 }
 
