@@ -7,6 +7,7 @@ import {
   Flex,
   Divider,
   LoadingOverlay,
+  Box,
 } from '@mantine/core';
 import EditingProfile from './Form/EditingProfile';
 import { useAuth } from '@/Store';
@@ -103,7 +104,7 @@ const Account: FC = () => {
             <Stack gap={5} pt={10} pb={10}>
               <Flex gap={5}>
                 <Text>Должность:</Text>
-                <Text c='dimmed'>{user?.position}</Text>
+                <Text c='dimmed'>{user?.section?.name}</Text>
               </Flex>
               <Flex gap={5}>
                 <Text>Страна:</Text>
@@ -113,11 +114,17 @@ const Account: FC = () => {
                 <Text>Город:</Text>
                 <Text c='dimmed'>{user.location?.city}</Text>
               </Flex>
-              <Title order={5}>Тестирование</Title>
+              <Title order={5} fw="bold">Тестирования</Title>
               <Flex gap={5}>
-                <Text>MBTI тип:</Text>
+                <Text fw="bold">MBTI тип:</Text>
                 <Text c='dimmed'>{user.mbti?.type}</Text>
               </Flex>
+              <Box>
+                <Text fw='bold'>Тестирование Струпа:</Text>
+                <Text c='#cfcfcfcf'>Тест №{user.stroop?.id}</Text>
+                <Text c='#cfcfcfcf'>Кол-во правильных ответов: {user.stroop?.correct}</Text>
+                <Text c='#cfcfcfcf'>Кол-во неправильных ответов: {user.stroop?.incorrect}</Text>
+              </Box>
             </Stack>
             <Button mt={20} onClick={handleEditProfile}>
               Редактировать профиль

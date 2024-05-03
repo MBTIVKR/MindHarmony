@@ -18,9 +18,21 @@ export interface UserData {
     city: string;
   };
   position: string;
+  section: {
+    id: number;
+    name: string;
+  };
   mbti: {
+    id: number;
+    user_id: number;
     type: string;
   };
+  stroop: {
+    id: number;
+    user_id: number;
+    correct: string;
+    incorrect: string;
+  }
 }
 
 export interface AuthValues {

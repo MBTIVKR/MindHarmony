@@ -46,7 +46,7 @@ const EditingProfile: FC<EditingProfileProps> = ({
 
   return (
     // <Container size='lg' className='Private' pt={40} pb={50}>
-      <Stack  pt={40} pb={{base: 160, sm: 50}}>
+      <Stack  pt={40} pb={{base: 160, sm: 120}}>
         <Title order={2}>Личный кабинет</Title>
         <Divider mt={5} mb={2} />
         <Title order={3} pt={0}>
@@ -152,8 +152,8 @@ const EditingProfile: FC<EditingProfileProps> = ({
             <Divider mt={5} pt={10} />
             <Stack>
               <TextInput
-                label='Должность'
-                value={newUserData?.position}
+                label='Отдел'
+                value={newUserData?.section?.name}
                 onChange={(e) =>
                   setNewUserData((prev: any) => ({
                     ...prev,
