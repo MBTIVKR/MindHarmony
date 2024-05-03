@@ -48,55 +48,6 @@ const TestsPassed = () => {
 
   return (
     <>
-      {/* <Title order={1} pt={20} pb={20}>
-        Пройденные тесты
-      </Title> */}
-      {/* <Paper withBorder shadow="md" p="md" radius="md"> */}
-      {/* <Card withBorder radius="md" className={classes.card}>
-        <Flex align="center" direction="row" gap={{ sm: "lg", base: "xl" }}>
-          <Center w={{ sm: 120, base: 75 }}>
-            <RingProgress
-              sections={[
-                {
-                  value: completionPercentage,
-                  color: completionPercentage === 100 ? "teal" : "blue",
-                },
-              ]}
-              label={
-                <Text
-                  c={completionPercentage === 100 ? "teal" : "blue"}
-                  fw={700}
-                  ta="center"
-                  size="lg"
-                >
-                  {completionPercentage}%
-                </Text>
-              }
-            />
-          </Center>
-          <Stack>
-            <Text size="sm">Статус тестов:</Text>
-            <Flex gap="xs" direction={{ base: "column", sm: "row" }}>
-              <Badge color={testStatus.mbtiCompleted ? "green" : "red"}>
-                {testStatus.mbtiCompleted
-                  ? "MBTI: Пройден"
-                  : "MBTI: Не пройден"}
-              </Badge>
-              <Badge color={testStatus.stroopCompleted ? "green" : "red"}>
-                {testStatus.stroopCompleted
-                  ? "Тест Струпа: Пройден"
-                  : "Тест Струпа: Не пройден"}
-              </Badge>
-              <Badge color={testStatus.smilCompleted ? "green" : "red"}>
-                {testStatus.smilCompleted
-                  ? "СИМЛ: Пройден"
-                  : "СИМЛ: Не пройден"}
-              </Badge>
-            </Flex>
-          </Stack>
-        </Flex>
-      </Card> */}
-      {/* </Paper> */}
       <Card withBorder radius="md" className={classes.card} mt={20}>
         <Stack justify="space-between">
           <Flex justify="space-between" pb={10}>

@@ -28,4 +28,13 @@
     box-shadow: var(--mantine-shadow-md);
     transform: scale(1.05);
   }
+
+  @media (max-width: 499px) {
+    height: rem(100px);
+    width: 100%;
+    padding: 0px;
+    overflow: hidden;
+    word-wrap: break-word;
+    white-space: normal;
+  }
 }
