@@ -1,4 +1,4 @@
-import { Backlog, Paths, PathsDashboard } from "@/Components/App/Routing";
+import { Paths, PathsDashboard } from "@/Components/App/Routing";
 import { FC, useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { NavbarMinimal as Sidebar } from "@/Components/Features/Layouts";
@@ -19,7 +19,6 @@ const Home: FC = () => {
       <Container>
         <Outlet />
       </Container>
-      <Backlog />
     </>
   );
 };
