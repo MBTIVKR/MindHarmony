@@ -18,6 +18,7 @@ var (
 	APP_NAME      = os.Getenv("APP_NAME")
 	CLIENT_URL    = os.Getenv("CLIENT_URL")
 	ORIGIN_URL    = os.Getenv("ORIGIN_URL")
+	DOMAIN        = os.Getenv("DOMAIN")
 	//@ DB
 	DB         = os.Getenv("DB")
 	DB_NAME    = os.Getenv("DB_NAME")

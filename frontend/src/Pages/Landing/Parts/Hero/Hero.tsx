@@ -4,7 +4,7 @@ import image from '@/assets/parts/hero/hero.svg';
 import classes from './Hero.module.scss';
 import { APP } from '@/Share/Variables';
 import { Link } from 'react-router-dom';
-import { Paths } from '@/Components/App/Routing';
+import { Paths, PathsDashboard } from '@/Components/App/Routing';
 
 export const Hero = () => {
   return (
@@ -41,7 +41,7 @@ export const Hero = () => {
           </List>
 
           <Group mt={30}>
-            <Link to={Paths.Login}>
+            <Link to={PathsDashboard.Main}>
             <Button radius="xl" size="md" className={classes.control}>
               Начать
             </Button>

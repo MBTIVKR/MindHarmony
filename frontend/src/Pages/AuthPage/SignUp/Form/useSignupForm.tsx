@@ -166,6 +166,7 @@ export const useSignupForm = () => {
   return {
     active,
     birthval,
+    setBirthval,
     registrationSuccess,
     form,
     nextStep,
