@@ -17,6 +17,7 @@ import {
 import axios from "axios";
 import { AdminPaths } from "@/Components/App/Routing";
 import { createPdf } from "./CreatePDF";
+import { $host } from "@/Services/instance";
 
 const UserPage = () => {
   const { id } = useParams();
@@ -27,7 +28,7 @@ const UserPage = () => {
     const fetchUser = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`/api/users/${id}`);
+        const response = await $host.get(`/api/users/${id}`);
         setUser(response.data);
       } catch (error) {
         console.error("Failed to fetch user details:", error);
