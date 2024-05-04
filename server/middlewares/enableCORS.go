@@ -24,4 +24,4 @@ func EnableCORS(r *gin.Engine) {
 // 			AllowCredentials: true,
 // 			ExposeHeaders:    []string{"Content-Length"},
 // 	}))
-}
+// }

@@ -11,6 +11,7 @@ import {
   Paper,
   Box,
 } from "@mantine/core";
+import { $host } from "@/Services/instance";
 
 const colors = ["red", "blue", "green", "yellow"];
 const words = ["КРАСНЫЙ", "СИНИЙ", "ЗЕЛЕНЫЙ", "ЖЕЛТЫЙ"];
@@ -55,10 +56,9 @@ const StroopTest = () => {
 
   const fetchResults = async () => {
     try {
-      const response = await fetch(`/api/stroop-results/${userId}`);
-      const data = await response.json();
-      if (response.ok && data.length > 0) {
-        setResults(data);
+      const response = await $host.get(`/api/stroop-results/${userId}`);
+      if (response.status === 200 && response.data.length > 0) {
+        setResults(response.data);
       }
     } catch (error) {
       console.error("Error fetching results:", error);
@@ -101,22 +101,12 @@ const StroopTest = () => {
     };
 
     try {
-      const response = await fetch("/api/stroop-results", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(resultData),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        console.log("Тестирование Струпа пройдено:", data);
-        localStorage.setItem("token", data.token); // Update the token in localStorage
-        setUserId(getUserIdFromToken()); // Refresh userId from the new token if needed
-        fetchResults(); // Optionally refresh results from server
+      const response = await $host.post("/api/stroop-results", resultData);
+      if (response.status === 200) {
+        console.log("Тестирование Струпа пройдено:", response.data);
+        fetchResults();
       } else {
-        throw new Error(data.error || "Failed to save test result");
+        throw new Error(response.data.error || "Failed to save test result");
       }
     } catch (error) {
       console.error("Failed to save test result:", error.message);
@@ -169,7 +159,9 @@ const StroopTest = () => {
         )}
 
         <Box>
-        <Title order={3} pb={10} pt={10}>Рекомендации</Title>
+          <Title order={3} pb={10} pt={10}>
+            Рекомендации
+          </Title>
           <Text fw="bold">Условия: </Text>
           <Text>
             Тест следует проходить в тихой обстановке, чтобы минимизировать
