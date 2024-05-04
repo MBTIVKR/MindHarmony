@@ -14,6 +14,7 @@ import { useAuth } from "@/Store";
 import { APP } from "@/Share/Variables";
 import classes from "./TestsPassed.module.scss";
 import { PathsDashboard } from "@/Components/App/Routing";
+import { $host } from "@/Services/instance";
 
 const TestsPassed = () => {
   const { user, isAuth } = useAuth();
@@ -25,9 +26,9 @@ const TestsPassed = () => {
 
   useEffect(() => {
     if (isAuth && user && user.id) {
-      fetch(`/api/user/${user.id}/test-status`)
-        .then((response) => response.json())
-        .then((data) => {
+      $host.get(`/api/user/${user.id}/test-status`)
+        .then((response) => {
+          const data = response.data;
           setTestStatus({
             mbtiCompleted: data.mbtiCompleted,
             stroopCompleted: data.stroopCompleted,

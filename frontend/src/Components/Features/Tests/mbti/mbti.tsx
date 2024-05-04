@@ -1,8 +1,9 @@
-// MBTIComponent
+//@ts-nocheck
 import { useEffect } from 'react';
 import { Box, Button, Flex, Stack, Text, Title, useMantineTheme } from '@mantine/core';
 import { questions } from './questions';
 import { useAuth, useMBTIStore } from '@/Store';
+import { $host } from '@/Services/instance'; // Убедитесь, что $host импортирован правильно
 
 const MBTITest = () => {
   const userID = useAuth((state) => state.user.id);
@@ -20,16 +21,10 @@ const MBTITest = () => {
     if (showResult) {
       checkResult();
   
-      // Отправка результата на сервер
-      fetch(`/api/update-mbti-result/${userID}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ type }),
-      })
+      // Отправка результата на сервер с использованием Axios
+      $host.post(`/api/update-mbti-result/${userID}`, { type })
         .then(response => {
-          if (response.ok) {
+          if (response.status === 200) {
             console.log('Результат успешно отправлен на сервер');
           } else {
             console.error('Ошибка при отправке результата на сервер');
@@ -42,8 +37,7 @@ const MBTITest = () => {
       // Сохранение результата в localStorage
       localStorage.setItem('mbtiResult', type);
     }
-  }, [showResult, checkResult, type]);
-  
+  }, [showResult, checkResult, type, userID]);
 
   useEffect(() => {
     // Сохранение ответов пользователя в localStorage при их изменении
@@ -83,7 +77,7 @@ const MBTITest = () => {
           </Flex>
         </div>
       )}
-     {showResult && (
+      {showResult && (
         <Box>
           <Title order={2}>Результаты теста</Title>
           <Text size="lg" style={{ marginTop: theme.spacing.sm }}>

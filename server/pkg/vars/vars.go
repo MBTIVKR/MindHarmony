@@ -17,6 +17,7 @@ var (
 	APP_VERSION   = os.Getenv("APP_VERSION")
 	APP_NAME      = os.Getenv("APP_NAME")
 	CLIENT_URL    = os.Getenv("CLIENT_URL")
+	ORIGIN_URL    = os.Getenv("ORIGIN_URL")
 	//@ DB
 	DB         = os.Getenv("DB")
 	DB_NAME    = os.Getenv("DB_NAME")
@@ -39,8 +40,8 @@ var (
 	//@ JWT
 	JWT_SECRET = os.Getenv("JWT_SECRET")
 	//@ SSL/TLS certs path
-	Cert = "/var/www/certs/domain-example.ru.pub"
-	Key  = "/var/www/private/domain-example.ru.key"
+	Cert = "/var/www/certs/mindharmony.ru.pub"
+	Key  = "/var/www/private/mindharmony.ru.key"
 )
 
 func init() {

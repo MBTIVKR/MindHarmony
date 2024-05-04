@@ -1,13 +1,15 @@
 //@ts-nocheck
-import { useState, useEffect } from 'react';
-import { useForm } from '@mantine/form';
-import { Paths } from '@Components/App/Routing';
-import { IconCheck } from '@tabler/icons-react';
-import { rem } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
-import { API } from '@/Components/App/Routing/types/API';
-import { useNavigate } from 'react-router-dom';
-import { DevMode } from '@/Utils';
+import { useState, useEffect } from "react";
+import { useForm } from "@mantine/form";
+import { Paths } from "@Components/App/Routing";
+import { IconCheck } from "@tabler/icons-react";
+import { rem } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { API } from "@/Components/App/Routing/types/API";
+import { useNavigate } from "react-router-dom";
+import { DevMode } from "@/Utils";
+import { $host } from "@/Services/instance";
+import { AxiosError, isAxiosError } from 'axios';
 
 export interface SignupFormValues {
   Auth: {
@@ -44,49 +46,49 @@ export const useSignupForm = () => {
   const form = useForm<SignupFormValues>({
     initialValues: {
       Auth: {
-        username: '',
-        email: '',
-        password: '',
+        username: "",
+        email: "",
+        password: "",
       },
       Personal: {
-        name: '',
-        surname: '',
-        patronymic: '',
-        birthday: '',
-        phone: '',
+        name: "",
+        surname: "",
+        patronymic: "",
+        birthday: "",
+        phone: "",
       },
       Location: {
-        country: '',
-        city: '',
+        country: "",
+        city: "",
       },
-      position: '',
+      position: "",
     },
 
     validate: (values) => {
       if (active === 0) {
         return {
-          'Auth.username':
+          "Auth.username":
             values.Auth.username.trim().length < 3
-              ? 'Имя пользователя должно содержать не менее 3 символов.'
+              ? "Имя пользователя должно содержать не менее 3 символов."
               : null,
-          'Auth.email':
+          "Auth.email":
             values.Auth.email.trim().length === 0
-              ? 'Введите email'
+              ? "Введите email"
               : !/^\S+@\S+\.\S+$/.test(values.Auth.email)
-              ? 'Некорректный формат email'
+              ? "Некорректный формат email"
               : null,
-          'Auth.password':
+          "Auth.password":
             values.Auth.password.length < 6
-              ? 'Пароль должен содержать не менее 6 символов'
+              ? "Пароль должен содержать не менее 6 символов"
               : null,
         };
       }
 
       if (active === 1) {
         return {
-          'Personal.name':
+          "Personal.name":
             values.Personal.name.trim().length < 2
-              ? 'Имя должно содержать не менее 2 символов'
+              ? "Имя должно содержать не менее 2 символов"
               : null,
         };
       }
@@ -106,60 +108,59 @@ export const useSignupForm = () => {
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current));
 
-  const submitForm = () => {
-    fetch(API.SignUP, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(form.values),
-    })
-      .then((response) => {
-        if (response.status === 409) {
-          return response.json().then((data) => {
-            notifications.show({
-              title: 'Ошибка',
-              message: 'Такой Email уже существует! 🤥',
-              color: 'red',
-            });
-          });
-        } else if (!response.ok) {
-          notifications.show({
-            title: 'Ошибка',
+  const submitForm = async () => {
+    try {
+      const response = await $host.post(API.SignUP, form.values);
+
+      if (response.status === 409) {
+        notifications.show({
+          title: "Ошибка",
+          message: "Такой Email уже существует! 🤥",
+          color: "red",
+        });
+      } else {
+        notifications.show({
+          loading: false,
+          title: "Успешная регистрация",
+          message:
+            "Вы будете перенаправлены на страницу авторизации через 5 секунд",
+          autoClose: false,
+          withCloseButton: false,
+          icon: <IconCheck color="green" />,
+        });
+        setTimeout(() => {
+          notifications.update({
+            color: "teal",
+            title: "Data was loaded",
             message:
-              'Не удалось отправить форму. Пожалуйста, попробуйте ещё раз...',
-            color: 'red',
-          });
-        } else {
-          notifications.show({
+              "Notification will close in 2 seconds, you can close this notification now",
+            icon: <IconCheck style={{ width: rem(18), height: rem(18) }} />,
             loading: false,
-            title: 'Успешная регистрация',
-            message:
-              'Вы будете перенаправлены на страницу авторизации через 5 секунд',
-            autoClose: false,
-            withCloseButton: false,
-            icon: <IconCheck color='green' />,
+            autoClose: 2000,
           });
-          setTimeout(() => {
-            notifications.update({
-              color: 'teal',
-              title: 'Data was loaded',
-              message:
-                'Notification will close in 2 seconds, you can close this notification now',
-              icon: <IconCheck style={{ width: rem(18), height: rem(18) }} />,
-              loading: false,
-              autoClose: 2000,
-            });
-          }, 3000);
-          setRegistrationSuccess(true);
-        }
-        {
-          DevMode && response.json();
-        }
-      })
-      .catch((error) => {
-        console.error('Error submitting form:', error);
-      });
+        }, 3000);
+        setRegistrationSuccess(true);
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        // Ошибка при обработке ответа сервера
+        notifications.show({
+          title: "Ошибка",
+          message:
+            error.response.data.message ||
+            "Не удалось отправить форму. Пожалуйста, попробуйте ещё раз...",
+          color: "red",
+        });
+      } else {
+        // Ошибка в сетевом запросе или другая ошибка JS
+        notifications.show({
+          title: "Ошибка",
+          message: "Ошибка сети или сервера, попробуйте позже.",
+          color: "red",
+        });
+        console.error("Error submitting form:", error);
+      }
+    }
   };
 
   return {
