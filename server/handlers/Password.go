@@ -68,7 +68,7 @@ func (u *UserHandler) ForgotPassword(c *gin.Context) {
 	// fmt.Println("Password reset request created:", resetRequest)
 
 	// Генерация URL для сброса пароля
-	resetURL := fmt.Sprintf("http://localhost:8080/reset-password?token=%s", resetRequest.Token)
+	resetURL := fmt.Sprintf("http://%s:8080/reset-password?token=%s", vars.CLIENT_URL, resetRequest.Token)
 
 	// Отправка письма
 	err = sendPasswordResetEmail(user.Auth.Email, resetURL)

@@ -5,7 +5,6 @@ import {
   NotFoundPage,
   Settings,
   SignUp,
-  Example,
   Landing,
   Account,
   Home,

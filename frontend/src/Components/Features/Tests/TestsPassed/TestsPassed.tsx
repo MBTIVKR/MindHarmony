@@ -3,7 +3,6 @@ import {
   RingProgress,
   Text,
   Center,
-  Title,
   Stack,
   Badge,
   Flex,
