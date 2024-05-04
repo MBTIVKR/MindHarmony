@@ -71,7 +71,7 @@ const Account: FC = () => {
               </Flex>
             </Stack>
 
-            <Title order={3} pt={20}>
+            <Title order={3} pt={5}>
               Персональные данные
             </Title>
             <Divider mt={5} mb={2} />
@@ -114,7 +114,10 @@ const Account: FC = () => {
                 <Text>Город:</Text>
                 <Text c='dimmed'>{user.location?.city}</Text>
               </Flex>
-              <Title order={5} fw="bold">Тестирования</Title>
+              <Title order={3} pt={20}>
+              Тестирования
+            </Title>
+            <Divider mt={5} mb={20} />
               <Flex gap={5}>
                 <Text fw="bold">MBTI тип:</Text>
                 <Text c='dimmed'>{user.mbti?.type}</Text>
@@ -126,7 +129,7 @@ const Account: FC = () => {
                 <Text c='#cfcfcfcf'>Кол-во неправильных ответов: {user.stroop?.incorrect}</Text>
               </Box>
             </Stack>
-            <Button mt={20} onClick={handleEditProfile}>
+            <Button mt={20} onClick={handleEditProfile} mb={{sm: 0, base: 120}}>
               Редактировать профиль
             </Button>
           </Stack>

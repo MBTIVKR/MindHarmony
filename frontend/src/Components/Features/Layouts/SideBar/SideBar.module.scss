@@ -9,26 +9,47 @@
   position: fixed;
   z-index: $ui-index-4;
 
-  @media (max-width: 775px) {
-    width: 100%; /* Ширина будет 100% на мобильных устройствах */
-    height: auto; /* Автоматическая высота на мобильных */
+  @media (max-width: 1024px) {
+    width: 100%;
+    height: auto;
     padding: var(--mantine-spacing-md);
     display: flex;
     flex-direction: column;
     position: fixed;
-    bottom: 0; /* Сайдбар будет прикреплен к нижней части экрана */
-    left: 0; /* Сайдбар будет прикреплен к левой части экрана */
+    bottom: 0;
+    left: 0;
+    z-index: $ui-index-4;
+  }
+
+  @media (max-width: 775px) {
+    width: 100%;
+    height: auto;
+    padding: var(--mantine-spacing-md);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    bottom: 0;
+    left: 0;
     z-index: $ui-index-4;
   }
 }
 
 .logo {
-  @media (max-width: 775px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 }
 
 .links {
+    @media (max-width: 1024px) {
+    flex-direction: row;
+    background-color: var(--mantine-color-dark-8);
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    padding: 30px 0;
+  }
   @media (max-width: 775px) {
     flex-direction: row;
     background-color: var(--mantine-color-dark-8);
@@ -36,7 +57,7 @@
     width: 100%;
     left: 0;
     bottom: 0;
-    padding: 20px 0;
+    padding: 10px 0;
   }
 }
 
@@ -81,9 +102,13 @@
       color: var(--mantine-color-blue-light-color);
     }
   }
+  @media (max-width: 1024px) {
+    width: rem(90px);
+    height: rem(90px);
+  }
   @media (max-width: 775px) {
-    width: rem(70px);
-    height: rem(70px);
+    width: rem(50px);
+    height: rem(50px);
   }
 }
 
