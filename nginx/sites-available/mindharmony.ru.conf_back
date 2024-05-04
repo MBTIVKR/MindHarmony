@@ -1,0 +1,24 @@
+server {
+    listen       443 ssl;
+    server_name  mindharmony.ru;
+
+    location / {
+	if (!-e $request_filename){
+    	    rewrite ^(.*)$ /index.html break;
+    	}
+        root   /var/www/mindharmony.ru;
+        index  index.html index.htm;
+    }
+
+    ssl_certificate     /var/www/certs/mindharmony.ru.pub;
+    ssl_certificate_key /var/www/private/mindharmony.ru.key;
+    ssl_protocols       TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
+    ssl_ciphers         HIGH:!aNULL:!MD5;
+
+}
+
+server {
+    listen 80;
+    server_name mindharmony.ru www.mindharmony.ru;
+    return 301 https://mindharmony.ru$request_uri;
+}
