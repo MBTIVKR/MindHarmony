@@ -7,7 +7,9 @@ import { useAuth, useSidebarStore } from "@/Store";
 import { BarItems } from "./BarItems";
 import { NavbarLink } from "./NavbarLink";
 import classes from "./SideBar.module.scss";
-import logo from "@/assets/brain.png";
+import logo from "@/assets/ico2.png";
+// import logo from "@/assets/fav.png";
+// import logo from "@/assets/brain.png";
 
 export const NavbarMinimal: FC = () => {
   const activeTab = useSidebarStore((state) => state.activeTab);

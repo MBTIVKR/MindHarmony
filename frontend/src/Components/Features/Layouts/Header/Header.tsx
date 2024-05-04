@@ -32,7 +32,8 @@ import {
 } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import { Paths, PathsDashboard } from '@/Components/App/Routing';
-import logo from '@/assets/brain.png';
+import logo from '@/assets/ico2.png';
+// import logo from '@/assets/fav.png';
 import classes from './Header.module.scss';
 import { ThemeToggler } from '../..';
 import { APP } from '@/Share/Variables';
@@ -106,7 +107,7 @@ export const Header: FC = () => {
       <header className={classes.header}>
         <Group justify='space-between' h='100%'>
           <Link to={Paths.Root}>
-            <img src={logo} alt='logotype' width={50} />
+            <img src={logo} alt='logotype' width={42} />
           </Link>
           <Group h='100%' gap={0} visibleFrom='sm'>
             <Link to={PathsDashboard.Main} className={classes.link}>
