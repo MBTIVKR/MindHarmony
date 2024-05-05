@@ -51,7 +51,7 @@ func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 		//! Роут для получения статуса прохождения тестов
 		api.GET("/user/:id/test-status", u.GetTestStatus)
 		//! Роут для получения данных MBTI по пользователю
-		api.GET("/api/mbti/:id", u.GetMBTIData)
+		api.GET("/mbti/:id", u.GetMBTIData)
 		api.POST("/update-mbti-result/:id", u.UpdateMBTIResult)
 		//! Роуты для теста Струпа
 		api.POST("/stroop-results", u.SaveStroopResult)    // Сохранение результатов теста Струпа

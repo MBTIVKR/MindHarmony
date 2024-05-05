@@ -18,6 +18,7 @@ interface CardProps {
         radius="md"
         style={{ backgroundImage: `url(${image})` }}
         className={classes.card}
+        h="80%"
       >
         <div>
           <Text className={classes.category} size="xs">

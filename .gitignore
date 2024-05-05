@@ -15,6 +15,7 @@ dist-ssr
 .env
 
 backups/
+tmp
 
 # Editor directories and files
 .vscode/*

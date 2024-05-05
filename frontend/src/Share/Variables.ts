@@ -2,7 +2,7 @@
 export const APP = {
   NAME: 'MH',
   FULLNAME: 'Mind Harmony',
-  VERSION: '1.0.0',
+  VERSION: '1.1.0',
   AUTHOR: 'Audyushin Dobrynya <avdushinbeaver1@gmail.com>',
   DESCRIPTION:
     'MindHarmony - сервис для сбора статистики о когнитивных функциях человека, для дальнейшего изучения тенденций',
@@ -20,3 +20,4 @@ export const APP = {
 //@ Dotenv variables
 export const API_URL = import.meta.env.VITE_APP_API_URL;
 export const APP_MODE = import.meta.env.VITE_REACT_APP_MODE;
+export const SECRET = import.meta.env.SECRET;

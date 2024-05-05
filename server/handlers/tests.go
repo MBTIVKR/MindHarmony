@@ -15,6 +15,7 @@ import (
 func (u *UserHandler) GetMBTIData(c *gin.Context) {
 	userIDStr := c.Param("id")
 	userID, err := strconv.ParseUint(userIDStr, 10, 64)
+
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
 		return
@@ -29,7 +30,7 @@ func (u *UserHandler) GetMBTIData(c *gin.Context) {
 	c.JSON(http.StatusOK, mbtiData)
 }
 
-// ? Обновление результата MBTI пользователя в бд
+// ? Обновление результата MBTI пользователя в бд и генерация нового JWT токена
 func (u *UserHandler) UpdateMBTIResult(c *gin.Context) {
 	var requestBody struct {
 		Type string `json:"type"`
@@ -74,7 +75,14 @@ func (u *UserHandler) UpdateMBTIResult(c *gin.Context) {
 		}
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "MBTI result updated successfully", "type": requestBody.Type})
+	// Генерация нового JWT токена
+	newToken, err := jwt.CreateToken(user)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create JWT token", "details": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "MBTI result updated successfully", "type": requestBody.Type, "token": newToken})
 }
 
 // ! Troop Test
