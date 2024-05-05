@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Box, Button, Flex, Stack, Text, Title, Card } from "@mantine/core";
 import { questions } from "./questions";
-import { useAuth, useMBTIStore } from "@/Store"; // Используем только useMBTIStore
+import { useAuth, useMBTIStore } from "@/Store";
 import ProfileCard from "./ProfileCard";
 import { OtherTestsSlider } from "../OtherTests/otherTests";
 import { mbtiProfiles } from "./descriptions/mbtiProfiles";
@@ -25,7 +25,6 @@ const MBTITest = () => {
   const [retry, setRetry] = useState(false);
 
   useEffect(() => {
-    // Load user's MBTI type from the server
     $host
       .get(`/api/mbti/${userID}`)
       .then((response) => {
@@ -41,7 +40,6 @@ const MBTITest = () => {
   }, [userID]);
 
   useEffect(() => {
-    // Set user's MBTI type if loaded from the server
     if (userMBTIType) {
       setUserMBTIType(userMBTIType);
     }
@@ -128,17 +126,6 @@ const MBTITest = () => {
             </Stack>
           </Card>
         </Stack>
-      )}
-      {showResult && currentProfile && (
-        <>
-          <ProfileCard profile={currentProfile} />
-          <Card radius="md" p="lg" mb={100}>
-            <Stack>
-              <Title order={2}>Доступные тестирования</Title>
-              <OtherTestsSlider excludeTest="Тестирование MBTI" />
-            </Stack>
-          </Card>
-        </>
       )}
     </Stack>
   );

@@ -1,3 +1,10 @@
+//@ Dotenv variables
+export const API_URL = import.meta.env.VITE_APP_API_URL;
+export const APP_MODE = import.meta.env.VITE_REACT_APP_MODE;
+export const SECRET = import.meta.env.SECRET;
+export const TOTAL_TESTS = 2
+// export const TOTAL_TESTS = parseInt(import.meta.env.TOTAL_TESTS);
+
 //@ Перемнные с описанием приложения и источниками
 export const APP = {
   NAME: 'MH',
@@ -13,11 +20,6 @@ export const APP = {
     GITHUB: 'https://github.com/MBTIVKR/',
   },
   Tests: {
-    TotalTests: 3,
+    TotalTests: TOTAL_TESTS,
   }
 };
-
-//@ Dotenv variables
-export const API_URL = import.meta.env.VITE_APP_API_URL;
-export const APP_MODE = import.meta.env.VITE_REACT_APP_MODE;
-export const SECRET = import.meta.env.SECRET;

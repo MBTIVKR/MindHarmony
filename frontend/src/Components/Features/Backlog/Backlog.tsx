@@ -1,10 +1,14 @@
 import { Accordion, Card, Flex, Text } from "@mantine/core";
 import { backlogData } from "./backlogData";
 import classes from "./Backlog.module.scss";
+import { APP } from "@/Share/Variables";
 
 const Backlog = () => {
+  const VERSION = `Версия ${APP.VERSION}`;
+  console.log(VERSION);
+
   const items = backlogData.map((item) => (
-    <Flex direction="column">
+    <Flex direction="column" key={item.value}>
       <Accordion.Item key={item.value} value={item.value}>
         <Accordion.Control>{item.value}</Accordion.Control>
         <Accordion.Panel>{item.description}</Accordion.Panel>
@@ -25,7 +29,7 @@ const Backlog = () => {
             Бэклог
           </Text>
         </Flex>
-        <Accordion defaultValue="Версия 0.5.0" classNames={classes}>
+        <Accordion defaultValue={VERSION} classNames={classes}>
           {items}
         </Accordion>
       </Card>

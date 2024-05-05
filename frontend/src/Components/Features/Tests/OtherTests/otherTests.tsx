@@ -5,7 +5,7 @@ import { TestsCardsSlider } from "./TestsCardsSlider";
 import { data } from "../../CardsCarousel/Card/cardsdata";
 
 interface OtherTestsSliderProps {
-  excludeTest: string;
+  excludeTest?: string;
 }
 
 export const OtherTestsSlider = ({ excludeTest }: OtherTestsSliderProps) => {
