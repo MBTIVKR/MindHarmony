@@ -9,7 +9,7 @@ interface CognitiveFunction {
 interface MBTIProfile {
   title: string;
   description: string;
-  avatar: string;
+  avatar?: string;
   skills: string[];
   cognitives: CognitiveFunction[];
   strengths: string[];
@@ -25,25 +25,25 @@ const ProfileCard: FC<ProfileCardProps> = ({ profile }) => (
   <Card radius={10} pb={30}>
     <Flex gap={20} direction={{ sm: "row", base: "column" }}>
       <Image
-        src={profile.avatar}
-        alt={profile.title}
+        src={profile?.avatar}
+        alt={profile?.title}
         w={{ sm: "100%", base: "90%" }}
         m="auto"
         ta="center"
         pt={{ sm: 0, base: 20 }}
       />
       <Stack gap="sm" style={{ flex: 1, justifyContent: "center" }}>
-        <Title order={2}>{profile.title}</Title>
-        <Text>{profile.description}</Text>
+        <Title order={2}>{profile?.title}</Title>
+        <Text>{profile?.description}</Text>
         <Title order={4}>Сильные стороны:</Title>
         <ul>
-          {profile.strengths.map((strength) => (
+          {profile?.strengths.map((strength) => (
             <li key={strength}>{strength}</li>
           ))}
         </ul>
         <Title order={4}>Когнитивные функции:</Title>
         <ul>
-          {profile.cognitives.map((func) => (
+          {profile?.cognitives.map((func) => (
             <li key={func.function}>
               <strong>{func.function}:</strong> {func.description}
             </li>
@@ -51,13 +51,13 @@ const ProfileCard: FC<ProfileCardProps> = ({ profile }) => (
         </ul>
         <Title order={4}>Подходящие задачи:</Title>
         <ul>
-          {profile.suitableTasks.map((task) => (
+          {profile?.suitableTasks.map((task) => (
             <li key={task}>{task}</li>
           ))}
         </ul>
         <Title order={4}>Области для развития:</Title>
         <ul>
-          {profile.improvementAreas.map((area) => (
+          {profile?.improvementAreas.map((area) => (
             <li key={area}>{area}</li>
           ))}
         </ul>

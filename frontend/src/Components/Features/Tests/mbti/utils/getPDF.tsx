@@ -21,7 +21,7 @@ export const createProfilePdf = (profile) => {
   doc.setFontSize(14);
   doc.text("Когнитивные функции:", 14, 100);
   doc.setFontSize(12);
-  profile.cognitives.forEach((cognitive, index) => {
+  profile.cognitives.forEach((cognitive, index) => {w
     doc.text(`${index + 1}. ${cognitive.function}: ${cognitive.description}`, 20, 110 + index * 20);
   });
 

@@ -2,7 +2,7 @@
 export const APP = {
   NAME: 'MH',
   FULLNAME: 'Mind Harmony',
-  VERSION: '1.1.0',
+  VERSION: '1.2.0',
   AUTHOR: 'Audyushin Dobrynya <avdushinbeaver1@gmail.com>',
   DESCRIPTION:
     'MindHarmony - сервис для сбора статистики о когнитивных функциях человека, для дальнейшего изучения тенденций',
