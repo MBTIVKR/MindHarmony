@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Box, Text, Title, Image, Card, Stack, Flex } from "@mantine/core";
+import { Text, Title,  Card } from "@mantine/core";
 
 interface PreviousMBTIResultCardProps {
   previousType: string;
