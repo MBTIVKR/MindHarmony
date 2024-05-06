@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { AdminPaths, Paths, PathsDashboard } from ".";
+import { AdminPaths, Paths, PathsDashboard, TestsPaths } from ".";
 import { Layout } from "@Components/Features/Layouts/Layout";
 import {
   NotFoundPage,
@@ -20,6 +20,7 @@ import {
   PositionList,
   StroopTest,
   AppHome,
+  BeckTest,
 } from "./Lazy";
 import Login from "@Pages/AuthPage/Login/Login";
 import { AuthGuard } from "./Providers/AuthGuard";
@@ -89,6 +90,14 @@ const Routing = () => {
           element: (
             <AuthGuard>
               <StroopTest />
+            </AuthGuard>
+          ),
+        },
+        {
+          path: TestsPaths.BECK,
+          element: (
+            <AuthGuard>
+              <BeckTest />
             </AuthGuard>
           ),
         },

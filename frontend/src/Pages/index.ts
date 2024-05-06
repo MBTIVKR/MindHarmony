@@ -4,6 +4,7 @@ export { default as Example } from './Example/Example';
 export { default as Settings } from './Settings/Settings';
 export { default as TestsPage } from './TestsPage/TestsPage';
 export {default as AppHome } from './Dashboard/AppHome/AppHome'
+export {default as DevMode } from './DevPage/DevPage'
 
 // Password
 export { default as ResetPasswordRequest } from './ResetPasswordRequest/ResetPasswordRequest';

@@ -13,8 +13,9 @@ import {
 import { useAuth } from "@/Store";
 import { APP } from "@/Share/Variables";
 import classes from "./TestsPassed.module.scss";
-import { PathsDashboard } from "@/Components/App/Routing";
+import { PathsDashboard, TestsPaths } from "@/Components/App/Routing";
 import { $host } from "@/Services/instance";
+import { Link } from "react-router-dom";
 
 const TestsPassed = () => {
   const { user, isAuth } = useAuth();
@@ -22,17 +23,20 @@ const TestsPassed = () => {
     mbtiCompleted: false,
     stroopCompleted: false,
     smilCompleted: false,
+    beckCompleted: false,
   });
 
   useEffect(() => {
     if (isAuth && user && user.id) {
-      $host.get(`/api/user/${user.id}/test-status`)
+      $host
+        .get(`/api/user/${user.id}/test-status`)
         .then((response) => {
           const data = response.data;
           setTestStatus({
             mbtiCompleted: data.mbtiCompleted,
             stroopCompleted: data.stroopCompleted,
             smilCompleted: data.smilCompleted,
+            beckCompleted: data.beckCompleted,
           });
         })
         .catch((error) => {
@@ -46,13 +50,27 @@ const TestsPassed = () => {
     (completedTests / APP.Tests.TotalTests) * 100
   );
 
+  const badges = [
+    { title: "MBTI", completed: testStatus.mbtiCompleted, url: TestsPaths.MBTI },
+    { title: "Тест Струпа", completed: testStatus.stroopCompleted, url: TestsPaths.STROOP },
+    { title: "СИМЛ", completed: testStatus.smilCompleted, url: TestsPaths.SMIL },
+    { title: "Тест Бека", completed: testStatus.beckCompleted, url: TestsPaths.BECK },
+  ];
+
   return (
     <>
       <Card withBorder radius="md" className={classes.card} mt={20}>
         <Stack justify="space-between">
           <Flex justify="space-between" pb={10}>
-            <Text className={classes.title} fw={800}>ТЕСТИРОВАНИЯ</Text>
-            <Anchor size="xs" c="dimmed" style={{ lineHeight: 1 }} href={PathsDashboard.Tests}>
+            <Text className={classes.title} fw={800}>
+              ТЕСТИРОВАНИЯ
+            </Text>
+            <Anchor
+              size="xs"
+              c="dimmed"
+              style={{ lineHeight: 1 }}
+              href={PathsDashboard.Tests}
+            >
               + 2 Тестирования
             </Anchor>
           </Flex>
@@ -80,22 +98,20 @@ const TestsPassed = () => {
               </Center>
               <Stack>
                 <Text size="sm">Статус тестов:</Text>
-                <Flex gap="xs" direction={{ base: "column", sm: "row" }}>
-                  <Badge color={testStatus.mbtiCompleted ? "green" : "red"}>
-                    {testStatus.mbtiCompleted
-                      ? "MBTI: Пройден"
-                      : "MBTI: Не пройден"}
-                  </Badge>
-                  <Badge color={testStatus.stroopCompleted ? "green" : "red"}>
-                    {testStatus.stroopCompleted
-                      ? "Тест Струпа: Пройден"
-                      : "Тест Струпа: Не пройден"}
-                  </Badge>
-                  <Badge color={testStatus.smilCompleted ? "green" : "red"}>
-                    {testStatus.smilCompleted
-                      ? "СИМЛ: Пройден"
-                      : "СИМЛ: Не пройден"}
-                  </Badge>
+                <Flex
+                  gap="xs"
+                  direction={{ base: "column", sm: "row" }}
+                  wrap="wrap"
+                >
+                  {badges.map(({ title, completed, url }) => (
+                    <Link to={url}>
+                      <Badge key={title} color={completed ? "green" : "red"}>
+                        {completed
+                          ? `${title}: Пройден`
+                          : `${title}: Не пройден`}
+                      </Badge>
+                    </Link>
+                  ))}
                 </Flex>
               </Stack>
             </Flex>

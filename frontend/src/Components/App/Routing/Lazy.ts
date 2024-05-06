@@ -45,6 +45,10 @@ export const StroopTest = Loadable(
 export const SMILTest = Loadable(
   lazy(() => import('@Components/Features/Tests/smil/smil'))
 );
+//@ Beck Test component
+export const BeckTest = Loadable(
+  lazy(() => import('@Components/Features/Tests/BeckTest/BeckTest'))
+);
 //@ TestsPassed component
 export const TestsPassed = Loadable(
   lazy(() => import('@Components/Features/Tests/TestsPassed/TestsPassed'))
@@ -100,6 +104,7 @@ export const Home = Loadable(lazy(() => import('@Pages/Home/Home')));
 export const TestsPage = Loadable(
   lazy(() => import('@Pages/TestsPage/TestsPage'))
 );
+export const DevPage = Loadable(lazy(() => import('@Pages/DevPage/DevPage')));
 //! Utils
 //@ NowYear util
 export const NowYear = Loadable(lazy(() => import('@/Utils/NowYear/NowYear')));

@@ -38,3 +38,11 @@ export enum AdminPaths {
   CreatePosition = '/admin/panel/create-position',
   ManagePosition = '/admin/panel/manage-position',
 }
+
+//@ Tests
+export enum TestsPaths {
+  MBTI = '/dashboard/tests/mbti',
+  SMIL = '/dashboard/tests/smil',
+  STROOP = '/dashboard/tests/stroop',
+  BECK = '/dashboard/tests/beck',
+}
