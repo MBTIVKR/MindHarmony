@@ -48,7 +48,7 @@ func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 		api.GET("/mbti/:id", u.GetMBTIData)
 		api.POST("/update-mbti-result/:id", u.UpdateMBTIResult)
 		//! Роуты для теста Струпа
-		api.POST("/stroop-results:userID", u.SaveStroopResult)
+		api.POST("/stroop-results", u.SaveStroopResult)
 		api.GET("/stroop-results/:id", u.GetStroopResults)
 		//! Роуты для теста Бека
 		api.POST("/beck-results/:userID", u.SaveBeckTestResult)

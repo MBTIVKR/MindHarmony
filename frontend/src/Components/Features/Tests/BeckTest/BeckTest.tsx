@@ -12,7 +12,7 @@ import {
   Stack,
   Slider
 } from "@mantine/core";
-import { $authHost } from "@/Services/instance";
+import { $authHost, $host } from "@/Services/instance";
 import { useAuth } from "@/Store";
 import { OtherTestsSlider } from "../OtherTests/otherTests";
 import BeckScale from "./Share/BeckScale";
@@ -78,7 +78,7 @@ const handleSubmit = async () => {
   });
 
   try {
-    const response = await $authHost.post(`/api/beck-results/${userID}`, {
+    const response = await $host.post(`/api/beck-results/${userID}`, {
       userID,
       answers: formattedAnswers,
       totalScore,

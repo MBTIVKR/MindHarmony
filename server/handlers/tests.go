@@ -5,6 +5,7 @@ import (
 	"MyndHarmony/pkg/jwt"
 	"encoding/json"
 	"errors"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -222,18 +223,24 @@ func (u *UserHandler) SaveBeckTestResult(c *gin.Context) {
 		return
 	}
 
+	log.Println("Serialized JSON Answers:", string(answersJSON))
+
 	result := models.BeckTestResult{
 		UserID:     uint(userID),
 		Answers:    json.RawMessage(answersJSON),
 		TotalScore: requestBody.TotalScore,
 	}
 
+	log.Printf("Attempting to save: %+v\n", result)
+
 	if err := u.DB.Create(&result).Error; err != nil {
+		log.Println("Error saving Beck test results:", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save Beck test results", "details": err.Error()})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Beck test results saved successfully", "result_id": result.ID})
+
 }
 
 // @ Получение результатов теста Бека по пользователю
