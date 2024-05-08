@@ -38,15 +38,16 @@ type Section struct {
 
 type User struct {
 	GormModel
-	Auth         `json:"auth"`
-	Personal     `json:"personal"`
-	Location     `json:"location"`
-	Position     string       `json:"position"`
-	SectionID    *uint        `json:"section_id"`
-	Section      Section      `json:"section" gorm:"foreignKey:SectionID"`
-	MBTI         MBTI         `json:"mbti" gorm:"foreignKey:UserID"`
-	StroopResult StroopResult `json:"stroop" gorm:"foreignKey:UserID;references:ID"`
-	SMIL         SMIL         `json:"smil" gorm:"foreignKey:UserID;references:ID"`
+	Auth           `json:"auth"`
+	Personal       `json:"personal"`
+	Location       `json:"location"`
+	Position       string         `json:"position"`
+	SectionID      *uint          `json:"section_id"`
+	Section        Section        `json:"section" gorm:"foreignKey:SectionID"`
+	MBTI           MBTI           `json:"mbti" gorm:"foreignKey:UserID"`
+	StroopResult   StroopResult   `json:"stroop" gorm:"foreignKey:UserID;references:ID"`
+	SMIL           SMIL           `json:"smil" gorm:"foreignKey:UserID;references:ID"`
+	BeckTestResult BeckTestResult `json:"backtes" gorm:"foreignKey:UserID;references:ID`
 }
 
 func (u *User) MarshalJSON() ([]byte, error) {
@@ -62,6 +63,7 @@ func (u *User) MarshalJSON() ([]byte, error) {
 		"mbti":     u.MBTI,
 		"stroop":   u.StroopResult,
 		"smil":     u.SMIL,
+		"becktest": u.BeckTestResult,
 	}
 
 	return json.Marshal(data)
@@ -100,6 +102,12 @@ type (
 		ID     uint   `gorm:"primaryKey" json:"id"`
 		UserID uint   `gorm:"foreignKey:UserID" json:"user_id"`
 		Url    string `json:"url"`
+	}
+	BeckTestResult struct {
+		ID         uint            `gorm:"primaryKey" json:"id"`
+		UserID     uint            `gorm:"foreignKey:UserID"`
+		Answers    json.RawMessage `json:"answers"`
+		TotalScore int             `json:"totalScore"`
 	}
 )
 
@@ -144,6 +152,12 @@ type Claims struct {
 		UserID uint   `gorm:"foreignKey:UserID" json:"user_id"`
 		Url    string `json:"url"`
 	}
+	BeckTestResult struct {
+		ID         uint            `gorm:"primaryKey" json:"id"`
+		UserID     uint            `gorm:"foreignKey:UserID"`
+		Answers    json.RawMessage `json:"answers"`
+		TotalScore int             `json:"totalScore"`
+	}
 	jwt.StandardClaims
 }
 
@@ -182,6 +196,12 @@ type UpdateUserRequest struct {
 		ID     uint   `gorm:"primaryKey" json:"id"`
 		UserID uint   `gorm:"foreignKey:UserID" json:"user_id"`
 		Url    string `json:"url"`
+	}
+	BeckTestResult struct {
+		ID         uint            `gorm:"primaryKey" json:"id"`
+		UserID     uint            `gorm:"foreignKey:UserID"`
+		Answers    json.RawMessage `json:"answers"`
+		TotalScore int             `json:"totalScore"`
 	}
 	PasswordChanged bool `json:"password_changed"`
 }

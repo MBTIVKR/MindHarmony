@@ -1,4 +1,4 @@
-import { PathsDashboard } from '@/Components/App/Routing';
+import { PathsDashboard, TestsPaths } from '@/Components/App/Routing';
 
 export const banners = {
   MBTIbanner: '/banners/mbti_image.jpg',
@@ -20,6 +20,14 @@ export const TestsData = {
     bannerSrc: '/banners/stroop_banner.png',
     buttonText: 'Пройти тестирование',
     to: PathsDashboard.STROOP,
+    disabled: false,
+  },
+  BECK: {
+    title: 'Тестирование СМИЛ',
+    description: 'Тест-опросник депрессии (Опросник депрессии Бека) был предложен Аароном Т. Беком в 1961 году на основе клинических наблюдений, выявивших симптомы депрессии. В 1978 и 1996 годах появились последующие версии теста. В своей последней версии тест Шкала депреcсии Бека 2  (Beck Depression Inventory II, BDI-II) предназначен для взрослых и подростков с 13 лет. Это самый точный тест на депрессию по шкале Бека, он состоит из 21 вопроса для определения тяжести симптомов депрессии. По результатам теста вы сможете оценить у себя степень выраженности депрессивного синдрома.',
+    bannerSrc: '/banners/beckbanner.jpeg',
+    buttonText: 'Пройти тестирование',
+    to: TestsPaths.BECK,
     disabled: false,
   },
   SMIL: {

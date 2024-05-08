@@ -3,6 +3,7 @@ package handlers
 import (
 	"MyndHarmony/models"
 	"MyndHarmony/pkg/jwt"
+	"encoding/json"
 	"errors"
 	"net/http"
 	"strconv"
@@ -10,6 +11,48 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
+
+// ! Tests statuses
+// @ GetTestStatus проверяет завершенность тестов для пользователя
+func (u *UserHandler) GetTestStatus(c *gin.Context) {
+	userIDStr := c.Param("id")
+	userID, err := strconv.ParseUint(userIDStr, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+		return
+	}
+
+	var testStatus struct {
+		MBTICompleted   bool `json:"mbtiCompleted"`
+		StroopCompleted bool `json:"stroopCompleted"`
+		SMILCompleted   bool `json:"smilCompleted"`
+		BeckCompleted   bool `json:"beckCompleted"`
+	}
+
+	//? Проверка наличия записи MBTI для пользователя
+	if err := u.DB.Model(&models.MBTI{}).Select("1").Where("user_id = ?", userID).Limit(1).Find(&testStatus.MBTICompleted).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to query MBTI test status"})
+		return
+	}
+
+	//? Проверка наличия записи Stroop для пользователя
+	if err := u.DB.Model(&models.StroopResult{}).Select("1").Where("user_id = ?", userID).Limit(1).Find(&testStatus.StroopCompleted).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to query Stroop test status"})
+		return
+	}
+	//? Проверка наличия записи СМИЛ для пользователя
+	if err := u.DB.Model(&models.SMIL{}).Select("1").Where("user_id = ?", userID).Limit(1).Find(&testStatus.StroopCompleted).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to query SMIL test status"})
+		return
+	}
+	//@ Проверка наличия записи Бека для пользователя
+	if err := u.DB.Model(&models.BeckTestResult{}).Select("1").Where("user_id = ?", userID).Limit(1).Find(&testStatus.BeckCompleted).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to query Beck's test status"})
+		return
+	}
+
+	c.JSON(http.StatusOK, testStatus)
+}
 
 // @ Get MBTI type by userId
 func (u *UserHandler) GetMBTIData(c *gin.Context) {
@@ -149,9 +192,52 @@ func (u *UserHandler) GetStroopResults(c *gin.Context) {
 	c.JSON(http.StatusOK, results)
 }
 
-// ! Tests statuses
-// @ GetTestStatus проверяет завершенность тестов для пользователя
-func (u *UserHandler) GetTestStatus(c *gin.Context) {
+// ! Beck Test
+// @ Сохранение результатов теста Бека
+// Сохранение результатов теста Бека
+func (u *UserHandler) SaveBeckTestResult(c *gin.Context) {
+	var requestBody struct {
+		Answers map[string]struct {
+			Score int    `json:"score"`
+			Text  string `json:"text"`
+		} `json:"answers"`
+		TotalScore int `json:"totalScore"`
+	}
+	if err := c.BindJSON(&requestBody); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
+		return
+	}
+
+	// Сериализация ответов в JSON
+	answersJSON, err := json.Marshal(requestBody.Answers)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to serialize answers"})
+		return
+	}
+
+	userIDStr := c.Param("userID")
+	userID, err := strconv.ParseUint(userIDStr, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+		return
+	}
+
+	result := models.BeckTestResult{
+		UserID:     uint(userID),
+		Answers:    json.RawMessage(answersJSON),
+		TotalScore: requestBody.TotalScore,
+	}
+
+	if err := u.DB.Create(&result).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save Beck test results", "details": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Beck test results saved successfully", "result_id": result.ID})
+}
+
+// @ Получение результатов теста Бека по пользователю
+func (u *UserHandler) GetBeckTestResults(c *gin.Context) {
 	userIDStr := c.Param("id")
 	userID, err := strconv.ParseUint(userIDStr, 10, 64)
 	if err != nil {
@@ -159,28 +245,33 @@ func (u *UserHandler) GetTestStatus(c *gin.Context) {
 		return
 	}
 
-	var testStatus struct {
-		MBTICompleted   bool `json:"mbtiCompleted"`
-		StroopCompleted bool `json:"stroopCompleted"`
-		SMILCompleted   bool `json:"smilCompleted"`
-	}
-
-	//? Проверка наличия записи MBTI для пользователя
-	if err := u.DB.Model(&models.MBTI{}).Select("1").Where("user_id = ?", userID).Limit(1).Find(&testStatus.MBTICompleted).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to query MBTI test status"})
+	var results []models.BeckTestResult
+	if err := u.DB.Where("user_id = ?", uint(userID)).Find(&results).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No Beck test results found for the user"})
 		return
 	}
 
-	//? Проверка наличия записи Stroop для пользователя
-	if err := u.DB.Model(&models.StroopResult{}).Select("1").Where("user_id = ?", userID).Limit(1).Find(&testStatus.StroopCompleted).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to query Stroop test status"})
-		return
-	}
-	//? Проверка наличия записи СМИЛ для пользователя
-	if err := u.DB.Model(&models.SMIL{}).Select("1").Where("user_id = ?", userID).Limit(1).Find(&testStatus.StroopCompleted).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to query SMIL test status"})
+	c.JSON(http.StatusOK, results)
+}
+
+// @ Получение последнего результата теста Бека для конкретного пользователя
+func (u *UserHandler) GetLatestBeckTestResult(c *gin.Context) {
+	userIDStr := c.Param("id")
+	userID, err := strconv.ParseUint(userIDStr, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
 		return
 	}
 
-	c.JSON(http.StatusOK, testStatus)
+	var result models.BeckTestResult
+	if err := u.DB.Where("user_id = ?", uint(userID)).Order("id DESC").First(&result).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusNotFound, gin.H{"error": "No Beck test results found for the user"})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error retrieving the Beck test result", "details": err.Error()})
+		}
+		return
+	}
+
+	c.JSON(http.StatusOK, result)
 }

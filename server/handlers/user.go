@@ -281,7 +281,7 @@ func (u *UserHandler) DeleteUser(c *gin.Context) {
 // @Router /api/users [get]
 func (u *UserHandler) GetAllUsers(c *gin.Context) {
 	var users []models.User
-	if err := u.DB.Preload("Section").Preload("StroopResult").Find(&users).Error; err != nil {
+	if err := u.DB.Preload("Section").Preload("StroopResult").Preload("MBTI").Preload("BeckTestResult").Find(&users).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get users"})
 		return
 	}
@@ -325,7 +325,7 @@ func (u *UserHandler) GetUser(c *gin.Context) {
 	user.Personal.BirthDate = formattedBirthday
 
 	//@ Preload other data
-	if err := u.DB.Preload("Section").Preload("StroopResult").Preload("MBTI").Find(&user).Error; err != nil {
+	if err := u.DB.Preload("Section").Preload("StroopResult").Preload("MBTI").Preload("BeckTestResult").Find(&user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user"})
 		return
 	}

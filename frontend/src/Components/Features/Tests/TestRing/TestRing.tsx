@@ -14,6 +14,7 @@ const TestRing = ({ userId }) => {
         if (data.mbtiCompleted) count++;
         if (data.stroopCompleted) count++;
         if (data.smilCompleted) count++;
+        if (data.beckCompleted) count++;
         setCompletedTests(count);
       })
       .catch(error => {

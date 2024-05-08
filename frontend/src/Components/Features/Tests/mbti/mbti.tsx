@@ -1,12 +1,27 @@
 //@ts-nocheck
 import { useEffect, useState } from "react";
-import { Box, Button, Flex, Stack, Text, Title, Card } from "@mantine/core";
+import {
+  Box,
+  Button,
+  Flex,
+  Stack,
+  Text,
+  Title,
+  Card,
+  rem,
+  useMantineTheme,
+  Grid,
+} from "@mantine/core";
 import { questions } from "./questions";
 import { useAuth, useMBTIStore } from "@/Store";
 import ProfileCard from "./ProfileCard";
 import { OtherTestsSlider } from "../OtherTests/otherTests";
 import { mbtiProfiles } from "./descriptions/mbtiProfiles";
 import { $host } from "@/Services/instance";
+import { Carousel } from "@mantine/carousel";
+import MBTIProfileCard from "./descriptions/MBTIProfileCard";
+import MBTIProfilesSlider from "./descriptions/MBTIProfileCard";
+import { useMediaQuery } from "@mantine/hooks";
 
 const MBTITest = () => {
   const {
@@ -81,6 +96,9 @@ const MBTITest = () => {
     setRetry(false);
   };
 
+  const theme = useMantineTheme();
+  const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+
   return (
     <Stack pt={40}>
       <Title ta="center">Тест MBTI</Title>
@@ -119,9 +137,18 @@ const MBTITest = () => {
           <ProfileCard profile={store} />
           <Button onClick={handleRetry}>Пройти заново</Button>
 
+          {/* <Carousel slideGap="xl" withControls={false} align="start">
+            {mbtiProfiles.map((profile, index) => (
+              <Flex>
+                <MBTIProfileCard key={index} profile={profile} />
+              </Flex>
+            ))}
+          </Carousel> */}
+
           <Card radius="md" p="lg" mb={100}>
             <Stack>
               <Title order={2}>Доступные тестирования</Title>
+
               <OtherTestsSlider excludeTest="Тестирование MBTI" />
             </Stack>
           </Card>

@@ -24,12 +24,6 @@ func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 	api := r.Group("/api")
 	{
 		//? Users
-		//TODO fix AuthMiddleware:
-		/* //! Routes to fix middleware
-		* api.GET("/users/:id", u.GetUser)
-		* api.PUT("/users/update/:id", u.UpdateUser)
-		* api.GET("/users", u.GetAllUsers)
-		 */
 		api.GET("/users", u.GetAllUsers)
 		api.GET("/users/:id", u.GetUser)
 		api.DELETE("/users/:id", u.DeleteUser)
@@ -54,8 +48,12 @@ func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 		api.GET("/mbti/:id", u.GetMBTIData)
 		api.POST("/update-mbti-result/:id", u.UpdateMBTIResult)
 		//! Роуты для теста Струпа
-		api.POST("/stroop-results", u.SaveStroopResult)    // Сохранение результатов теста Струпа
-		api.GET("/stroop-results/:id", u.GetStroopResults) // Получение результатов для пользователя
+		api.POST("/stroop-results:userID", u.SaveStroopResult)
+		api.GET("/stroop-results/:id", u.GetStroopResults)
+		//! Роуты для теста Бека
+		api.POST("/beck-results/:userID", u.SaveBeckTestResult)
+		api.GET("/beck-results/:id", u.GetBeckTestResults)
+		api.GET("/beck-results/latest/:id", u.GetLatestBeckTestResult)
 	}
 
 	//@ Группа маршрутов, требующих авторизации и определенной роли

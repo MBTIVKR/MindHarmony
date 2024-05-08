@@ -27,7 +27,14 @@ export const createPdf = (user) => {
     ["Кол-во неправильных ответов", user?.stroop?.incorrect || "Отсутствует"],
     // Заголовок для теста СМИЛ
     [{content: 'Тест СМИЛ', colSpan: 2, styles: { fontStyle: 'bold', fillColor: [211, 211, 211] }}],
+
   ];
+  
+  doc.text("Последний результат теста Бека:", 14, doc.lastAutoTable.finalY + 10);
+  doc.text(`Общий балл: ${beckResult.totalScore}`, 14, doc.lastAutoTable.finalY + 20);
+  beckResult.answers.forEach((answer, index) => {
+    doc.text(`Вопрос ${index + 1}: ${answer.text} (Баллы: ${answer.score})`, 14, doc.lastAutoTable.finalY + 30 + (index * 10));
+  });
 
   if (user?.smil?.url) {
     bodyContent.push(["Результат", user.smil.url]);

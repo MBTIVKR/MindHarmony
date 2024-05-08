@@ -1,4 +1,4 @@
-import { PathsDashboard } from "@/Components/App/Routing";
+import { PathsDashboard, TestsPaths } from "@/Components/App/Routing";
 
 export const data = [
     {
@@ -21,6 +21,13 @@ export const data = [
       title: 'Стантартизированный метод исследования личности',
       category: 'Тестирование',
       url: PathsDashboard.SMIL,
+    },
+    {
+      image:
+        '/banners/beckbanner.jpeg',
+      title: 'Шкала депрессии Бека',
+      category: 'Тестирование',
+      url: TestsPaths.BECK,
     },
     // {
     //   image:

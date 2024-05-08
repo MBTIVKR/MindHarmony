@@ -2,10 +2,11 @@ import { Accordion, Card, Flex, Text } from "@mantine/core";
 import { backlogData } from "./backlogData";
 import classes from "./Backlog.module.scss";
 import { APP } from "@/Share/Variables";
+import { dev } from "@/Utils";
 
 const Backlog = () => {
   const VERSION = `Версия ${APP.VERSION}`;
-  console.log(VERSION);
+  dev.log(VERSION);
 
   const items = backlogData.map((item) => (
     <Flex direction="column" key={item.value}>

@@ -51,10 +51,26 @@ const TestsPassed = () => {
   );
 
   const badges = [
-    { title: "MBTI", completed: testStatus.mbtiCompleted, url: TestsPaths.MBTI },
-    { title: "Тест Струпа", completed: testStatus.stroopCompleted, url: TestsPaths.STROOP },
-    { title: "СИМЛ", completed: testStatus.smilCompleted, url: TestsPaths.SMIL },
-    { title: "Тест Бека", completed: testStatus.beckCompleted, url: TestsPaths.BECK },
+    {
+      title: "MBTI",
+      completed: testStatus.mbtiCompleted,
+      url: TestsPaths.MBTI,
+    },
+    {
+      title: "Тест Струпа",
+      completed: testStatus.stroopCompleted,
+      url: TestsPaths.STROOP,
+    },
+    {
+      title: "СИМЛ",
+      completed: testStatus.smilCompleted,
+      url: TestsPaths.SMIL,
+    },
+    {
+      title: "Тест Бека",
+      completed: testStatus.beckCompleted,
+      url: TestsPaths.BECK,
+    },
   ];
 
   return (
@@ -99,6 +115,7 @@ const TestsPassed = () => {
               <Stack>
                 <Text size="sm">Статус тестов:</Text>
                 <Flex
+                  key="tests_statuses"
                   gap="xs"
                   direction={{ base: "column", sm: "row" }}
                   wrap="wrap"
