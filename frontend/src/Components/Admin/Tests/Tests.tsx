@@ -1,7 +1,7 @@
-const Tests = () => {
-  return (
-    <div>Tests</div>
-  )
-}
+import DevPage from "@/Pages/DevPage/DevPage";
 
-export default Tests
+const Tests = () => {
+  return <DevPage />;
+};
+
+export default Tests;
