@@ -37,13 +37,13 @@ export const NavbarMinimal: FC = () => {
         <Stack justify="center" gap={0} className={classes.links}>
           {links}
           <Box  className={classes.mlogout}>
-            <NavbarLink icon={IconLogout} label="Logout" onClick={loguot} />
+            <NavbarLink icon={IconLogout} label="Выход" onClick={loguot} />
           </Box>
         </Stack>
       </div>
 
       <Stack justify="center" gap={0} visibleFrom="sm">
-        <NavbarLink icon={IconLogout} label="Logout" onClick={loguot} />
+        <NavbarLink icon={IconLogout} label="Выйти" onClick={loguot} />
       </Stack>
     </nav>
   );

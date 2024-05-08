@@ -54,17 +54,22 @@ export const createPdf = (user) => {
   doc.setTextColor(0); // Сброс цвета текста на черный
 
   finalY += 50;
-  Object.entries(user.backtest.answers).forEach(([questionId, { text, score }], index) => {
-    const lines = doc.splitTextToSize(`Вопрос ${questionId}: ${text} (Баллы: ${score})`, 180);
-    lines.forEach(line => {
-      if (finalY > 280) {
-        doc.addPage();
-        finalY = 20;
-      }
-      doc.text(line, 14, finalY);
-      finalY += 10;
+  if (!user.backtest || !user.backtest.answers || typeof user.backtest.answers !== 'object') {
+    console.error("Ответы на тест Бека отсутствуют или имеют неверный формат.");
+  } else {
+    Object.entries(user.backtest.answers).forEach(([questionId, { text, score }], index) => {
+      const lines = doc.splitTextToSize(`Вопрос ${questionId}: ${text} (Баллы: ${score})`, 180);
+      lines.forEach(line => {
+        if (finalY > 280) {
+          doc.addPage();
+          finalY = 20;
+        }
+        doc.text(line, 14, finalY);
+        finalY += 10;
+      });
     });
-  });
+  }
+
 
   doc.save(`Профиль-${user.auth.username}.pdf`);
 };

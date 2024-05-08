@@ -86,7 +86,7 @@ const UserPage = () => {
     }
 
     fetchUser();
-  }, [id]);  
+  }, [id]);
 
   if (loading || !user) {
     return (
@@ -96,7 +96,6 @@ const UserPage = () => {
       />
     );
   }
-
 
   const items = [
     { title: "Панель администратора", href: AdminPaths.Panel },
@@ -123,8 +122,13 @@ const UserPage = () => {
           </Button>
         </Flex>
         <Divider />
-        <Breadcrumbs>{items}</Breadcrumbs>
-        <Divider />
+        {user?.auth?.role === "admin" && (
+          <>
+            <Breadcrumbs>{items}</Breadcrumbs>
+            <Divider />
+          </>
+        )}
+
         <Stack gap="lg">
           <Flex align="center" gap={5}>
             <Text fw={700} size="xl" style={{ minWidth: 100 }}>
@@ -239,7 +243,7 @@ const UserPage = () => {
                     disabled
                     styles={{
                       bar: {
-                        backgroundColor: color, // Устанавливаем цвет бара в зависимости от переменной color
+                        backgroundColor: color,
                       },
                     }}
                   />

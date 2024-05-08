@@ -8,9 +8,12 @@ import {
   Divider,
   LoadingOverlay,
   Box,
+  Anchor,
 } from '@mantine/core';
 import EditingProfile from './Form/EditingProfile';
 import { useAuth } from '@/Store';
+import { Link } from '@/Components/Shared';
+import { Paths } from '@/Components/App/Routing';
 // import { UserData } from '@/Utils';
 
 const Account: FC = () => {
@@ -128,6 +131,7 @@ const Account: FC = () => {
                 <Text c='#cfcfcfcf'>Кол-во правильных ответов: {user.stroop?.correct}</Text>
                 <Text c='#cfcfcfcf'>Кол-во неправильных ответов: {user.stroop?.incorrect}</Text>
               </Box>
+              <Anchor href={`dashboard/users/${userID}`}>Публичный профиль</Anchor>
             </Stack>
             <Button mt={20} onClick={handleEditProfile} mb={{sm: 0, base: 120}}>
               Редактировать профиль
