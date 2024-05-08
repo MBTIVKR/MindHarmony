@@ -12,9 +12,6 @@ import {
 } from '@mantine/core';
 import EditingProfile from './Form/EditingProfile';
 import { useAuth } from '@/Store';
-import { Link } from '@/Components/Shared';
-import { Paths } from '@/Components/App/Routing';
-// import { UserData } from '@/Utils';
 
 const Account: FC = () => {
   // const [userData, setUserData] = useState<UserData | null>(null);
