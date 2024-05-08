@@ -43,6 +43,9 @@ var (
 	//@ SSL/TLS certs path
 	Cert = "/var/www/certs/mindharmony.ru.pub"
 	Key  = "/var/www/private/mindharmony.ru.key"
+	//@ Telegram API
+	BOT_TOKEN = os.Getenv("BOT_TOKEN")
+	CHAT_ID   = os.Getenv("CHAT_ID")
 )
 
 func init() {

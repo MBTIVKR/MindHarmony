@@ -46,7 +46,7 @@ export const Hero = () => {
               Начать
             </Button>
             </Link>
-            <Link to={APP.SOCIAL_MEDIA.GITHUB} target='blank'>
+            <Link to={APP.SOCIAL_MEDIA.REPO} target='blank'>
             <Button variant="default" radius="xl" size="md" className={classes.control}>
               Исходный код
             </Button>

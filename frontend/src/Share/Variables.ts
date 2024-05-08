@@ -17,7 +17,8 @@ export const APP = {
   //* пример: <a rel="dns-prefetching" href={APP.GITHUB}></a>
   SOCIAL_MEDIA: {
     TELEGRAM: '',
-    GITHUB: 'https://github.com/MBTIVKR/',
+    GITHUB: 'https://github.com/MBTIVKR',
+    REPO: 'https://github.com/MBTIVKR/MindHarmony',
   },
   Tests: {
     TotalTests: TOTAL_TESTS,

@@ -54,6 +54,10 @@ func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 		api.POST("/beck-results/:userID", u.SaveBeckTestResult)
 		api.GET("/beck-results/:id", u.GetBeckTestResults)
 		api.GET("/beck-results/latest/:id", u.GetLatestBeckTestResult)
+
+		//@ Telegram API
+		api.POST("/send-message", u.SendMessage)
+
 	}
 
 	//@ Группа маршрутов, требующих авторизации и определенной роли
