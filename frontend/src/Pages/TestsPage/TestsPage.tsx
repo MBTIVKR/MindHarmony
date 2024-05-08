@@ -5,7 +5,7 @@ import { TestsData } from './Tests/data';
 
 const TestsPage: FC = () => {
   return (
-    <Box>
+    <Box pb={100}>
       <Title order={1} pt={20} pb={20}>
         Каталог тестов
       </Title>
