@@ -9,7 +9,7 @@ export const TOTAL_TESTS = 3
 export const APP = {
   NAME: 'MH',
   FULLNAME: 'Mind Harmony',
-  VERSION: '1.3.0',
+  VERSION: '1.3.1',
   AUTHOR: 'Audyushin Dobrynya <avdushinbeaver1@gmail.com>',
   DESCRIPTION:
     'MindHarmony - сервис для сбора статистики о когнитивных функциях человека, для дальнейшего изучения тенденций',

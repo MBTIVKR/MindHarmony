@@ -3,19 +3,20 @@ import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import "@/assets/fonts/Roboto-Medium-normal.js";
 
-export const createPdf = (user, beckResult) => {
-  if (!user || !user.auth) {
-    console.error("User data is incomplete or undefined.");
+export const createPdf = (user) => {
+  if (!user || !user.auth || !user.backtest) {
+    console.error("User data or test results are incomplete or undefined.");
     return;
   }
 
   const doc = new jsPDF();
   doc.setFont("Roboto-Medium", "normal");
+  doc.text(
+    `Профиль пользователя: ${user.auth.username || "Нет данных"}`,
+    14,
+    16
+  );
 
-  // Заголовок документа
-  doc.text(`Профиль пользователя: ${user.auth.username || "Нет данных"}`, 14, 16);
-
-  // Таблица с основными данными пользователя
   const bodyContent = [
     ["Имя пользователя", user.auth.username || "Нет данных"],
     ["Email", user.auth.email || "Нет данных"],
@@ -27,10 +28,15 @@ export const createPdf = (user, beckResult) => {
     ["Страна", user.location.country || "Нет данных"],
     ["Город", user.location.city || "Нет данных"],
     ["Тип MBTI", user.mbti.type || "Отсутствует"],
-    // Добавление разделителя для теста Струпа
-    [{ content: 'Тест Струпа', colSpan: 2, styles: { fontStyle: 'bold', fillColor: [211, 211, 211] } }],
+    [
+      {
+        content: "Тест Струпа",
+        colSpan: 2,
+        styles: { fontStyle: "bold", fillColor: [211, 211, 211] },
+      },
+    ],
     ["Кол-во правильных ответов", user.stroop.correct || "Отсутствует"],
-    ["Кол-во неправильных ответов", user.stroop.incorrect || "Отсутствует"]
+    ["Кол-во неправильных ответов", user.stroop.incorrect || "Отсутствует"],
   ];
 
   doc.autoTable({
@@ -40,18 +46,62 @@ export const createPdf = (user, beckResult) => {
     styles: { font: "Roboto-Medium" },
   });
 
-  let finalY = doc.lastAutoTable.finalY || 70; // Установите начальное значение, если finalY не определен
-
-  // Результаты теста Бека
+  let finalY = doc.lastAutoTable.finalY || 70;
   doc.text("Последний результат теста Бека:", 14, finalY + 10);
-  doc.text(`Общий балл: ${user?.backtes?.totalScore}`, 14, finalY + 20);
-  
-  if (user?.baktest?.answers) {
-    Object.entries(user?.baktest?.answers).forEach(([questionId, { text, score }], index) => {
-      doc.text(`Вопрос ${questionId}: ${text} (Баллы: ${score})`, 14, finalY + 30 + (index * 10));
-    });
+
+  if (user.backtest && user.backtest.answers) {
+    const totalScore = user?.backtest?.totalScore;
+    const depressionLevel = calculateDepressionLevel(totalScore);
+    finalY += 20;
+
+    doc.text(`Общий балл: ${totalScore}`, 14, finalY);
+    doc.text("Уровень депрессии: ", 14, finalY + 10);
+
+    // Устанавливаем цвет для текста уровня депрессии
+    doc.setTextColor(depressionLevel.color);
+    doc.text(depressionLevel.label, 70, finalY + 10);
+    doc.setTextColor(0);
+
+    finalY += 20;
+
+    Object.entries(user?.backtest?.answers).forEach(
+      ([questionId, { text, score }], index) => {
+        const lines = doc.splitTextToSize(
+          `Вопрос ${questionId}: ${text} (Баллы: ${score})`,
+          180
+        );
+        lines.forEach((line) => {
+          if (finalY > 280) {
+            doc.addPage();
+            finalY = 20;
+          }
+          doc.text(line, 14, finalY);
+          finalY += 10;
+        });
+      }
+    );
+  } else {
+    doc.text("Не пройден", 107, finalY + 10);
   }
 
-  // Сохранение документа
   doc.save(`Профиль-${user.auth.username}.pdf`);
+};
+
+//? Функция определения уровня депрессии
+const calculateDepressionLevel = (score) => {
+  switch (true) {
+    case score <= 13:
+      return {
+        label: "Минимальная или отсутствующая депрессия",
+        color: "#00FF00",
+      };
+    case score <= 19:
+      return { label: "Легкая депрессия", color: "#FFFF00" };
+    case score <= 28:
+      return { label: "Умеренная депрессия", color: "#FFA500" };
+    case score >= 29:
+      return { label: "Тяжелая депрессия", color: "#FF0000" };
+    default:
+      return { label: "Неопределенный уровень депрессии", color: "#808080" };
+  }
 };
