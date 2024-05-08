@@ -47,7 +47,7 @@ type User struct {
 	MBTI           MBTI           `json:"mbti" gorm:"foreignKey:UserID"`
 	StroopResult   StroopResult   `json:"stroop" gorm:"foreignKey:UserID;references:ID"`
 	SMIL           SMIL           `json:"smil" gorm:"foreignKey:UserID;references:ID"`
-	BeckTestResult BeckTestResult `json:"backtes" gorm:"foreignKey:UserID;references:ID`
+	BeckTestResult BeckTestResult `json:"backtest" gorm:"foreignKey:UserID;references:ID`
 }
 
 func (u *User) MarshalJSON() ([]byte, error) {
