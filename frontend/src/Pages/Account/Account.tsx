@@ -130,7 +130,7 @@ const Account: FC = () => {
               </Box>
               <Anchor href={`dashboard/users/${userID}`}>Публичный профиль</Anchor>
             </Stack>
-            <Button mt={20} onClick={handleEditProfile} mb={{sm: 0, base: 120}}>
+            <Button mt={20} onClick={handleEditProfile} mb={{sm: 60, base: 120}}>
               Редактировать профиль
             </Button>
           </Stack>

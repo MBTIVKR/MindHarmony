@@ -16,7 +16,7 @@ const Home: FC = () => {
   return (
     <>
       <Sidebar />
-      <Container>
+      <Container size={"lg"}>
         <Outlet />
       </Container>
     </>
