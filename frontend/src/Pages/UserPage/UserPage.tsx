@@ -124,7 +124,7 @@ const UserPage = () => {
         <Divider />
         {user?.auth?.role === "admin" && (
           <>
-            <Breadcrumbs>{items}</Breadcrumbs>
+            <Breadcrumbs style={{flexWrap: 'wrap', gap: 10}}>{items}</Breadcrumbs>
             <Divider />
           </>
         )}

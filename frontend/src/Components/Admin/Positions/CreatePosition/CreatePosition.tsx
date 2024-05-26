@@ -50,7 +50,7 @@ const CreatePosition = () => {
     <Box style={{ maxWidth: 300, margin: "auto" }}>
       <Title order={3} pt={20} mb={20}>Создать новый отдел</Title>
       <Divider />
-      <Breadcrumbs pt={20} pb={20}>
+      <Breadcrumbs  style={{flexWrap: 'wrap', gap: 10}} pt={20} pb={20}>
         {items}
       </Breadcrumbs>
       <Divider />

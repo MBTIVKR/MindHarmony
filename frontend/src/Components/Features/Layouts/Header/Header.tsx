@@ -251,7 +251,7 @@ export const Header: FC = () => {
             Отзывы
           </a>
           <a href="#get_in_touch" className={classes.link}>
-            Get in touch
+            Возможности
           </a>
           <Divider my="sm" />
 

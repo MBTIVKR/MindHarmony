@@ -227,9 +227,9 @@ const Users = () => {
         Скачать как Excel
       </Button>
       <Divider />
-      <Breadcrumbs pt={20} pb={20}>
+      <Breadcrumb  style={{flexWrap: 'wrap', gap: 10}} pt={20} pb={20}>
         {items}
-      </Breadcrumbs>
+      </Breadcrumb>
       <TextInput
         placeholder="Найти пользователя"
         value={searchQuery}

@@ -27,7 +27,7 @@ const Positions = () => {
         Отделы
       </Title>
       <Divider />
-      <Breadcrumbs pt={20} pb={20}>
+      <Breadcrumbs style={{flexWrap: 'wrap', gap: 10}} pt={20} pb={20}>
         {items}
       </Breadcrumbs>
       <Divider />

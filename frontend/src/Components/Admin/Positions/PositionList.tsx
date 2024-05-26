@@ -53,7 +53,7 @@ const PositionList = () => {
         Список должностей
       </Text>
       <Divider />
-      <Breadcrumbs pt={20} pb={20}>
+      <Breadcrumbs pt={20} pb={20}  style={{flexWrap: 'wrap', gap: 10}}>
         {items}
       </Breadcrumbs>
       <Divider />
