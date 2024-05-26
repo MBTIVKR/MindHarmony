@@ -60,7 +60,7 @@ const Features = () => {
   ));
 
   return (
-    <Container size='lg' py='xl'>
+    <Container size='lg' py='xl' pt={100}>
       <Group justify='center'>
         <Badge variant='filled' size='lg'>
           Особенности сервиса

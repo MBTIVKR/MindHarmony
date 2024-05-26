@@ -6,7 +6,7 @@ import classes from './FAQ.module.scss';
 const FAQ = () => {
   return (
     <div className={classes.wrapper} id='faq'>
-      <Container size='lg'>
+      <Container size='lg' pt={60}>
         <Grid id='faq-grid' gutter={50}>
           <Grid.Col span={{ base: 12, md: 6 }}>
             <Image src={image} alt='Frequently Asked Questions' />

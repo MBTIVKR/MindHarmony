@@ -98,7 +98,7 @@ const MBTI = () => {
   };
 
   return (
-    <Container className={classes.wrapper}>
+    <Container className={classes.wrapper} pt={60}>
       <Title order={1} pb={25} style={{ textAlign: 'center' }}>
         Когнитивные функции
       </Title>
