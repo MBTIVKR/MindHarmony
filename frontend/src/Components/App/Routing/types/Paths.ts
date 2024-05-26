@@ -13,6 +13,7 @@ export enum Paths {
   Users = '/api/users',
   ForgotPassword = '/forgot-password',
   ResetPassword = '/reset-password',
+  Documentation = 'https://mindharmony.ru:4000/swagger/index.html',
 }
 
 //@ Route pathes inside the application

@@ -10,7 +10,7 @@ import {
   MBTI,
 } from '@Components/App/Routing';
 import ReviewsCarousel from './Parts/Reviews/ReviewsCarousel';
-// import styles from './Landing.module.scss';
+import styles from './Landing.module.scss';
 import TopScroll from '@Components/Features/Affix/Affix';
 
 const Landing: FC = () => {
@@ -21,11 +21,11 @@ const Landing: FC = () => {
       {/* <Space h={70} /> */}
       <MBTI />
       {/* <Reviews /> */}
-      <Container size='xl'>
+      <Container size='xl' className={styles.features_wrapper} >
         <Features />
         <FAQ />
       </Container>
-      <Container>
+      <Container className={styles.reviews_wrapper}>
         <ReviewsCarousel />
         <Space h={70} />
         <GetInTouch />

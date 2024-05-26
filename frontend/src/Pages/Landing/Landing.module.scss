@@ -1,4 +1,20 @@
 .mb {
-    padding: 0px;
-    margin: 0px;
+  padding: 0px;
+  margin: 0px;
+}
+
+.features_wrapper {
+  @media (max-width: 2560px) {
+    padding-top: 7%;
+    transform: scale(1.2);
+  }
+}
+
+.reviews_wrapper {
+  @media (max-width: 2560px) {
+    padding-top: 7%;
+  }
+  @media screen and (max-width: 1920px) {
+    padding-top: 10%;
+  }
 }

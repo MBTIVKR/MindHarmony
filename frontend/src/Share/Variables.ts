@@ -16,7 +16,7 @@ export const APP = {
   //! Стоит попробовать использовать в ссылках на источники метод `dns-prefetching`
   //* пример: <a rel="dns-prefetching" href={APP.GITHUB}></a>
   SOCIAL_MEDIA: {
-    TELEGRAM: '',
+    TELEGRAM: 'https://t.me/mindharmony_ru',
     GITHUB: 'https://github.com/MBTIVKR',
     REPO: 'https://github.com/MBTIVKR/MindHarmony',
   },

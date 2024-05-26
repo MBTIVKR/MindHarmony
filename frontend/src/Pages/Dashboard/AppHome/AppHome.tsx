@@ -1,4 +1,9 @@
-import { ActionsGrid, Backlog, TestsPassed } from "@/Components/App/Routing";
+import {
+  ActionsGrid,
+  Backlog,
+  Footer,
+  TestsPassed,
+} from "@/Components/App/Routing";
 import { OtherTestsSlider } from "@/Components/Features/Tests/OtherTests/otherTests";
 import { FC } from "react";
 
@@ -9,6 +14,7 @@ const AppHome: FC = () => {
       <TestsPassed />
       <ActionsGrid />
       <Backlog />
+      <Footer />
     </div>
   );
 };

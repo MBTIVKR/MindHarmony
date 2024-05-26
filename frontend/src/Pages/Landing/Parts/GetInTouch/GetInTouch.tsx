@@ -26,17 +26,19 @@ export const GetInTouch = () => {
     },
     validate: {
       name: (value) =>
-        value.trim().length < 2 ? "Name must have at least 2 characters" : null,
+        value.trim().length < 2 ? "Имя должно содержать не менее 2 символов" : null,
       email: (value) =>
-        !/^\S+@\S+$/.test(value) ? "Invalid email format" : null,
+        !/^\S+@\S+$/.test(value) ? "Неверный формат email" : null,
       subject: (value) =>
-        value.trim().length === 0 ? "Subject is required" : null,
+        value.trim().length === 0 ? "Заполните тему сообщения" : null,
     },
   });
   //@ts-ignore
   const handleSubmit = async (values) => {
     try {
-      const response = await $host.post("/api/send-message", values);
+      const url =  import.meta.env.VITE_APP_API_URL
+      const response = await $host.post(`${url}/news`, values);
+      // const response = await $host.post("/api/send-message", values);
       dev.log(response.data);
       setOpened(true);
     } catch (error) {
@@ -84,7 +86,7 @@ export const GetInTouch = () => {
           />
           <TextInput
             label="Email"
-            placeholder="Выш email"
+            placeholder="Ваш email"
             name="email"
             variant="filled"
             {...form.getInputProps("email")}

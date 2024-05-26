@@ -1,6 +1,9 @@
 .footer {
-    margin-top: rem(120px);
+    margin-top: rem(140px);
     border-top: rem(1px) solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5));
+    @media screen and  (max-width: 500px) {
+        padding-bottom: 20px;
+    }
 }
 
 .inner {

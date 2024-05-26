@@ -1,4 +1,9 @@
-/* Общие стили для элементов */
+.wrapper {
+    @media  (max-width: 2560px) {
+        padding-top: 20px;
+        transform: scale(1.2);
+    }
+}
 .item {
     display: flex;
     align-items: center;
@@ -20,58 +25,49 @@
 }
 
 .fixedHeight {
-    height: 100px; /* Установите желаемую фиксированную высоту */
+    height: 100px;
 }
 
 .mr {
     padding-left: 20px;
 }
 
-/* Медиа-запрос для мобильных устройств */
 @media (max-width: 767px) {
     .item {
-        /* Ваши стили для мобильных устройств */
         padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
         margin-bottom: var(--mantine-spacing-xs);
     }
 
     .symbol {
-        /* Ваши стили для мобильных устройств */
         font-size: rem(24px);
         width: rem(40px);
     }
 
     .fixedHeight {
-        /* Ваши стили для мобильных устройств */
         height: 80px;
     }
 
     .mr {
-        /* Ваши стили для мобильных устройств */
         padding-left: 10px;
     }
 }
 
 @media (max-width: 479px) {
     .item {
-        /* Ваши стили для очень маленьких экранов */
         padding: var(--mantine-spacing-xs) var(--mantine-spacing-xs);
         margin-bottom: var(--mantine-spacing-xs);
     }
 
     .symbol {
-        /* Ваши стили для очень маленьких экранов */
         font-size: rem(20px);
         width: rem(30px);
     }
 
     .fixedHeight {
-        /* Ваши стили для очень маленьких экранов */
         height: 60px;
     }
 
     .mr {
-        /* Ваши стили для очень маленьких экранов */
         padding-left: 8px;
     }
 }
