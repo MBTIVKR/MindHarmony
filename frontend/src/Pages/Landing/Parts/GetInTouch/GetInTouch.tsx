@@ -37,8 +37,7 @@ export const GetInTouch = () => {
   const handleSubmit = async (values) => {
     try {
       const url =  import.meta.env.VITE_APP_API_URL
-      const response = await $host.post(`${url}/news`, values);
-      // const response = await $host.post("/api/send-message", values);
+      const response = await $host.post("/api/send-message", values);
       dev.log(response.data);
       setOpened(true);
     } catch (error) {
